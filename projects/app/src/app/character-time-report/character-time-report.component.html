@@ -1,0 +1,17 @@
+<berg-layout>
+  <berg-layout-toolbar>
+    <button routerLink=""
+            mat-raised-button
+            color="primary">
+      Characters
+    </button>
+  </berg-layout-toolbar>
+
+  <mat-card>
+    <berg-outlet [component]="components.timeReport.calendar"></berg-outlet>
+  </mat-card>
+
+  <berg-layout-right-sidenav>
+    <berg-outlet [component]="components.character.present.list"></berg-outlet>
+  </berg-layout-right-sidenav>
+</berg-layout>

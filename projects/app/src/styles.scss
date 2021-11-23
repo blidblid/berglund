@@ -1,0 +1,36 @@
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+$flex-props: flex-start flex-end center space-between space-around baseline;
+
+.flex {
+  display: flex !important;
+
+  &.d-column {
+    flex-direction: column;
+  }
+
+  &.w-wrap {
+    flex-wrap: wrap;
+  }
+
+  @each $prop in $flex-props {
+    &.j-#{$prop} {
+      justify-content: $prop;
+    }
+
+    &.a-#{$prop} {
+      align-items: $prop;
+    }
+  }
+
+  .f-1 {
+    flex: 1;
+  }
+}

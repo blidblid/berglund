@@ -1,0 +1,6 @@
+{
+  "componentOut": "../cli/app/src/generated",
+  "tsconfig": "./tsconfig.lib.json",
+  "name": "@berglund/components",
+  "repositoryUrl": "https://bitbucket.org/blidblid/topology/src/master/"
+}

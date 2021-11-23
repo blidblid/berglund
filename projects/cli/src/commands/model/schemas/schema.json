@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ModelConfig",
+  "type": "object",
+  "properties": {
+    "out": {
+      "description": "Out path of generated files.",
+      "type": "string"
+    },
+    "modelGlob": {
+      "description": "Glob used to find models.",
+      "type": "string",
+      "default": "**/*schema.json"
+    },
+    "modelIgnoreGlob": {
+      "description": "Glob used to ignore models.",
+      "type": "string",
+      "default": "**/node_modules/**/*"
+    },
+    "generateModel": {
+      "description": "Whether to generate missing models. For example TypeScript to JsonSchema or vice versa.",
+      "type": "boolean",
+      "default": true
+    },
+    "package": {
+      "description": "Generator package used to create components.",
+      "type": "string",
+      "default": "@berglund/material/generators"
+    }
+  },
+  "required": ["modelGlob", "package"]
+}

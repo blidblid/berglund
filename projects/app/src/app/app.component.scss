@@ -1,0 +1,15 @@
+.app-root {
+  display: block;
+  height: 100%;
+  width: 100%;
+
+  > * {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+
+  router-outlet {
+    display: none !important;
+  }
+}

@@ -1,0 +1,7 @@
+@mixin color($theme) {
+  $foreground: map-get($theme, foreground);
+
+  .c-hint-text {
+    color: mat-color($foreground, hint-text);
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.prod.json",
+  "compilerOptions": {
+    "paths": {
+      "@app/api": ["./projects/app/src/lib/api"],
+      "@app/streams": ["./projects/app/src/lib/streams"],
+      "@app/components": ["./projects/app/src/lib/components"],
+      "@berglund/rx": ["./projects/rx/src"],
+      "@berglund/components": ["./projects/components/src"],
+      "@berglund/material": ["./projects/material/src"],
+      "@berglund/mixins": ["./projects/mixins/src"],
+      "@berglund/mixins/testing": ["./projects/mixins/testing/src"],
+      "@berglund/mixins/generators": ["./projects/mixins/generators/src"],
+      "@berglund/firebase": ["./projects/firebase/src"]
+    }
+  }
+}

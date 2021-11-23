@@ -1,0 +1,16 @@
+{
+  "appOut": "../../showcase/projects/mixins",
+  "tsconfig": "./tsconfig.lib.json",
+  "name": "@berglund/mixins",
+  "repositoryUrl": "https://bitbucket.org/blidblid/topology/src/master/",
+  "appExternalLinks": [
+    {
+      "name": "@berglund/components",
+      "href": "components.berg.io"
+    },
+    {
+      "name": "@berglund/rx",
+      "href": "state.berg.io"
+    }
+  ]
+}

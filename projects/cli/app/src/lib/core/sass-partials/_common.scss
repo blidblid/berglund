@@ -1,0 +1,38 @@
+@mixin common() {
+  .c-pointer {
+    cursor: pointer;
+  }
+
+  .p-relative {
+    position: relative;
+  }
+
+  .d-block {
+    display: block;
+  }
+
+  .ta-center {
+    text-align: center;
+  }
+
+  .bg-cover {
+    background-size: cover;
+  }
+
+  .cover {
+    position: absolute !important;
+    width: 100% !important;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+  }
+
+  .ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+}

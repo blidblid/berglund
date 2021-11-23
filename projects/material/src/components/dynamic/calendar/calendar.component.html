@@ -1,0 +1,7 @@
+<mat-calendar (selectedChange)="_onSelectedChange($event)"
+              [selected]="_selected$ | async">
+</mat-calendar>
+
+<div class="berg-calendar-errors">
+  {{_errors}}
+</div>

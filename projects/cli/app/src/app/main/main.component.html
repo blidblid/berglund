@@ -1,0 +1,80 @@
+<mat-toolbar class="flex w-100 mat-elevation-z12"
+             color="primary">
+  <button mat-icon-button
+          color="accent"
+          (click)="toggleSidenav()">
+    <mat-icon aria-label="Menu">list</mat-icon>
+  </button>
+
+  <button *ngFor="let nav of topNav"
+          mat-flat-button
+          [routerLink]="nav.link"
+          color="accent">
+    {{nav.name}}
+  </button>
+
+  <span>
+    <button class="app-main-name"
+            mat-button
+            color="accent"
+            routerLink="/">
+      {{name}}
+    </button>
+
+    <ng-container *ngIf="externalLinks">
+      <button class="app-main-external-links-button"
+              mat-icon-button
+              color="accent"
+              [matMenuTriggerFor]="menu">
+        <mat-icon>more_horiz</mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu">
+        <a *ngFor="let link of externalLinks"
+           mat-menu-item
+           [attr.href]="link.href">
+          {{link.name}}
+        </a>
+      </mat-menu>
+    </ng-container>
+  </span>
+</mat-toolbar>
+
+<mat-sidenav-container class="app-main-sidenav-container">
+  <mat-sidenav class="mat-elevation-z12 app-main-sidenav"
+               position="start"
+               [opened]="sidenavOpen$ | async"
+               [mode]="sidenavMode$ | async"
+               [fixedBottomGap]="1"
+               [fixedTopGap]="64">
+    <ng-container *ngTemplateOutlet="nav; context: { $implicit: uncategorizedSideNav }"></ng-container>
+
+    <mat-expansion-panel *ngFor="let category of categorizedSideNav"
+                         color="primary"
+                         [expanded]="true">
+      <mat-expansion-panel-header>
+        {{ category.name }}
+      </mat-expansion-panel-header>
+
+      <ng-container *ngTemplateOutlet="nav; context: { $implicit: category.features }"></ng-container>
+    </mat-expansion-panel>
+  </mat-sidenav>
+
+  <ng-template #nav
+               let-items>
+    <mat-nav-list>
+      <a *ngFor="let item of items"
+         mat-list-item
+         [routerLink]="item.id"
+         routerLinkActive="app-main-nav-item-active">
+        {{item.name}}
+      </a>
+    </mat-nav-list>
+  </ng-template>
+
+  <mat-sidenav-content>
+    <div class="app-main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,11 @@
+<mat-label *ngIf="_label">{{_label}}</mat-label>
+
+<mat-radio-group [formControl]="_formControl">
+  <mat-radio-button *ngFor="let value of _data$ | async"
+                    [value]="value"
+                    [disabled]="_pluckDisabledFn(value)">
+    {{ _pluckLabelFn(value) }}
+  </mat-radio-button>
+</mat-radio-group>
+
+<mat-hint *ngIf="_hint">{{_hint}}</mat-hint>

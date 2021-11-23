@@ -1,0 +1,25 @@
+@mixin material-overrides-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  .mat-h1,
+  .mat-h2 {
+    margin-bottom: 0;
+    font-weight: 400;
+  }
+
+  .mat-dialog-container {
+    border-radius: 0 !important;
+    min-width: 60vw;
+  }
+
+  .mat-form-field-outline-thick {
+    color: mat-color($accent) !important;
+  }
+
+  .mat-menu-panel {
+    min-width: 0 !important;
+  }
+}

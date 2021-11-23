@@ -1,0 +1,18 @@
+<mat-form-field>
+  <mat-label>{{ _label }}</mat-label>
+
+  <input matInput
+         [type]="_type"
+         [formControl]="_formControl"
+         [placeholder]="_placeholder"
+         [readonly]="_readonly$ | async" />
+
+  <berg-outlet *ngIf="_getProjectedComponent"
+               matSuffix
+               [component]="_getProjectedComponent(_formControl.value)">
+  </berg-outlet>
+
+  <mat-hint>{{ _hint }}</mat-hint>
+
+  <mat-error *ngIf="_errors$ | async as errors">{{ errors | error }}</mat-error>
+</mat-form-field>

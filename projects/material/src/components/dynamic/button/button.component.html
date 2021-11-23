@@ -1,0 +1,29 @@
+<button *ngIf="(_style$ | async) === 'icon'"
+        mat-icon-button
+        [color]="_color$ | async"
+        [disabled]="_disabled">
+  <mat-icon>{{ _label }}</mat-icon>
+</button>
+
+<ng-container *ngIf="(_style$ | async) === 'label'">
+  <ng-container [ngSwitch]="_type$ | async">
+    <button *ngSwitchCase="'proceed'"
+            mat-raised-button
+            [color]="_color$ | async"
+            [disabled]="_disabled">
+      {{ _label }}
+    </button>
+
+    <button *ngSwitchCase="'cancel'"
+            mat-stroked-button
+            [color]="_color$ | async"
+            [disabled]="_disabled">
+      {{ _label }}
+    </button>
+  </ng-container>
+</ng-container>
+
+<mat-hint class="berg-button-hint mat-caption"
+          *ngIf="_hint">
+  {{_hint}}
+</mat-hint>

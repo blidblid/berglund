@@ -1,0 +1,48 @@
+@mixin main-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  $primary-color: mat-color($primary);
+  $accent-color: mat-color($accent);
+  $divider-color: mat-color($foreground, divider);
+  $hover-color: map-get($background, 'app-bar');
+  $primary-background: mat-color($background, dialog);
+  $secondary-background: mat-color($background, background);
+
+  $active-border: 5px solid $primary-color;
+  $divider-border: 1px solid $divider-color !important;
+
+  .app-main {
+    .mat-drawer {
+      box-shadow: none !important;
+      border-right: $divider-border !important;
+      background: $secondary-background !important;
+    }
+
+    .mat-drawer-content {
+      background: $primary-background !important;
+    }
+  }
+
+  .app-main-nav-item-active {
+    border-right: $active-border !important;
+  }
+
+  .mat-expansion-panel-body {
+    border-bottom: $divider-border;
+    background-color: $secondary-background;
+  }
+
+  .mat-expansion-panel-header {
+    border-top: $divider-border;
+    border-bottom: $divider-border;
+    background: $accent-color;
+
+    &:hover,
+    &:focus {
+      background: $accent-color !important;
+    }
+  }
+}

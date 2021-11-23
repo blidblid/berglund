@@ -1,0 +1,33 @@
+.berg-table {
+  .mat-table {
+    width: 100%;
+  }
+
+  .berg-table-row-expand-content {
+    display: flex;
+    overflow: hidden;
+    align-items: baseline;
+    gap: 16px;
+    padding: 16px 0;
+
+    .mat-raised-button {
+      align-self: center;
+    }
+  }
+
+  .berg-table-row-expand-collapsed {
+    .mat-cell {
+      border: none;
+    }
+  }
+
+  .berg-table-row-expand {
+    height: 0;
+  }
+
+  .berg-table-placeholder {
+    display: flex;
+    padding: 16px;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "appOut": "../../showcase/projects/rx",
+  "tsconfig": "./tsconfig.lib.json",
+  "name": "@berglund/rx",
+  "repositoryUrl": "https://bitbucket.org/blidblid/topology/src/master/"
+}

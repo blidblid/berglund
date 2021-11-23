@@ -1,0 +1,15 @@
+<mat-form-field>
+  <mat-label>{{ _label }}</mat-label>
+
+  <textarea matInput
+            cdkTextareaAutosize
+            [placeholder]="_placeholder"
+            [formControl]="_formControl"
+            [cdkAutosizeMinRows]="_minRows$ | async"
+            [cdkAutosizeMaxRows]="_maxRows$ | async">
+  </textarea>
+
+  <mat-hint>{{ _hint }}</mat-hint>
+
+  <mat-error *ngIf="_errors$ | async as errors">{{ errors | error }}</mat-error>
+</mat-form-field>

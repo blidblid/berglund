@@ -1,0 +1,28 @@
+.app-navigator {
+  position: fixed;
+  text-transform: capitalize;
+  z-index: 99999;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  font-size: 42px;
+
+  .app-mobile & {
+    font-size: 32px;
+  }
+
+  .app-navigator-container {
+    height: 60px;
+  }
+
+  .app-navigator-query {
+    opacity: 0.4;
+    position: absolute;
+  }
+
+  .app-navigator-match {
+    opacity: 0.2;
+  }
+}

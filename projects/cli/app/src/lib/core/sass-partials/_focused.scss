@@ -1,0 +1,47 @@
+@mixin focused($theme) {
+  $accent: map-get($theme, accent);
+
+  .focusable,
+  .hoverable {
+    @include at-focused-border(mat-color($accent), 5px, -4px);
+  }
+
+  .focusable {
+    &:focus {
+      &::before {
+        content: "";
+      }
+    }
+  }
+
+  .hoverable {
+    &:hover {
+      &::before {
+        content: "";
+      }
+    }
+  }
+}
+
+@mixin at-focused-border($color, $border-radius: 1px, $border-offset: $at-focused-border-offset) {
+  outline: none;
+  position: relative;
+
+  &.no-radius {
+    &::before {
+      border-radius: 0;
+    }
+  }
+
+  &::before {
+    z-index: 1;
+    position: absolute;
+    pointer-events: none;
+    left: $border-offset;
+    right: $border-offset;
+    top: $border-offset;
+    bottom: $border-offset;
+    border: 5px solid $color;
+    border-radius: $border-radius;
+  }
+}

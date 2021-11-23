@@ -1,0 +1,21 @@
+<berg-layout>
+  <berg-layout-toolbar>
+    <button routerLink="time"
+            mat-raised-button
+            color="primary">
+      Time report
+    </button>
+  </berg-layout-toolbar>
+
+  <berg-layout-left-sidenav>
+    <berg-outlet class="flex d-column"
+                 [component]="components.character.add.all">
+    </berg-outlet>
+  </berg-layout-left-sidenav>
+
+  <berg-outlet [component]="components.character.present.table"></berg-outlet>
+
+  <berg-layout-right-sidenav>
+    <berg-outlet [component]="components.character.present.list"></berg-outlet>
+  </berg-layout-right-sidenav>
+</berg-layout>

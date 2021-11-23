@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es2019",
+    "module": "CommonJS",
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "declaration": true,
+    "declarationMap": true,
+    "strictNullChecks": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "lib": ["dom", "es2018"]
+  },
+  "include": ["./src", "./src/commands/showcase/schema.json"]
+}

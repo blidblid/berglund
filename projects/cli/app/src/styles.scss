@@ -1,0 +1,53 @@
+@use '~@angular/material' as mat;
+
+$typography: mat.define-typography-config(
+  $headline: mat.define-typography-level(2em, 1, 500),
+  $title: mat.define-typography-level(1.5em, 1, 500),
+  $subheading-2: mat.define-typography-level(1.25em, 1, 600),
+  $subheading-1: mat.define-typography-level(1em, 1, 600),
+  $body-1: mat.define-typography-level(18px, 1.67, 400),
+  $font-family: 'Lato, Helvetica Neue, Helvetica, sans-serif',
+);
+
+@include mat.core($typography);
+
+@import '~@angular/material/theming';
+@import './showcase';
+@import './app//main/main-theme';
+@import './lib/core/sass-partials/color';
+@import './lib/core/sass-partials/common';
+@import './lib/core/sass-partials/flex';
+@import './lib/core/sass-partials/focused';
+@import './lib/core/sass-partials/github-highlightjs';
+@import './lib/core/sass-partials/size';
+
+$primary: mat-palette($mat-indigo, A700);
+$accent: mat-palette($mat-teal, A400);
+
+$warn: mat-palette($mat-red);
+
+$theme: mat-light-theme(
+  (
+    color: (
+      primary: $primary,
+      accent: $accent,
+      warn: $warn,
+    ),
+  )
+);
+
+@include angular-material-theme($theme);
+@include color($theme);
+@include main-theme($theme);
+@include common();
+@include focused($theme);
+@include berg-showcase($theme);
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-variant-ligatures: common-ligatures;
+}

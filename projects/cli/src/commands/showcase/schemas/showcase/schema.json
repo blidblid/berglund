@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ShowcaseConfig",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "Name of generated application.",
+      "type": "string"
+    },
+    "repositoryUrl": {
+      "description": "Repository url.",
+      "type": "string"
+    },
+    "featureGlob": {
+      "description": "Glob used to find features.",
+      "type": "string",
+      "default": "**/feature.json"
+    },
+    "featureIgnoreGlob": {
+      "description": "Glob used to ignore features.",
+      "type": "string",
+      "default": "**/node_modules/**/*"
+    },
+    "api": {
+      "description": "Whether to generate API documentation using index.ts files.",
+      "type": "boolean",
+      "default": true
+    },
+    "readme": {
+      "description": "Whether to generate readme documentation using README.md files.",
+      "type": "boolean",
+      "default": true
+    },
+    "appOut": {
+      "description": "Where to write the default application.",
+      "type": "string"
+    },
+    "appExternalLinks": {
+      "description": "External links in the generated app.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "componentOut": {
+      "description": "Where to write components.",
+      "type": "string"
+    },
+    "tsconfig": {
+      "description": "Tsconfig path to use when generating the api",
+      "type": "string"
+    }
+  },
+  "required": ["featureGlob"]
+}

@@ -1,0 +1,27 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "es2020",
+    "lib": ["es2018", "dom"],
+    "paths": {
+      "@showcase/api": ["lib/api"],
+      "@showcase/core": ["lib/core"],
+      "@showcase/components": ["lib/components"],
+      "@berglund/rx": ["../../../../projects/rx/src"],
+      "@berglund/components": ["../../../../projects/components/src"],
+      "@berglund/material": ["../../../../projects/material/src"],
+      "@berglund/mixins": ["../../../../projects/mixins/src"],
+      "@berglund/firebase": ["../../../../projects/firebase/src"]
+    }
+  }
+}

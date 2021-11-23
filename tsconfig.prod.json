@@ -1,0 +1,38 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "noImplicitOverride": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2017",
+    "paths": {
+      "@berglund/rx": ["dist/rx"],
+      "@berglund/components": ["dist/components"],
+      "@berglund/material": ["dist/material"],
+      "@berglund/mixins": ["dist/mixins"],
+      "@berglund/mixins/generators": ["dist/mixins/generators"],
+      "@berglund/mixins/testing": ["dist/mixins/testing"],
+      "@berglund/firebase": ["dist/firebase"],
+      "@berglund/showcase": ["dist/showcase"]
+    },
+    "module": "es2020",
+    "lib": ["es2018", "dom"]
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}

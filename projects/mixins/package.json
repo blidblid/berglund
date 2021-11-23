@@ -1,0 +1,16 @@
+{
+  "name": "@berglund/mixins",
+  "description": "TypeScript mixins for Angular components.",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^12.1.2",
+    "@angular/core": "^12.1.2",
+    "@berglund/rx": "^0.0.1"
+  },
+  "dependencies": {
+    "tslib": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/json-schema": "^7.0.9"
+  }
+}

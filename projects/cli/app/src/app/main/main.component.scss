@@ -1,0 +1,62 @@
+$side-nav-width: 256px;
+
+.mat-toolbar {
+  justify-content: space-between;
+  min-height: 64px;
+}
+
+.app-main-sidenav {
+  min-width: $side-nav-width;
+  max-width: $side-nav-width;
+
+  .mat-expansion-panel-body,
+  .mat-nav-list {
+    padding: 0;
+  }
+
+  .mat-expansion-panel {
+    border-radius: 0;
+    box-shadow: none !important;
+
+    + .mat-expansion-panel {
+      margin-top: -1px !important;
+    }
+
+    .mat-expansion-panel-header {
+      padding: 0 12px !important;
+      font-weight: 400;
+    }
+  }
+}
+
+.app-main-external-links-button {
+  bottom: 1px;
+}
+
+.app-main-content {
+  height: 100%;
+}
+
+.mat-sidenav-container {
+  height: calc(100% - 64px);
+}
+
+.mat-drawer-content {
+  overflow: hidden !important;
+}
+
+.app-main-name {
+  font-size: 17px;
+}
+
+.app-main {
+  .mat-list-item {
+    box-sizing: border-box;
+    font-size: 1em;
+  }
+
+  ng-component {
+    display: block;
+    height: 100%;
+  }
+}
