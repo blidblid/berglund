@@ -1,4 +1,4 @@
-# State
+# @berglund/rx
 
 `@berglund/rx` is an architecture that divides apps into two parts
 

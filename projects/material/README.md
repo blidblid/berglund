@@ -1,3 +1,3 @@
 # Material
 
-This is an implementation of `@berglund/mixins` that uses `@angular/material`. It has a smaller and simpler API.
+This is an implementation of `@berglund/mixins` that uses `@angular/material`. It has a smaller and simpler API but is more restrained.
