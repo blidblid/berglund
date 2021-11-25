@@ -32,5 +32,5 @@
 
   <mat-hint>{{ _hint }}</mat-hint>
 
-  <mat-error *ngIf="_errors$ | async as errors">{{ errors }}</mat-error>
+  <mat-error *ngIf="_errors$ | async as errors">{{ errors | error }}</mat-error>
 </mat-form-field>
