@@ -34,7 +34,7 @@ export class BergTableComponent extends BergTableBase {
 
   _keysLength$ = this._renderKeys$.pipe(pluck('length'));
 
-  onSort(sort: Sort) {
+  _onSort(sort: Sort): void {
     this._sortCollection({
       key: sort.active,
       descending: sort.direction === 'desc',

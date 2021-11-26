@@ -4,7 +4,7 @@
        [attr.aria-labelledby]="_ariaLabelledby"
        multiTemplateDataRows
        matSort
-       (matSortChange)="onSort($event)">
+       (matSortChange)="_onSort($event)">
   <ng-container *ngFor="let column of _columns$ | async"
                 [matColumnDef]="column.key">
     <th mat-header-cell

@@ -75,7 +75,11 @@ export type CollectionSortComparators<T> = Record<
   CollectionSortComparator<T>
 >;
 
-export type CollectionSortComparator<T> = (a: T, b: T) => number;
+export type CollectionSortComparator<T> = (
+  a: T,
+  b: T,
+  descending?: boolean
+) => number;
 
 export type CollectionGroupByFn<T> = (values: T[]) => CollectionGroup[];
 

@@ -150,7 +150,10 @@ export function mixinCollection<
       null
     );
 
-    sort = combineLatest([this.sortEventSub, this._comparators$]).pipe(
+    private _sort$ = combineLatest([
+      this.sortEventSub,
+      this._comparators$,
+    ]).pipe(
       map(([sorterEvent, comparators]) => {
         return {
           comparator:
@@ -160,7 +163,7 @@ export function mixinCollection<
       })
     );
 
-    sortedData$ = combineLatest([this._rawData$, this.sort]).pipe(
+    sortedData$ = combineLatest([this._rawData$, this._sort$]).pipe(
       map(([data, sort]) => {
         const key = sort.key;
 
@@ -168,15 +171,13 @@ export function mixinCollection<
           return data;
         }
 
-        const sortedData = data
-          .slice()
-          .sort(
-            sort.comparator
-              ? sort.comparator
-              : (a, b) => (a[key] > b[key] ? 1 : -1)
-          );
-
-        return sort.descending ? sortedData : sortedData.reverse();
+        return data.slice().sort(
+          sort.comparator
+            ? (a, b) => sort.comparator!(a, b, sort.descending)
+            : (a, b) => {
+                return (sort.descending ? 1 : -1) * (a[key] > b[key] ? 1 : -1);
+              }
+        );
       })
     );
 
