@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ErrorPipeModule } from '@berglund/mixins';
 import { BergButtonComponent } from './button.component';
 
@@ -16,6 +17,7 @@ import { BergButtonComponent } from './button.component';
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
+    MatTooltipModule,
     ReactiveFormsModule,
   ],
 })

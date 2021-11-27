@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import {
+  BergButtonModule,
   BergCalendarModule,
   BergInputModule,
   BergLayoutModule,
@@ -10,6 +11,7 @@ import {
 import { BergOutletModule } from '@berglund/mixins';
 
 const BERG = [
+  BergButtonModule,
   BergCalendarModule,
   BergInputModule,
   BergLayoutModule,

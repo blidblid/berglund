@@ -1,5 +1,7 @@
 .berg-button {
-  .mat-hint {
-    display: block;
+  position: relative;
+
+  .berg-button-wrapper {
+    outline: none;
   }
 }
