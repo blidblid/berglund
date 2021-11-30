@@ -86,12 +86,12 @@ export class CrudApi<T extends Entity> {
   getProperty<K1 extends keyof T, K2 extends keyof T[K1]>(
     id: string,
     property: K1
-  ): Observable<T[K1]>;
+  ): Observable<T[K1] | null>;
   getProperty<K1 extends keyof T, K2 extends keyof T[K1]>(
     id: string,
-    property: K1,
-    propertyId: K2
-  ): Observable<T[K1][K2]>;
+    k1: K1,
+    k2: K2
+  ): Observable<T[K1][K2] | null>;
   getProperty(id: string, ...properties: (keyof T)[]): any {
     return this.cache.get(
       this.getPropertyPath(id, ...properties),
