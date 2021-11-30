@@ -7,11 +7,11 @@ export function mergeValidationErrors(
   const errors: ValidationErrors = {};
   let hasErrors = false;
 
-  for (const validationError of validationErrors) {
-    if (validationError !== null) {
-      Object.assign(errors, validationError);
-      hasErrors = true;
-    }
+  for (const validationError of validationErrors.filter(
+    (error) => error !== null
+  )) {
+    Object.assign(errors, validationError);
+    hasErrors = true;
   }
 
   return hasErrors ? errors : null;
