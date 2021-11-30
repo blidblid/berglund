@@ -46,7 +46,7 @@
     "@angular/compiler-cli": "^12.1.0",
     "@schematics/angular": "^12.0.0",
     "@types/highlightjs": "^9.12.2",
-    "@types/jasmine": "~3.6.0",
+    "@types/jasmine": "~3.10.0",
     "@types/json-schema": "^7.0.9",
     "@types/node": "^12.11.1",
     "@typescript-eslint/eslint-plugin": "^4.28.3",
@@ -62,7 +62,6 @@
     "karma-jasmine-html-reporter": "^1.5.0",
     "ng-packagr": "^12.0.0",
     "prettier": "^2.3.1",
-    "prettier-plugin-brackets": "D:/workspace/prettier-plugin-brackets",
     "prettier-plugin-organize-imports": "^2.2.0",
     "typedoc": "^0.21.4",
     "typescript": "~4.3.0"

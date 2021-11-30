@@ -24,6 +24,7 @@
       "@berglund/mixins/generators": ["dist/mixins/generators"],
       "@berglund/mixins/testing": ["dist/mixins/testing"],
       "@berglund/firebase": ["dist/firebase"],
+      "@berglund/firebase/testing": ["dist/firebase/testing"],
       "@berglund/showcase": ["dist/showcase"]
     },
     "module": "es2020",

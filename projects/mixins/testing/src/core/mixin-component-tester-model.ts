@@ -34,4 +34,4 @@ export interface MixinComponentSpec<T> {
   thenDomChange: ThenDomChange;
 }
 
-export type MixinComponentExpect<T> = (value: T) => boolean;
+export type MixinComponentExpect<T> = (value: T) => void;
