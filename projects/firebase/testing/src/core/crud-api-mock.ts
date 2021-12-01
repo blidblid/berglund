@@ -6,13 +6,17 @@ export function createCrudApiSpyObj<T>(
   database: Record<string, T>
 ): jasmine.SpyObj<CrudApi<T>> {
   const spyObj = createSpyObj<CrudApi<T>>('CrudApi', [
-    'set',
     'get',
-    'setProperty',
-    'getProperty',
+    'set',
     'getRecord',
     'getAll',
     'getMany',
+    'getProperty',
+    'setProperty',
+    'removeProperty',
+    'pushProperty',
+    'push',
+    'update',
   ]);
 
   mockReturn(spyObj, database);
