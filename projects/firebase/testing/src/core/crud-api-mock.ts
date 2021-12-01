@@ -1,5 +1,5 @@
 import { CrudApi } from '@berglund/firebase';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import createSpyObj = jasmine.createSpyObj;
 
 export function createCrudApiSpyObj<T>(
@@ -11,12 +11,14 @@ export function createCrudApiSpyObj<T>(
     'getRecord',
     'getAll',
     'getMany',
+    'getPage',
     'getProperty',
     'setProperty',
     'removeProperty',
     'pushProperty',
     'push',
     'update',
+    'delete',
   ]);
 
   mockReturn(spyObj, database);
@@ -28,10 +30,22 @@ function mockReturn<T>(
   database: Record<string, T>
 ) {
   spyObj.getRecord.and.returnValue(of(database));
+
   spyObj.getAll.and.returnValue(of(Object.values(database)));
   spyObj.getMany.and.returnValue(of(Object.values(database)));
+
   spyObj.getProperty.and.returnValue(of(null));
   spyObj.get.and.returnValue(of(null));
+
+  spyObj.getPage.and.returnValue(of([]));
+
+  spyObj.set.and.returnValue(EMPTY);
+  spyObj.delete.and.returnValue(EMPTY);
+  spyObj.update.and.returnValue(EMPTY);
+  spyObj.setProperty.and.returnValue(EMPTY);
+  spyObj.removeProperty.and.returnValue(EMPTY);
+
+  spyObj.push.and.returnValue('generatedId');
 
   for (const [key, value] of Object.entries(database)) {
     spyObj.get.withArgs(key).and.returnValue(of(value));

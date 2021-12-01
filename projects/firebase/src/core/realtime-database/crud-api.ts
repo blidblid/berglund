@@ -121,16 +121,19 @@ export class CrudApi<T extends Entity> {
     );
   }
 
-  removeProperty<K1 extends keyof T>(id: string, property: K1): void;
+  removeProperty<K1 extends keyof T>(
+    id: string,
+    property: K1
+  ): Observable<void>;
   removeProperty<K1 extends keyof T, K2 extends keyof T[K1]>(
     id: string,
     property: K1,
     propertyId: K2
-  ): void;
-  removeProperty(id: string, ...properties: (keyof T)[]): void {
+  ): Observable<void>;
+  removeProperty(id: string, ...properties: (keyof T)[]): Observable<void> {
     const path = this.getPropertyPath(id, ...properties);
-    this.afd.object(path).remove();
     this.cache.remove(path);
+    return from(this.afd.object(path).remove());
   }
 
   pushProperty<K extends keyof T>(
