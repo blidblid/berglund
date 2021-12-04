@@ -1,6 +1,13 @@
 .berg-table {
+  display: flex;
+  flex-direction: column;
+
   .mat-table {
     width: 100%;
+  }
+
+  .mat-hint {
+    padding: 4px 8px;
   }
 
   .berg-table-row-expand-content {
