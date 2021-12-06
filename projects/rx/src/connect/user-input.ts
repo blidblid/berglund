@@ -9,14 +9,27 @@ export class UserInputSubject<T> extends ValidatedSubject<T> {}
 export class UserTriggerSubject<T> extends Subject<T> {}
 
 export function userInput<T>(
-  source$: Observable<T> = EMPTY,
-  validators: ValidatorFn[] = []
+  value: Observable<T> | T = EMPTY,
+  options?: UserInputOptions | ValidatorFn[]
 ): ValidatedSubject<T> {
-  return subscribeSubject(new UserInputSubject<T>(validators), source$);
+  let validators: ValidatorFn[] = [];
+  let emitInvalid = false;
+
+  if (Array.isArray(options)) {
+    validators = options;
+  } else {
+    validators = options?.validators ?? [];
+    emitInvalid = !!options?.emitInvalid;
+  }
+
+  return subscribeSubject(
+    new UserInputSubject<T>(validators, emitInvalid),
+    value
+  );
 }
 
-export function userTrigger<T>(source$: Observable<T> = EMPTY): Subject<T> {
-  return subscribeSubject(new UserTriggerSubject<T>(), source$);
+export function userTrigger<T>(source: Observable<T> | T = EMPTY): Subject<T> {
+  return subscribeSubject(new UserTriggerSubject<T>(), source);
 }
 
 /** Connects a CanConnect class with a Connectable. */
@@ -73,16 +86,20 @@ export function connectConnectable<T>(
 /** Subscribes a Subject to an Observable, omitting the complete-handler. */
 export function subscribeSubject<T, C extends Subject<T>>(
   subject: C,
-  source$: Observable<T> = EMPTY
+  source: Observable<T> | T = EMPTY
 ): C {
-  source$.subscribe({
-    next(value) {
-      subject.next(value);
-    },
-    error(value) {
-      subject.error(value);
-    },
-  });
+  if (isObservable(source)) {
+    source.subscribe({
+      next(value) {
+        subject.next(value);
+      },
+      error(value) {
+        subject.error(value);
+      },
+    });
+  } else {
+    subject.next(source);
+  }
 
   return subject;
 }
@@ -101,4 +118,11 @@ export function isSubject<T>(value: any): value is Subject<T> & Observable<T> {
     'error' in value &&
     isObservable(value)
   );
+}
+
+export interface UserInputOptions {
+  validators?: ValidatorFn[];
+
+  /** Whether to emit values despite failing validation. */
+  emitInvalid?: boolean;
 }

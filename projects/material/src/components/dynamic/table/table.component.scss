@@ -10,6 +10,18 @@
     padding: 4px 8px;
   }
 
+  .mat-cell,
+  .mat-header-cell,
+  .mat-footer-cell {
+    &:not(:first-of-type):not(:last-of-type) {
+      padding: 0 8px;
+    }
+  }
+
+  .mat-sort-header-content {
+    white-space: nowrap;
+  }
+
   .berg-table-row-expand-content {
     display: flex;
     overflow: hidden;

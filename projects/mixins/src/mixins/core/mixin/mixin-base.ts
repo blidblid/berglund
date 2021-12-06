@@ -6,10 +6,10 @@ import {
 } from '@angular/core';
 import {
   shareReplayUntil,
-  UserTriggerSubject,
   UserInputSubject,
+  UserTriggerSubject,
 } from '@berglund/rx';
-import { EMPTY, isObservable, merge, Observable, of, Subject } from 'rxjs';
+import { isObservable, merge, Observable, of, Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { COMPONENT_INPUTS, MixinComponentInputs } from '../../../core';
 import { Constructor } from './constructor';

@@ -6,7 +6,7 @@ import { map, startWith } from 'rxjs/operators';
 export class ValidatedSubject<T> extends ReplaySubject<T> {
   private formControl = new FormControl(null, this.validators);
 
-  constructor(public validators: ValidatorFn[]) {
+  constructor(public validators: ValidatorFn[], private emitInvalid?: boolean) {
     super(1);
     this.next = this.nextWithValidation;
   }
@@ -21,13 +21,11 @@ export class ValidatedSubject<T> extends ReplaySubject<T> {
   }
 
   // This hack is only necessary in rxjs 6.
-  // In rxjs 7, it is easy to properly override next.
+  // In rxjs 7, it is simple to properly override next.
   nextWithValidation(value: T): void {
-    if (this.formControl) {
-      this.formControl.setValue(value);
-    }
+    this.formControl.setValue(value);
 
-    if (this.formControl?.errors === null) {
+    if (this.emitInvalid || this.formControl?.errors === null) {
       super['nextInfiniteTimeWindow'](value);
     }
   }

@@ -5,13 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "build-all": "ng b rx && ng b mixins && ng b components && ng b material && ng b firebase",
-    "upgrade-material": "ng b material && yarn upgrade material",
-    "upgrade-mixins": "ng b mixins && yarn upgrade mixins",
-    "upgrade-all": "yarn run upgrade-mixins && yarn run upgrade-material"
+    "build": "ng b rx && ng b mixins && ng b components && ng b material && ng b firebase",
+    "test": "ng test --watch=false --browsers=ChromeHeadlessCustom"
   },
   "dependencies": {
     "@angular/animations": "^12.1.0",
