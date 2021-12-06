@@ -22,7 +22,7 @@
     "@angular/router": "^12.1.0",
     "@berglund/components": "^0.0.1",
     "@berglund/firebase": "^0.0.1",
-    "@berglund/material": "^0.0.1",
+    "@berglund/material": "^0.0.5",
     "@berglund/mixins": "^0.0.1",
     "@berglund/rx": "^0.0.1",
     "ajv": "^8.6.3",

@@ -18,6 +18,7 @@
     "target": "es2017",
     "paths": {
       "@berglund/rx": ["dist/rx"],
+      "@berglund/rx/testing": ["dist/rx/testing"],
       "@berglund/components": ["dist/components"],
       "@berglund/material": ["dist/material"],
       "@berglund/mixins": ["dist/mixins"],
