@@ -1,11 +1,11 @@
 {
   "name": "@berglund/material",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "peerDependencies": {
-    "@angular/cdk": "^12.0.1",
-    "@angular/common": "^12.0.1",
-    "@angular/core": "^12.0.1",
-    "@angular/material": "^12.0.1"
+    "@angular/cdk": "^13.0.0",
+    "@angular/common": "^13.0.0",
+    "@angular/core": "^13.0.0",
+    "@angular/material": "^13.0.0"
   },
   "dependencies": {
     "tslib": "^2.1.0"

@@ -1,10 +1,10 @@
 {
   "name": "@berglund/mixins",
   "description": "TypeScript mixins for Angular components.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "peerDependencies": {
-    "@angular/common": "^12.1.2",
-    "@angular/core": "^12.1.2",
+    "@angular/common": "^13.0.0",
+    "@angular/core": "^13.0.0",
     "@berglund/rx": "^0.0.1"
   },
   "dependencies": {
