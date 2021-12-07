@@ -1,16 +1,6 @@
-export type ExcludeType<T, K> = {
-  [P in keyof T]: T[P] extends K ? never : T[P];
-}[keyof T];
-
 export type IncludeType<T, K> = {
   [P in keyof T]: T[P] extends K ? T[P] : never;
 };
-
-export type PickType<T, K> = Pick<T, Exclude<keyof T, ExcludeType<T, K>>>;
-
-export type PickRequired<T, K extends keyof T> = T & Required<Pick<T, K>>;
-
-export type ExtractReturn<T> = T extends (value: any) => infer R ? R : never;
 
 export type IncludeArray<T> = T | T[];
 
@@ -19,3 +9,11 @@ export type OmitPrivates<T> = {
 };
 
 export type OmitType<T, O> = Omit<T, keyof O>;
+
+export type ValueOf<T> = T[keyof T];
+
+export type NonEmptyArray<T> = [T, ...T[]];
+
+export type MustInclude<T, U extends T[]> = [T] extends [ValueOf<U>]
+  ? U
+  : never;

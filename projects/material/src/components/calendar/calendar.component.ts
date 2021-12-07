@@ -14,12 +14,32 @@ import {
 import { BergCalendarBase, BergCalendarDate } from '@berglund/mixins';
 import { BehaviorSubject, merge, Observable, ReplaySubject } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
+import { enumerateInputs } from '../../util';
 
 @Component({
+  selector: 'berg-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  inputs: enumerateInputs(
+    BergCalendarComponent,
+    'required',
+    'readonly',
+    'data',
+    'pluckLabel',
+    'pluckDisabled',
+    'pluckRearrangeable',
+    'groupBy',
+    'comparators',
+    'connectCollection',
+    'selection',
+    'getProjectedComponent',
+    'connect',
+    'disabled',
+    'dataChanged',
+    'isRange'
+  ),
   providers: [
     MAT_RANGE_DATE_SELECTION_MODEL_PROVIDER,
     {

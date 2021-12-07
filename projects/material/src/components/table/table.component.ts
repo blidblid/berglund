@@ -8,12 +8,35 @@ import { Sort } from '@angular/material/sort';
 import { BergTableBase } from '@berglund/mixins';
 import { combineLatest } from 'rxjs';
 import { map, pluck, startWith } from 'rxjs/operators';
+import { enumerateInputs } from '../../util';
 
 @Component({
+  selector: 'berg-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  inputs: enumerateInputs(
+    BergTableComponent,
+    'data',
+    'pluckLabel',
+    'pluckDisabled',
+    'pluckRearrangeable',
+    'groupBy',
+    'comparators',
+    'connectCollection',
+    'selection',
+    'hint',
+    'label',
+    'placeholder',
+    'ariaLabel',
+    'ariaLabelledby',
+    'getProjectedComponent',
+    'disabled',
+    'dataChanged',
+    'columns',
+    'expandRowComponent'
+  ),
   host: {
     class: 'berg-table',
   },

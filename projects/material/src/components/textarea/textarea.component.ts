@@ -6,12 +6,28 @@ import {
 } from '@angular/core';
 import { BergTextareaBase } from '@berglund/mixins';
 import { Observable } from 'rxjs';
+import { enumerateInputs } from '../../util';
 
 @Component({
+  selector: 'berg-textarea',
   templateUrl: './textarea.component.html',
   styleUrls: ['./textarea.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  inputs: enumerateInputs(
+    BergTextareaComponent,
+    'required',
+    'readonly',
+    'hint',
+    'label',
+    'placeholder',
+    'ariaLabel',
+    'ariaLabelledby',
+    'connect',
+    'disabled',
+    'minRows',
+    'maxRows'
+  ),
   host: {
     class: 'berg-textarea',
   },

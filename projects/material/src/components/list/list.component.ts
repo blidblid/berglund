@@ -7,12 +7,32 @@ import {
 import { BergListBase } from '@berglund/mixins';
 import { Observable } from 'rxjs';
 import { map, share, withLatestFrom } from 'rxjs/operators';
+import { enumerateInputs } from '../../util';
 
 @Component({
+  selector: 'berg-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  inputs: enumerateInputs(
+    BergListComponent,
+    'updateRouteFromValue',
+    'getValueFromRoute',
+    'required',
+    'readonly',
+    'connect',
+    'data',
+    'pluckLabel',
+    'pluckDisabled',
+    'pluckRearrangeable',
+    'groupBy',
+    'comparators',
+    'connectCollection',
+    'selection',
+    'disabled',
+    'dataChanged'
+  ),
   host: {
     class: 'berg-list',
   },

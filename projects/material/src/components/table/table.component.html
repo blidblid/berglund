@@ -25,7 +25,7 @@
         *matCellDef="let row"
         [attr.colspan]="_keysLength$ | async">
       <div class="berg-table-row-expand-content"
-           *ngIf="row === (expandRowComponentValue$ | async)">
+           *ngIf="row === (_expandRowComponentValue$ | async)">
         <berg-outlet [component]="expandRowComponent.component"
                      [context]="row">
         </berg-outlet>
@@ -58,7 +58,7 @@
   <ng-container *ngIf="_expandRowComponent">
     <tr class="berg-table-row-expand"
         [class.berg-table-row-expand-collapsed]="
-        (expandRowComponentValue$ | async) !== row
+        (_expandRowComponentValue$ | async) !== row
       "
         mat-row
         *matRowDef="let row; columns: ['templateOutlet']"></tr>

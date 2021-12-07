@@ -37,7 +37,7 @@ export class BergTableMixinBase extends Mixin {
   _expandRowComponent: ExpandRowComponent;
   _expandRowComponent$ = this.defineAccessors('expandRowComponent', null);
 
-  expandRowComponentValue$ = this._expandRowComponent$.pipe(
+  _expandRowComponentValue$ = this._expandRowComponent$.pipe(
     filter((expandRowComponent): expandRowComponent is ExpandRowComponent => {
       return expandRowComponent !== null;
     }),
