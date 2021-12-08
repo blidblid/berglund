@@ -1,0 +1,23 @@
+{
+  "projects": {
+    "default": "albinberglund-17"
+  },
+  "targets": {
+    "albinberglund-17": {
+      "hosting": {
+        "bergmixins": [
+          "albinberglund-17"
+        ],
+        "mixins": [
+          "bergmixins"
+        ],
+        "rx": [
+          "bergrx"
+        ],
+        "material": [
+          "bergmaterial"
+        ]
+      }
+    }
+  }
+}

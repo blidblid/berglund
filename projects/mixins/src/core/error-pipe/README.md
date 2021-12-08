@@ -27,7 +27,7 @@ export class ErrorPipeExampleComponent {
 ```typescript
 // error-pipe.module.ts
 import { NgModule } from '@angular/core';
-import { ErrorPipeModule } from '@berglund/components';
+import { ErrorPipeModule } from '@berglund/mixins';
 import { ErrorPipeExampleComponent } from './error-pipe.component';
 
 @NgModule({

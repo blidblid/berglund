@@ -1,6 +1,16 @@
 {
-  "componentOut": "../../showcase/projects/material/src/generated",
+  "appOut": "../../showcase/projects/material",
   "tsconfig": "./tsconfig.lib.json",
   "name": "@berglund/material",
-  "repositoryUrl": "https://bitbucket.org/blidblid/topology/src/master/"
+  "repositoryUrl": "https://github.com/blidblid/berg/tree/main/projects/material",
+  "appExternalLinks": [
+    {
+      "name": "@berglund/mixins",
+      "href": "https://mixins.albinberglund.com"
+    },
+    {
+      "name": "@berglund/rx",
+      "href": "https://rx.albinberglund.com"
+    }
+  ]
 }

@@ -1,4 +1,3 @@
-import '@angular/compiler';
 import { writeFileSync } from 'fs';
 import { ensureDirSync } from 'fs-extra';
 import { basename, dirname } from 'path';

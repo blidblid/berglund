@@ -1,4 +1,4 @@
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 
 $typography: mat.define-typography-config(
   $headline: mat.define-typography-level(2em, 1, 500),
@@ -11,7 +11,7 @@ $typography: mat.define-typography-config(
 
 @include mat.core($typography);
 
-@import '~@angular/material/theming';
+@import '@angular/material/theming';
 @import './showcase';
 @import './app//main/main-theme';
 @import './lib/core/sass-partials/color';

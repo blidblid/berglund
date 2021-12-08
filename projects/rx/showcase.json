@@ -2,5 +2,15 @@
   "appOut": "../../showcase/projects/rx",
   "tsconfig": "./tsconfig.lib.json",
   "name": "@berglund/rx",
-  "repositoryUrl": "https://bitbucket.org/blidblid/topology/src/master/"
+  "repositoryUrl": "https://github.com/blidblid/berg/tree/main/projects/rx",
+  "appExternalLinks": [
+    {
+      "name": "@berglund/material",
+      "href": "https://material.albinberglund.com"
+    },
+    {
+      "name": "@berglund/mixins",
+      "href": "https://mixins.albinberglund.com"
+    }
+  ]
 }

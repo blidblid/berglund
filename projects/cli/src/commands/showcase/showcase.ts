@@ -23,6 +23,7 @@ import {
 } from './core/read';
 import { TsComponentAstPrinter } from './core/ts-component-ast-printer';
 import {
+  buildApp,
   createOutDir,
   writeApp,
   writeCommonComponents,
@@ -193,5 +194,9 @@ export async function showcase(
       paths.internalComponents,
       join(outDir, directories.internalComponents)
     );
+  }
+
+  if (showcaseConfig.appOut) {
+    await buildApp(showcaseConfig.appOut);
   }
 }

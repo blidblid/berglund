@@ -20,10 +20,10 @@
     "@angular/platform-browser": "^13.0.0",
     "@angular/platform-browser-dynamic": "^13.0.0",
     "@angular/router": "^13.0.0",
-    "@berglund/components": "file:../../../dist/components",
-    "@berglund/material": "file:../../../dist/material",
-    "@berglund/mixins": "file:../../../dist/mixins",
-    "@berglund/rx": "file:../../../dist/rx",
+    "@berglund/components": "^0.0.1",
+    "@berglund/material": "^0.0.1",
+    "@berglund/mixins": "^0.0.1",
+    "@berglund/rx": "^0.0.1",
     "highlight.js": "^11.2.0",
     "rxjs": "~6.6.7",
     "zone.js": "~0.11.0"
@@ -39,6 +39,6 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
-    "typescript": "~4.3.0"
+    "typescript": "~4.4.0"
   }
 }

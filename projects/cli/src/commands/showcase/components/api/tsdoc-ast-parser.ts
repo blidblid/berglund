@@ -195,6 +195,10 @@ export class TsdocAstParser {
       }
     }
 
+    if (typeNode.type === 'reflection') {
+      return '';
+    }
+
     throw Error('Unknown type ' + JSON.stringify(typeNode));
   }
 
