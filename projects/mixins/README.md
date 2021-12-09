@@ -32,7 +32,9 @@ Take `mat-select` for example:
 
 Since the component has a large surface area, a `cdkDrag` directive could make the options rearrangeable. And an `*ngFor` directive could repeat `<mat-option>` over some data source. It is a powerful design, but the power comes at a cost.
 
-To illustrate this cost, let's look at another material component, a [basic `mat-table`](https://material.angular.io/components/table/overview). At this point, its implementation is pretty simple, with some 50 odd lines of code. But tables usually have many requirements, such as
+### The downsides
+
+Let's look at another material component, a [basic `mat-table`](https://material.angular.io/components/table/overview). At this point, its implementation is pretty simple, with some 50 odd lines of code. But tables usually have many requirements, such as
 
 - sortable rows
 - virtualized rows
@@ -60,13 +62,13 @@ Pretty smooth, but now the table is now hundreds of lines of code. And here lies
 
 ## The solution
 
-Let's add another layer between apps and libraries. The goal is to design an API that is intent-driven and fully described by its inputs.
+Let's add another layer between apps and libraries. The goal is an API that is fully described by its inputs, and not by its template.
 
-To do that, all content projection has to go. But without content projection, all directives have become worthless. For example, `*ngFor` as the abstraction that connects a data source to lists and selects, has become useless.
+To achieve that, all content projection has to go. But without content projection, the layer loses a lot of reusability. It can no longer can delegate functionality to directives. Instead, it has to to describe all functionality in its API.
 
 ### Mixins
 
-Without directives, the code base needs another source of reusability. Let's look at four components
+To find another source of reusability, let's look at four components
 
 - `mat-checkbox`
 - `mat-select`
@@ -84,14 +86,16 @@ and find their commonalities
 | Can render templates |                `matTable`                |
 | Can be disabled      | `mat-checkbox`, `mat-select`, `matInput` |
 
-and implement classes for each of the listed features. Then, use TypeScript mixins to compose a base. There are existing bases for components in `@berglund/mixins`, but let's create a couple of new ones:
+and implement classes for each of the listed features. Then, use TypeScript mixins to compose a base. There are existing bases for components in `@berglund/mixins`, but let's create a couple of new ones.
 
 ```typescript
 const TableBase = mixinComponentOutlet(mixinCollection(_TableBase));
 const SelectBase = mixinConnectable(
-  mixinAccessible(mixinLabel(mixinCollection(_SelectBase)))
+  mixinAccessible(mixinLabel(mixinSelection(mixinCollection(_SelectBase))))
 );
 ```
+
+The base is then ready to be used in a component.
 
 ```typescript
 @Component({
@@ -103,7 +107,7 @@ const SelectBase = mixinConnectable(
 export class SelectComponent extends SelectBase {}
 ```
 
-Here, the template in `select.component.html` implements the mixin API using a design system. Meanwhile, the app now uses the mixin API over the previous API.
+Here, the template in `select.component.html` implements the mixin API using a design system. The app will now uses the mixin API over the previous API.
 
 This is how a select would look like using `@berglund/material`
 
