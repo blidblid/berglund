@@ -65,6 +65,13 @@ export abstract class DomBuilder {
 
   protected addCommon(): void {
     const addLayout = () => {
+      this.setAttribute(this.right, '*ngIf', '!(isMobile$ | async)');
+      this.setAttribute(
+        this.body,
+        '[class.berg-showcase-mobile]',
+        'isMobile$ | async'
+      );
+
       this.flexContainer.classList.add('berg-showcase-flex-container');
 
       this.left.classList.add('berg-showcase-left');

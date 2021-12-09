@@ -1,11 +1,18 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { Location } from '@angular/common';
 import { Directive } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { asapScheduler, Subject } from 'rxjs';
-import { delay, filter, take, takeUntil } from 'rxjs/operators';
+import { delay, filter, map, take, takeUntil } from 'rxjs/operators';
+
+const MOBILE_BREAKPOINT = '(max-width: 800px)';
 
 @Directive()
 export abstract class BergShowcaseBase {
+  isMobile$ = this.breakpointObserver
+    .observe(MOBILE_BREAKPOINT)
+    .pipe(map((breakpoint) => breakpoint.matches));
+
   abstract id: string;
   abstract titleIds: string[];
 
@@ -17,7 +24,8 @@ export abstract class BergShowcaseBase {
   constructor(
     private activatedRoute: ActivatedRoute,
     private location: Location,
-    private router: Router
+    private router: Router,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.subscribe();
   }

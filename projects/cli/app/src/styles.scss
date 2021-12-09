@@ -13,7 +13,7 @@ $typography: mat.define-typography-config(
 
 @import '@angular/material/theming';
 @import './showcase';
-@import './app//main/main-theme';
+@import './app/main/main-theme';
 @import './lib/core/sass-partials/color';
 @import './lib/core/sass-partials/common';
 @import './lib/core/sass-partials/flex';

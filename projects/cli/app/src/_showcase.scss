@@ -17,7 +17,8 @@
   $nav-bar-margin: 64px;
   $showcase-padding: 16px;
   $content-x-offset: 124px;
-  $vertical-spacing: 1.8em 0;
+  $vertical-spacing: 1.4em;
+  $mobile-vertical-spacing: 0.9em;
 
   .berg-showcase {
     animation: fadeIn 200ms;
@@ -156,7 +157,7 @@
     table {
       border-collapse: collapse;
       width: 100%;
-      margin: $vertical-spacing;
+      margin: $vertical-spacing 0;
 
       th {
         font-weight: 400;
@@ -175,6 +176,71 @@
       }
     }
 
+    h1:not(:first-child) {
+      padding-top: $vertical-spacing;
+    }
+
+    h2 {
+      padding-top: $vertical-spacing;
+    }
+
+    h1 + h2 {
+      padding-top: 0;
+    }
+
+    .berg-showcase-mobile {
+      .berg-showcase-flex-container {
+        padding-right: 0;
+      }
+
+      h1 {
+        font-size: 1.2em;
+      }
+
+      h2 {
+        font-size: 1em;
+      }
+
+      h3 {
+        font-size: 0.8em;
+      }
+
+      h4 {
+        font-size: 0.8em;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      table {
+        margin: $mobile-vertical-spacing 0;
+      }
+
+      .mat-body,
+      p,
+      code {
+        font-size: 0.8em;
+      }
+
+      .berg-showcase-left {
+        margin: 0;
+        width: 100%;
+      }
+
+      td {
+        padding: 8px;
+      }
+
+      .berg-showcase-title {
+        .berg-showcase-icon-button {
+          opacity: 1;
+        }
+      }
+    }
+
     // stack edit copies below
     blockquote {
       color: $hint-text-color;
@@ -188,7 +254,7 @@
     h4,
     h5,
     h6 {
-      margin: $vertical-spacing;
+      margin: $vertical-spacing 0;
       word-break: break-all;
     }
 
