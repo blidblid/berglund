@@ -1,22 +1,23 @@
 # Mixins
 
-`@berglund/mixins` is not a component library, it's another layer between apps and component libraries that aims to
+`@berglund/mixins` is a collection of [TypeScript mixins](https://www.typescriptlang.org/docs/handbook/mixins.html). The mixins form a middleware between apps and component libraries that aims to
 
 - increase productivity
 - reduce code duplication
+- reduce developer freedom
 
-But before getting into how, let's get into the upside and downside of traditional Angular component libraries.
+Before getting into how, let's get into the upsides and downsides of traditional Angular component libraries.
 
 ## Traditional component libraries
 
 ### The upsides
 
-A well-written Angular component library usually has two design patterns:
+A well-written Angular component library usually has:
 
-- Lots of content projection
-- Lots of directives
+- lots of content projection
+- lots of directives
 
-And you can see why - it is a strong combination. The content projection maximizes component surface area, which the directives can attach to. Any new `@Directive` can be used everywhere!
+And you can see why, it is a very strong combination. The content projection maximizes component surface area, which the directives can attach to.
 
 Take `mat-select` for example:
 
@@ -29,17 +30,9 @@ Take `mat-select` for example:
 </mat-form-field>
 ```
 
-Since the component has surface area, a `cdkDrag` directive could make the options rearrangeable.
-It is a powerful design, but what is the cost?
+Since the component has a large surface area, a `cdkDrag` directive could make the options rearrangeable. And an `*ngFor` directive could repeat `<mat-option>` over some data source. It is a powerful design, but the power comes at a cost.
 
-### The downsides
-
-Complexity has moved out of libraries and into apps.
-
-#### Directive hell
-
-Let's look at [basic `mat-table`](https://material.angular.io/components/table/overview).
-At this point, its implementation is pretty simple, with some 50 odd lines of code. But tables usually have many requirements, such as
+To illustrate this cost, let's look at another material component, a [basic `mat-table`](https://material.angular.io/components/table/overview). At this point, its implementation is pretty simple, with some 50 odd lines of code. But tables usually have many requirements, such as
 
 - sortable rows
 - virtualized rows
@@ -53,49 +46,25 @@ Let's add these features to `mat-table` using directives from `@angular/material
 | Virtualized rows      | `cdk-virtual-scroll-viewport`, `*cdkVirtualFor` |
 | Rearrangeable columns |            `cdkDrag`, `cdkDropList`             |
 
-Pretty smooth, but now the basic table is now hundred of lines of code.
+Pretty smooth, but now the table is now hundreds of lines of code. And here lies the issue of traditional component libraries: large complicated templates. The problem with these templates is that they lead to
 
-#### Unhinged freedom
-
-When the app owns the template, it can do a lot. In the `mat-table` example above, the app could
-
-- Implement state through two bindings:
-  - `[class.mat-row-selected]="row === selectedRow"`
-  - `(click)="selectedRow = row"`.
-- Add keyboard navigation using `FocusKeyManager`
-
-But should it? If you're working on a hobby project, then by all means, go ahead.
-But if you're working in an organization, any such implementation is a hack.
-In fact, that goes for any app-side modification of framework level components.
-
-#### Repetition
-
-If the app wants to modify the table above, then it has to create a wrapper component and create inputs.
-Before long, a large part of the codebase will be `@Input()` annotations that just propagate. It's not DRY.
-But if the component was described as an _object_, then the sky's the limit
-
-```typescript
-editUserComponent = component({
-  component: BergInputComponent,
-  inputs: {
-    label: 'Edit user',
-    disabled: this.disabled$,
-  },
-});
-
-createUserComponent = component(this.editUserComponent, {
-  label: 'Create user ',
-});
-```
+- code duplication
+  - you either have to duplicate the template code in future tables...
+  - ...or you have to create a table-wrapper component that propagates inputs
+- few constraints
+  - a developer _can_ attach directives, but _should_ they? In enterprise, large freedom can make UX diverge across apps
+- technical bias
+  - the code is overly focused on _how_ to solve a problem, not _what_ it's trying to solve. Let's say `mat-table` suddenly needs nested drag drop. Since `@angular/cdk/drag-drop` does not support that, the code needs massive refactoring
+- poor dynamic support
+  - neither Angular directives or `@ContentChildren` can attach dynamically
 
 ## The solution
 
-Let's add another layer between apps and libraries.
+Let's add another layer between apps and libraries. The goal is to design an API that is intent-driven and fully described by its inputs.
 
-The goal is to design an API without templates. To do that, all content projection needs to go.
-Then, there's a massive headache to address: all directives are now worthless. The library has a lot of reusability.
+To do that, all content projection has to go. But without content projection, all directives have become worthless. For example, `*ngFor` as the abstraction that connects a data source to lists and selects, has become useless.
 
-### Mixins to the rescue
+### Mixins
 
 Without directives, the code base needs another source of reusability. Let's look at four components
 
@@ -104,30 +73,25 @@ Without directives, the code base needs another source of reusability. Let's loo
 - `matInput`
 - `mat-table`
 
-and isolate their commonalities
+and find their commonalities
 
 | Feature              |                Component                 |
 | -------------------- | :--------------------------------------: |
 | Can have a label     | `mat-checkbox`, `mat-select`, `matInput` |
 | Can show data        |        `mat-select`, `mat-table`         |
 | Can select           |               `mat-select`               |
-| Can edit             |        `matInput`, `mat-checkbox`        |
+| Can have state       | `mat-checkbox`, `mat-select`, `matInput` |
 | Can render templates |                `matTable`                |
 | Can be disabled      | `mat-checkbox`, `mat-select`, `matInput` |
 
-then, after implementing mixins for each of these features, compose bases
+and implement classes for each of the listed features. Then, use TypeScript mixins to compose a base. There are existing bases for components in `@berglund/mixins`, but let's create a couple of new ones:
 
 ```typescript
-const BergSelectBase = mixinAccessible(
-  mixinLabel(
-    mixinCollection<typeof _BergSelectBase, 'radio' | 'multiple'>(
-      _BergSelectBase
-    )
-  )
+const TableBase = mixinComponentOutlet(mixinCollection(_TableBase));
+const SelectBase = mixinConnectable(
+  mixinAccessible(mixinLabel(mixinCollection(_SelectBase)))
 );
 ```
-
-that can be used in component development
 
 ```typescript
 @Component({
@@ -135,14 +99,13 @@ that can be used in component development
   styleUrls: ['./select.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'berg-select',
-  },
 })
-export class BergSelectComponent extends BergSelectBase {}
+export class SelectComponent extends SelectBase {}
 ```
 
-and voila, no more templates! The component is fully described by its inputs.
+Here, the template in `select.component.html` implements the mixin API using a design system. Meanwhile, the app now uses the mixin API over the previous API.
+
+This is how a select would look like using `@berglund/material`
 
 ```typescript
 // select-mixin.component.ts
@@ -191,3 +154,13 @@ export class SelectMixinExampleModule {}
 <berg-outlet [component]="drinks"></berg-outlet>
 <berg-outlet [component]="eveningDrinks"></berg-outlet>
 ```
+
+As you can see, the API is
+
+- \+ intent-focused
+- \+ reusable, components are easily reused since they are described as objects
+- \- stiff. You cannot even add a `(click)`-binding. Everything has to be described in the mixin-API
+
+### Final thoughts
+
+Is a middleware between apps and component libraries is a good idea for your code? It depends on the context. If you're working on a hobby-project, the constraints would probably be too frustrating. But if you're working in a company with multiple apps, then a middleware using mixins would do a lot for productivity and unified UX.

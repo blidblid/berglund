@@ -1,12 +1,11 @@
 # @berglund/rx
 
-`@berglund/rx` is an architecture that divides apps into two parts
+`@berglund/rx` is a state architecture that divides state into two parts
 
 - observables
-- components
+- operator components
 
-The library is more of an idea than an implementation.
-If you look through the sources, you'll find very few lines of code.
+The library is more of an idea than an implementation. If you look through the sources, you'll find very few lines of code.
 
 ## The architecture
 
@@ -14,20 +13,17 @@ Normally, information flow in an Angular app comes from a combination of
 
 - `@Output` and `@Input`
 - Forms
-- Dependency injection
-- State management, such as ngrx.
+- State management, such as ngrx action dispatching.
 
-Through things like `formControl`-directives and ngrx actions, information flow is a part of component development.
-
-This architecture aim to completely separate information flow from components. It does that in two steps.
+and is a central part of component development. This architecture, however, aims to completely separate information flow from components. It does that in two steps.
 
 ### Step 1 - setup observables
 
-The first step in the architecture is to build the app using nothing but `Observable`.
+The first step in the architecture is to describe information flow using nothing but `Observable`. For a user on imdb, it might look something like this:
 
 ```typescript
 @Injectable({ providedIn: 'root' })
-export class UserObservables {
+export class UserRx {
   userName$ = EMPTY;
 
   user$ = this.userName$.pipe(
@@ -40,18 +36,11 @@ export class UserObservables {
 }
 ```
 
-### Step 2 - connect using subjects
+### Step 2 - make observable connectable using subjects
 
-In step 1, the information flow is:
+In step 1, the information flow missing a key part - at no point does it describe where a user interacts with it.
 
-- A user types their user name and password
-- An API is called to log the user in
-- Using the user resulting object, an API is called to get their favorite movie.
-
-But all observables are silent. There are no event producers, so nothing will happen.
-
-This is where the second step comes in: revisit the observables and wrap them with a `Subject`.
-Use a different type of `Subject` depending on the type of observables.
+This is where the second step comes in: revisit the observables above and wrap some of them with `userInput`. This will create a `Subject` and subscribe it to that observable. The observable has become _connectable_ in the sense that we can push values onto it.
 
 ```typescript
 import { userInput } from '@berglund/rx';
@@ -62,10 +51,11 @@ userName$ = userInput<string>(EMPTY, [
 ]);
 ```
 
-The `userInput` function will wrap the `userName$` observable with a `ValidatedSubject`.
-A `ValidatedSubject` is just a `ReplaySubject` with built-in Angular validators - if validation fails, nothing is emitted.
+### Step 3 - connect using operator components
 
-With a `Subject` wrapping the `Observable`, the `Observable` can receiver user inputs. Any component that implements the `CanConnect`-interface can connect to it:
+At this point, the observable chain is ready to start firing. The `Subject` just needs values pushed onto it. This is the job of operator-components. An operator component implements the `CanConnect`-interface, which specifies how to interact with the `Subject`.
+
+Using `@berglund/material/BergInputComponent`, connection looks like this
 
 ```typescript
 userName = component({
@@ -75,4 +65,13 @@ userName = component({
     connect: this.observables.userName$,
   },
 });
+```
+
+But other component libraries can connect too, with a `FormControl` for example:
+
+```html
+<input
+  [formControl]="formControl"
+  [connectFormControlValue]="rx.user.userName$"
+/>
 ```
