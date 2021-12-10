@@ -221,8 +221,11 @@
 
       .mat-body,
       p,
-      code {
-        font-size: 0.8em;
+      code,
+      th,
+      td,
+      span {
+        font-size: 0.9em;
       }
 
       .berg-showcase-left {
@@ -281,6 +284,7 @@
     pre {
       padding: 8px;
       border-radius: 3px;
+      overflow-x: auto;
     }
 
     pre,

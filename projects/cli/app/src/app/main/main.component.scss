@@ -2,7 +2,14 @@ $side-nav-width: 256px;
 
 .mat-toolbar {
   justify-content: space-between;
+  overflow: hidden;
   min-height: 64px;
+
+  button {
+    .app-main-mobile & {
+      font-size: 14px;
+    }
+  }
 }
 
 .app-main-sidenav {

@@ -60,7 +60,11 @@ export class MainComponent {
     take(1),
     map((mode) => mode === 'side')
   );
-  constructor(private breakpoint: BreakpointService) {}
+  constructor(private breakpoint: BreakpointService) {
+    this.breakpointClass$.subscribe(
+      (breakpointClass) => (this.breakpointClass = breakpointClass)
+    );
+  }
 
   toggleSidenav(): void {
     this.sidenav.toggle();
