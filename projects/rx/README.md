@@ -36,7 +36,7 @@ export class UserRx {
 }
 ```
 
-### Step 2 - make observable connectable using subjects
+### Step 2 - make observables connectable using subjects
 
 In step 1, the information flow does not describe user interaction. This is where the second step comes in. Revisit the observables above and wrap some of them with `userInput`. This will create a `Subject` and subscribe it to that observable. The observable has become _connectable_, in the sense that values can be pushed onto it.
 
@@ -49,7 +49,7 @@ userName$ = userInput<string>(EMPTY, [
 ]);
 ```
 
-### Step 3 - connect using operator components
+### Step 3 - connect operator components
 
 At this point, the observable chain is ready to start firing. The `Subject` just needs values pushed onto it. This is the job of operator-components. An operator component implements the `CanConnect`-interface, which specifies how to interact with the `Subject`.
 
