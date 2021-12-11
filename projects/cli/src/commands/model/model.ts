@@ -2,7 +2,7 @@ import { writeFileSync } from 'fs';
 import { ensureDirSync } from 'fs-extra';
 import { basename, dirname } from 'path';
 import yargs from 'yargs';
-import { fileNames, join, readConfig } from '../../core';
+import { fileNames, join, readParentConfig } from '../../core';
 import {
   Context,
   GeneratorResolver,
@@ -32,7 +32,7 @@ export const MODEL_COMMAND: yargs.CommandModule = {
 async function handler(args: yargs.Arguments<ModelConfig>) {
   const context = new Context({
     ...args,
-    ...readConfig(fileNames.modelConfig),
+    ...readParentConfig(fileNames.modelConfig),
   });
 
   const schemaResolver = new SchemaResolver(context);

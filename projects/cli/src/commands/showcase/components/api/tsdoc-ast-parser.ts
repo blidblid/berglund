@@ -14,6 +14,8 @@ import {
 } from './tsdoc-ast-parser-model';
 
 export class TsdocAstParser {
+  private app = new TypeDoc.Application();
+
   private extractComponent = this.extractDirectiveByDecorator('Component');
   private extractNgModule = this.extractDirectiveByDecorator('NgModule');
   private extractPipe = this.extractDirectiveByDecorator('Pipe');
@@ -52,11 +54,10 @@ export class TsdocAstParser {
     },
   ];
 
-  constructor(
-    private context: Context,
-    private entryPointPath: string,
-    private tsconfigPath?: string
-  ) {}
+  constructor(private context: Context, private entryPointPath: string) {
+    this.app.options.addReader(new TypeDoc.TSConfigReader());
+    this.app.options.addReader(new TypeDoc.TypeDocReader());
+  }
 
   async parse(): Promise<ApiGroup[]> {
     const apiJson = await this.getApiJson();
@@ -427,35 +428,35 @@ export class TsdocAstParser {
       return null;
     }
 
+    console.log(`Running TypeDoc for ${this.context.featureDir}`);
+
     removeSync(paths.temp);
     mkdirSync(paths.temp, { recursive: true });
-
-    const app = new TypeDoc.Application();
-    app.options.addReader(new TypeDoc.TSConfigReader());
-    app.options.addReader(new TypeDoc.TypeDocReader());
 
     const options: Partial<TypeDoc.TypeDocOptions> = {
       entryPoints: [this.entryPointPath],
       readme: undefined,
       excludePrivate: true,
+      excludeProtected: true,
+      excludeExternals: true,
+      tsconfig: this.context.showcaseConfig.tsconfig,
+      pretty: false,
     };
 
-    if (this.tsconfigPath) {
-      options.tsconfig = this.tsconfigPath;
-    }
-
-    app.bootstrap(options);
-    const project = app.convert();
+    this.app.bootstrap(options);
+    const project = this.app.convert();
 
     if (!project) {
       return null;
     }
 
-    const apiPath = join(paths.temp, fileNames.apiJson);
+    const tempApiJsonPath = join(paths.temp, fileNames.apiJson);
 
-    await app.generateJson(project, apiPath);
+    await this.app.generateJson(project, tempApiJsonPath);
 
-    return JSON.parse(readFileSync(apiPath, 'utf-8'));
+    console.log('\n');
+
+    return JSON.parse(readFileSync(tempApiJsonPath, 'utf-8'));
   }
 
   private getItemName(name: string, type?: string): string {

@@ -1,14 +1,28 @@
 import { existsSync, readFileSync } from 'fs';
-import { join, resolve } from 'path';
+import { sync } from 'glob';
+import { dirname, join, resolve } from 'path';
+import { ConfigFile } from './read-model';
 
-export function readConfig<T>(fileName: string): Partial<T> {
-  let path = process.cwd();
+const cwd = process.cwd();
+
+export function readConfigs<T>(configFileName: string): ConfigFile<T>[] {
+  const parentConfig = readParentConfig<T>(configFileName);
+  return parentConfig ? [parentConfig] : readChildConfigs(configFileName);
+}
+
+export function readParentConfig<T>(
+  configFileName: string
+): ConfigFile<T> | null {
+  let path = cwd;
 
   while (existsSync(path)) {
-    const configFileName = join(path, fileName);
+    const configPath = join(path, configFileName);
 
-    if (existsSync(configFileName)) {
-      return JSON.parse(readFileSync(configFileName, 'utf-8'));
+    if (existsSync(configPath)) {
+      return {
+        content: JSON.parse(readFileSync(configPath, 'utf-8')),
+        dir: path,
+      };
     }
 
     const newPath = resolve(path, '..');
@@ -20,5 +34,16 @@ export function readConfig<T>(fileName: string): Partial<T> {
     path = newPath;
   }
 
-  return {};
+  return null;
+}
+
+function readChildConfigs(configFileName: string): any[] {
+  return sync([cwd, '**', configFileName].join('/'), {
+    ignore: '**/node_modules',
+  }).map((path) => {
+    return {
+      content: JSON.parse(readFileSync(path, 'utf-8')),
+      dir: dirname(path),
+    };
+  });
 }

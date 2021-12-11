@@ -3,12 +3,10 @@ import { dirname, isAbsolute } from 'path';
 import { join } from '../../../core';
 import { ShowcaseConfig } from './../schemas/showcase/schema';
 
-const cwd = process.cwd();
-
 type RequiredBy<T, K extends keyof T> = T & Required<Pick<T, K>>;
 
 export interface ValidatedShowcaseConfig
-  extends RequiredBy<ShowcaseConfig, 'componentOut' | 'name'> {}
+  extends RequiredBy<ShowcaseConfig, 'componentOut' | 'name' | 'tsconfig'> {}
 
 export interface FeaturePath {
   path: string;
@@ -16,11 +14,12 @@ export interface FeaturePath {
 }
 
 export function readFeatures(
+  showcaseDir: string,
   featureGlob: string,
   ignoreGlob?: string
 ): FeaturePath[] {
   return sync(featureGlob, {
-    cwd: process.cwd(),
+    cwd: showcaseDir,
     ignore: ignoreGlob,
     absolute: true,
   }).map((path) => {
@@ -32,6 +31,7 @@ export function readFeatures(
 }
 
 export function validateConfig(
+  showcaseDir: string,
   config: ShowcaseConfig
 ): config is ValidatedShowcaseConfig {
   if (!config.componentOut && !config.appOut) {
@@ -42,17 +42,24 @@ export function validateConfig(
     config.name = 'Untitled';
   }
 
-  config.tsconfig = convertToAbsolutePath(config.tsconfig);
-  config.appOut = convertToAbsolutePath(config.appOut);
-  config.componentOut = convertToAbsolutePath(config.componentOut);
+  if (!config.tsconfig) {
+    config.tsconfig = 'tsconfig.json';
+  }
+
+  config.tsconfig = convertToAbsolutePath(showcaseDir, config.tsconfig);
+  config.appOut = convertToAbsolutePath(showcaseDir, config.appOut);
+  config.componentOut = convertToAbsolutePath(showcaseDir, config.componentOut);
 
   return true;
 }
 
-function convertToAbsolutePath(path?: string): string | undefined {
+function convertToAbsolutePath(
+  showcaseDir: string,
+  path?: string
+): string | undefined {
   if (path === undefined || isAbsolute(path)) {
     return path;
   }
 
-  return join(cwd, path);
+  return join(showcaseDir, path);
 }

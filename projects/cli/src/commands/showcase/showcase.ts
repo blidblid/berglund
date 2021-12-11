@@ -3,7 +3,7 @@ import { copySync } from 'fs-extra';
 import { JSDOM } from 'jsdom';
 import marked from 'marked';
 import * as yargs from 'yargs';
-import { readConfig } from '../../core';
+import { readConfigs } from '../../core';
 import { directories, fileNames, paths } from '../../core/constants';
 import { join } from '../../core/path';
 import { TsAstParser } from '../../core/ts-ast/ts-ast-parser';
@@ -49,32 +49,38 @@ export const SHOWCASE_COMMAND: yargs.CommandModule = {
   handler,
 };
 
-async function handler(args: yargs.Arguments<ShowcaseConfig>) {
-  const config: ShowcaseConfig = {
-    ...args,
-    ...readConfig(fileNames.showcaseConfig),
-  };
+async function handler(args: yargs.Arguments<ShowcaseConfig>): Promise<void> {
+  for (const configFile of readConfigs<ShowcaseConfig>(
+    fileNames.showcaseConfig
+  )) {
+    const config: ShowcaseConfig = {
+      ...args,
+      ...configFile.content,
+    };
 
-  if (!validateConfig(config)) {
-    return;
+    console.log(`Creating showcase for ${configFile.dir}`);
+
+    if (!validateConfig(configFile.dir, config)) {
+      return;
+    }
+
+    const getComponents: GetComponent[] = [];
+
+    if (config.api) {
+      getComponents.push(getApiComponent);
+    }
+
+    if (config.readme) {
+      getComponents.push(getReadmeComponent);
+    }
+
+    await showcase(config, configFile.dir, getComponents);
   }
-
-  const getters: GetComponent[] = [];
-
-  if (config.api) {
-    getters.push(getApiComponent);
-  }
-
-  if (config.readme) {
-    getters.push(getReadmeComponent);
-  }
-
-  showcase(config, getters);
 }
 
 export const getReadmeComponent = async (context: Context) => {
   const readmePath = join(
-    context.dir,
+    context.featureDir,
     context.featureConfig.readmePath || fileNames.readmeMd
   );
 
@@ -94,19 +100,15 @@ export const getReadmeComponent = async (context: Context) => {
 
 export const getApiComponent = async (context: Context) => {
   const entryPointPath = join(
-    context.dir,
-    context.featureConfig.entryPointPath || fileNames.index
+    context.featureDir,
+    context.featureConfig.entryPointPath ?? fileNames.index
   );
 
   if (!existsSync(entryPointPath)) {
     return null;
   }
 
-  const apiGroups = await new TsdocAstParser(
-    context,
-    entryPointPath,
-    context.showcaseConfig.tsconfig
-  ).parse();
+  const apiGroups = await new TsdocAstParser(context, entryPointPath).parse();
 
   if (apiGroups.length === 0) {
     return null;
@@ -125,6 +127,7 @@ export type GetComponent = (context: Context) => Promise<Component | null>;
 
 export async function showcase(
   showcaseConfig: ValidatedShowcaseConfig,
+  showcaseDir: string,
   getComponents: GetComponent[] = [getApiComponent, getReadmeComponent]
 ): Promise<void> {
   const outDir = createOutDir(
@@ -152,6 +155,7 @@ export async function showcase(
   };
 
   const features = readFeatures(
+    showcaseDir,
     showcaseConfig.featureGlob,
     showcaseConfig.featureIgnoreGlob
   );
@@ -159,7 +163,7 @@ export async function showcase(
   for (const feature of features) {
     const featureComponents: Component[] = [];
 
-    const context = new Context(feature.dir, showcaseConfig);
+    const context = new Context(showcaseDir, feature.dir, showcaseConfig);
 
     for (const getComponent of getComponents) {
       const component = await getComponent(context);

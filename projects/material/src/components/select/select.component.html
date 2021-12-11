@@ -18,6 +18,7 @@
       <mat-optgroup *ngFor="let group of groupedData"
                     [label]="group.label">
         <mat-option *ngFor="let option of group.data"
+                    [disabled]="_pluckDisabledFn(option)"
                     [value]="option">
           {{ _pluckLabelFn(option) }}
         </mat-option>

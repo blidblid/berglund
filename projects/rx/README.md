@@ -38,9 +38,7 @@ export class UserRx {
 
 ### Step 2 - make observable connectable using subjects
 
-In step 1, the information flow missing a key part - at no point does it describe where a user interacts with it.
-
-This is where the second step comes in: revisit the observables above and wrap some of them with `userInput`. This will create a `Subject` and subscribe it to that observable. The observable has become _connectable_ in the sense that we can push values onto it.
+In step 1, the information flow does not describe user interaction. This is where the second step comes in. Revisit the observables above and wrap some of them with `userInput`. This will create a `Subject` and subscribe it to that observable. The observable has become _connectable_, in the sense that values can be pushed onto it.
 
 ```typescript
 import { userInput } from '@berglund/rx';

@@ -16,7 +16,8 @@ export class Context {
   relativeGitUrl?: string;
 
   constructor(
-    public dir: string,
+    public showcaseDir: string,
+    public featureDir: string,
     public showcaseConfig: ValidatedShowcaseConfig
   ) {
     this.setFeatureConfig();
@@ -27,7 +28,7 @@ export class Context {
   }
 
   private setFeatureConfig(): void {
-    const featureConfigPath = join(this.dir, fileNames.featureConfig);
+    const featureConfigPath = join(this.featureDir, fileNames.featureConfig);
     this.featureConfig = readJsonObjectSafely(featureConfigPath, {});
   }
 
@@ -41,7 +42,7 @@ export class Context {
 
       this.userIds.add(this.id);
     } else {
-      const segments = this.dir.split('/');
+      const segments = this.featureDir.split('/');
       segments.shift();
 
       for (const segment of segments.reverse()) {
@@ -70,11 +71,11 @@ export class Context {
       return;
     }
 
-    this.relativeGitUrl = this.dir.replace(gitParentDir, '');
+    this.relativeGitUrl = this.featureDir.replace(gitParentDir, '');
   }
 
   private findGitParentDir(): string | null {
-    let searchGitAt = this.dir;
+    let searchGitAt = this.featureDir;
 
     while (searchGitAt) {
       if (existsSync(join(searchGitAt, directories.git))) {
@@ -89,7 +90,7 @@ export class Context {
 
   private setIsRoot(): void {
     this.isRoot =
-      existsSync(join(this.dir, fileNames.package)) ||
-      existsSync(join(this.dir, fileNames.showcaseConfig));
+      existsSync(join(this.featureDir, fileNames.package)) ||
+      existsSync(join(this.featureDir, fileNames.showcaseConfig));
   }
 }
