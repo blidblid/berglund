@@ -8,7 +8,12 @@ export interface TestWrapperComponent {
 export interface QueriesDomChange {
   thenSelector(
     expect: MixinComponentExpect<HTMLElement | null>,
-    selector?: string
+    selector: string
+  ): QueriesDomChange;
+
+  thenAllSelector(
+    expect: MixinComponentExpect<HTMLElement[]>,
+    selector: string
   ): QueriesDomChange;
 
   thenTextContent(

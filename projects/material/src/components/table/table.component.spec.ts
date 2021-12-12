@@ -1,23 +1,69 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MixinComponentInputs } from '@berglund/mixins';
+import {
+  getDisabledSpec,
+  getHintSpec,
+  getLabelSpec,
+  MixinComponentTester,
+  testComponentInputs,
+} from '@berglund/mixins/testing';
 import { BergTableComponent } from './table.component';
+import { BergTableModule } from './table.module';
 
 describe('BergTableComponent', () => {
-  let component: BergTableComponent;
-  let fixture: ComponentFixture<BergTableComponent>;
+  let tester: MixinComponentTester<BergTableComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [BergTableComponent],
-    }).compileComponents();
-  });
+  describe('mixins', () => {
+    beforeEach(() => {
+      tester = new MixinComponentTester(BergTableComponent, [BergTableModule]);
+    });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(BergTableComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    it('should mixin label', () => {
+      testComponentInputs(tester, [getLabelSpec(), getHintSpec()]);
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    it('should mixin interactive', () => {
+      testComponentInputs(tester, [getDisabledSpec()]);
+    });
+
+    it('should mixin collection', () => {
+      const data = [
+        { id: 'f', name: 'Fire' },
+        { id: 'w', name: 'Water' },
+        { id: 'e', name: 'Earth' },
+      ];
+
+      const commonInputs: MixinComponentInputs<BergTableComponent> = {
+        data,
+        columns: [
+          {
+            key: 'name',
+          },
+        ],
+      };
+
+      testComponentInputs(tester, [
+        {
+          givenInputs: commonInputs,
+          thenDomChange: {
+            thenAllSelector: [
+              (elements) => expect(elements.length).toBe(data.length),
+              '.mat-row',
+            ],
+          },
+        },
+        {
+          givenInputs: {
+            ...commonInputs,
+            pluckCellLabel: (element, column) => element[column],
+          },
+          thenDomChange: {
+            thenTextContent: [
+              (textContent) => expect(textContent).toBe(data[0].name),
+              '.mat-row',
+            ],
+          },
+        },
+      ]);
+    });
   });
 });

@@ -45,9 +45,17 @@ export class MixinComponentTester<T> implements QueriesDomChange {
 
   thenSelector(
     mixinExpect: MixinComponentExpect<HTMLElement | null>,
-    selector?: string
+    selector: string
   ): MixinComponentTester<T> {
     this.expectElement(mixinExpect, this.getElement(selector));
+    return this;
+  }
+
+  thenAllSelector(
+    mixinExpect: MixinComponentExpect<HTMLElement[]>,
+    selector: string
+  ): MixinComponentTester<T> {
+    this.expectElements(mixinExpect, this.getElements(selector));
     return this;
   }
 
@@ -90,8 +98,22 @@ export class MixinComponentTester<T> implements QueriesDomChange {
     return element !== null;
   }
 
+  private expectElements(
+    expect: MixinComponentExpect<HTMLElement[]>,
+    elements: HTMLElement[]
+  ): elements is [HTMLElement, ...HTMLElement[]] {
+    expect(elements);
+    return elements.length > 0;
+  }
+
   private getElement(selector?: string): HTMLElement | null {
     return selector ? this.hostElem.querySelector(selector) : this.hostElem;
+  }
+
+  private getElements(selector?: string): HTMLElement[] {
+    return selector
+      ? Array.from(this.hostElem.querySelectorAll(selector))
+      : [this.hostElem];
   }
 
   private createComponent(inputs?: MixinComponentInputs<T>): void {

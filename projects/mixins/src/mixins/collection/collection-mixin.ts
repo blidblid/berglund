@@ -111,8 +111,8 @@ export function mixinCollection<
 
     pluckLabel: CollectionPluckLabel<V> | Observable<CollectionPluckLabel<V>>;
     _pluckLabel: CollectionPluckLabel<V>;
-    _pluckLabel$ = this.defineAccessors('pluckLabel', (value, property) => {
-      return `${property ? value[property] : value}`;
+    _pluckLabel$ = this.defineAccessors('pluckLabel', (value) => {
+      return `${value}`;
     });
     _pluckLabelFn$ = this._pluckLabel$.pipe(map((value) => this._pluck(value)));
     get _pluckLabelFn(): CollectionPluckLabelFn<V> {

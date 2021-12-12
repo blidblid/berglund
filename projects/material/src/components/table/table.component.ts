@@ -6,9 +6,10 @@ import {
 } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { BergTableBase } from '@berglund/mixins';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, pluck, startWith } from 'rxjs/operators';
 import { enumerateInputs } from '../../util';
+import { BergTablePluckCellLabelFn } from './table-model';
 
 @Component({
   selector: 'berg-table',
@@ -19,6 +20,7 @@ import { enumerateInputs } from '../../util';
   inputs: enumerateInputs(
     BergTableComponent,
     'data',
+    'pluckCellLabel',
     'pluckLabel',
     'pluckDisabled',
     'pluckRearrangeable',
@@ -63,6 +65,18 @@ export class BergTableComponent extends BergTableBase {
       descending: sort.direction === 'desc',
     });
   }
+
+  pluckCellLabel:
+    | BergTablePluckCellLabelFn
+    | Observable<BergTablePluckCellLabelFn>;
+  _pluckCellLabel: BergTablePluckCellLabelFn;
+  _pluckCellLabel$ = this.defineAccessors(
+    'pluckCellLabel',
+    (value: any, column: any) => {
+      return `${value[column]}`;
+    }
+  );
+
   constructor(protected override injector: Injector) {
     super(injector);
   }

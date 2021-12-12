@@ -1,3 +1,5 @@
+<mat-label *ngIf="_label">{{_label}}</mat-label>
+
 <table mat-table
        [dataSource]="_ungroupedData$"
        [attr.aria-label]="_ariaLabel"
@@ -15,7 +17,7 @@
 
     <td mat-cell
         *matCellDef="let row">
-      {{ _pluckLabelFn(row, column.key) }}
+      {{ _pluckCellLabel(row, column.key) }}
     </td>
   </ng-container>
 

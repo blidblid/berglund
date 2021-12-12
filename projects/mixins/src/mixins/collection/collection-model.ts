@@ -44,10 +44,7 @@ export interface Collection<
 export type CollectionSelectionType = 'single' | 'radio' | 'multiple' | 'none';
 
 /** Function pluck labels with. */
-export type CollectionPluckLabelFn<T> = (
-  value: T,
-  property?: keyof T
-) => string;
+export type CollectionPluckLabelFn<T> = (value: T) => string;
 
 /** Function or key to pluck labels with. */
 export type CollectionPluckLabel<T> =
