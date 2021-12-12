@@ -33,18 +33,14 @@ export class LocalStorageCache {
     try {
       return this.readLocalStorage(key, fallbackApi);
     } catch {
-      // tslint:disable-next-line
-      console.warn(
-        'LocalStorage full. Consider deleting browser history to enable persistant cache.'
-      );
       return fallbackApi;
     }
   }
 
   private readLocalStorage<T>(key: string, fallbackApi: Observable<T>) {
-    const stringFromlocalStorage = localStorage.getItem(key);
-    const fromLocalStorage = stringFromlocalStorage
-      ? JSON.parse(stringFromlocalStorage)
+    const stringFromLocalStorage = localStorage.getItem(key);
+    const fromLocalStorage = stringFromLocalStorage
+      ? JSON.parse(stringFromLocalStorage)
       : null;
 
     if (fromLocalStorage) {

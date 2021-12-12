@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ErrorPipeModule } from '@berglund/mixins';
+import { BergErrorPipeModule } from '@berglund/mixins';
 import { BergButtonComponent } from './button.component';
 
 @NgModule({
@@ -13,7 +13,7 @@ import { BergButtonComponent } from './button.component';
   exports: [BergButtonComponent],
   imports: [
     CommonModule,
-    ErrorPipeModule,
+    BergErrorPipeModule,
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,

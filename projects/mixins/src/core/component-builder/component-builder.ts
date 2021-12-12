@@ -1,5 +1,4 @@
 import {
-  ComponentFactoryResolver,
   ComponentRef,
   Injectable,
   Injector,
@@ -15,7 +14,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class BergComponentBuilder {
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
+  constructor(private injector: Injector) {}
 
   create<T, V>(
     mixinComponent: MixinComponent<T>,
@@ -46,15 +45,12 @@ export class BergComponentBuilder {
     viewContainerRef: ViewContainerRef,
     context?: ComponentOutletContext
   ): ComponentRef<T> {
-    const { component, inputs } = mixinComponent;
-
-    const factory =
-      this.componentFactoryResolver.resolveComponentFactory(component);
-
     const componentRef = viewContainerRef.createComponent(
-      factory,
-      viewContainerRef.length,
-      this.createInjector(inputs, context)
+      mixinComponent.component,
+      {
+        index: viewContainerRef.length,
+        injector: this.createInjector(mixinComponent.inputs, context),
+      }
     );
 
     return componentRef;
@@ -65,6 +61,7 @@ export class BergComponentBuilder {
     context?: ComponentOutletContext
   ): Injector {
     return Injector.create({
+      parent: this.injector,
       providers: [
         { provide: COMPONENT_INPUTS, useValue: inputs ?? null },
         { provide: COMPONENT_OUTLET_CONTEXT, useValue: context ?? null },

@@ -21,10 +21,16 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { mouseStationary } from '@berglund/rx';
-import { BehaviorSubject, fromEvent, merge, Subject } from 'rxjs';
+import { BehaviorSubject, fromEvent, merge, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
-import { BergPopperInputs, BERG_POPPER_INPUTS } from './popper-model';
-import { BERG_POPPER_CONTENT, DEFAULT_INPUTS } from './popper-model-private';
+import {
+  BergPopperCloseTrigger,
+  BergPopperInputs,
+  BergPopperOpenTrigger,
+  BERG_POPPER_DEFAULT_INPUTS,
+  BERG_POPPER_INPUTS,
+} from './popper-model';
+import { BERG_POPPER_CONTENT } from './popper-model-private';
 import { BergPopperComponent } from './popper.component';
 
 @Directive({
@@ -50,28 +56,31 @@ export class BergPopperDirective
     this._followMouse = coerceBooleanProperty(value);
   }
   private _followMouse: boolean =
-    this.inputs?.followMouse ?? DEFAULT_INPUTS.followMouse;
+    this.inputs?.followMouse ?? BERG_POPPER_DEFAULT_INPUTS.followMouse;
 
   /** Whether the popover is disabled. */
   @Input('bergPopperDisabled')
   set disabled(value: boolean) {
     this._disabled = coerceBooleanProperty(value);
   }
-  private _disabled: boolean = this.inputs?.disabled ?? DEFAULT_INPUTS.disabled;
+  private _disabled: boolean =
+    this.inputs?.disabled ?? BERG_POPPER_DEFAULT_INPUTS.disabled;
 
   /** Offset of popover from cursor. */
   @Input('bergPopperCursorOffset')
   cursorOffset: number =
-    this.inputs?.cursorOffset ?? DEFAULT_INPUTS.cursorOffset;
+    this.inputs?.cursorOffset ?? BERG_POPPER_DEFAULT_INPUTS.cursorOffset;
 
-  /** Mouse event that should trigger the popper. */
-  @Input('bergPopperTrigger') trigger: 'enter' | 'stationary' =
-    this.inputs?.trigger ?? DEFAULT_INPUTS.trigger;
+  /** Event that should open the popper. */
+  @Input('bergPopperOpenTrigger') openTrigger: BergPopperOpenTrigger =
+    this.inputs?.openTrigger ?? BERG_POPPER_DEFAULT_INPUTS.openTrigger;
+
+  /** Event that should close the popper. */
+  @Input('bergPopperCloseTrigger') closeTrigger: BergPopperCloseTrigger =
+    this.inputs?.closeTrigger ?? BERG_POPPER_DEFAULT_INPUTS.closeTrigger;
 
   private overlayRef: OverlayRef;
-
   private destroySub = new Subject<void>();
-
   private portal: ComponentPortal<any> | TemplatePortal;
 
   private get hostElem() {
@@ -117,22 +126,26 @@ export class BergPopperDirective
 
     const ref = this.ref || '';
 
-    return ref instanceof Type
-      ? new ComponentPortal(ref, this.viewContainerRef)
-      : typeof ref === 'string'
-      ? new ComponentPortal(
-          BergPopperComponent,
-          undefined,
-          Injector.create({
-            providers: [
-              {
-                provide: BERG_POPPER_CONTENT,
-                useValue: this.refSub.asObservable(),
-              },
-            ],
-          })
-        )
-      : new TemplatePortal(ref, this.viewContainerRef);
+    if (ref instanceof Type) {
+      return new ComponentPortal(ref, this.viewContainerRef);
+    }
+
+    if (typeof ref === 'string') {
+      return new ComponentPortal(
+        BergPopperComponent,
+        undefined,
+        Injector.create({
+          providers: [
+            {
+              provide: BERG_POPPER_CONTENT,
+              useValue: this.refSub.asObservable(),
+            },
+          ],
+        })
+      );
+    }
+
+    return new TemplatePortal(ref, this.viewContainerRef);
   }
 
   private createOverlayConfig(): OverlayConfig {
@@ -173,20 +186,17 @@ export class BergPopperDirective
   private buildOpenerObservables(): void {
     const focus$ = fromEvent(this.hostElem, 'focus');
     const blur$ = fromEvent(this.hostElem, 'blur');
-    const mouseleave$ = fromEvent(this.hostElem, 'mouseleave');
-    const mouseOpen$ =
-      this.trigger === 'stationary'
-        ? mouseStationary(this.hostElem)
-        : fromEvent(this.hostElem, 'mouseenter');
+    const openTrigger$ = this.fromOpenTrigger(this.openTrigger);
+    const closeTrigger$ = this.fromCloseTrigger(this.closeTrigger);
 
-    const open$ = merge(focus$, mouseOpen$).pipe(
+    const open$ = merge(focus$, openTrigger$).pipe(
       map(() => true),
       filter(() => !this._disabled)
     );
 
     const event$ = merge(
       open$,
-      merge(blur$, mouseleave$).pipe(map(() => false))
+      merge(blur$, closeTrigger$).pipe(map(() => false))
     ).pipe(distinctUntilChanged());
 
     event$.pipe(takeUntil(this.destroySub)).subscribe((open) => {
@@ -196,6 +206,34 @@ export class BergPopperDirective
         this.close();
       }
     });
+  }
+
+  private fromOpenTrigger(trigger: BergPopperOpenTrigger): Observable<Event> {
+    if (trigger === 'mousestationary') {
+      return mouseStationary(this.hostElem);
+    }
+
+    if (trigger === 'mouseenter') {
+      return fromEvent(this.hostElem, 'mouseenter');
+    }
+
+    if (typeof trigger !== 'function') {
+      throw new Error(`Unknown open trigger ${trigger}`);
+    }
+
+    return trigger(this.hostElem);
+  }
+
+  private fromCloseTrigger(trigger: BergPopperCloseTrigger): Observable<Event> {
+    if (trigger === 'mouseleave') {
+      return fromEvent(this.hostElem, 'mouseleave');
+    }
+
+    if (typeof trigger !== 'function') {
+      throw new Error(`Unknown close trigger ${trigger}`);
+    }
+
+    return trigger(this.hostElem);
   }
 
   private buildPositionObservables(): void {

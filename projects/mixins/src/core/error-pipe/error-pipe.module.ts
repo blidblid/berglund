@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ErrorPipe } from './error.pipe';
+import { BergErrorPipe } from './error.pipe';
 
 @NgModule({
-  declarations: [ErrorPipe],
-  exports: [ErrorPipe],
+  declarations: [BergErrorPipe],
+  exports: [BergErrorPipe],
   imports: [CommonModule],
 })
-export class ErrorPipeModule {}
+export class BergErrorPipeModule {}

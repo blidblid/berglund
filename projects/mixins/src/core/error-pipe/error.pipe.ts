@@ -12,7 +12,7 @@ import {
 @Pipe({
   name: 'error',
 })
-export class ErrorPipe implements PipeTransform {
+export class BergErrorPipe implements PipeTransform {
   constructor(
     @Optional() @Inject(ERROR_PIPE_HANDLER) private handlers: ErrorPipeHandler[]
   ) {
@@ -27,6 +27,6 @@ export class ErrorPipe implements PipeTransform {
       }
     }
 
-    return 'Invalid value.';
+    return '';
   }
 }

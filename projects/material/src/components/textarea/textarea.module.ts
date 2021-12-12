@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ErrorPipeModule } from '@berglund/mixins';
+import { BergErrorPipeModule } from '@berglund/mixins';
 import { BergTextareaComponent } from './textarea.component';
 
 @NgModule({
@@ -12,7 +12,7 @@ import { BergTextareaComponent } from './textarea.component';
   exports: [BergTextareaComponent],
   imports: [
     CommonModule,
-    ErrorPipeModule,
+    BergErrorPipeModule,
     MatFormFieldModule,
     MatInputModule,
     TextFieldModule,
