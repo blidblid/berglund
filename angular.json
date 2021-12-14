@@ -56,7 +56,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@berglund/angular-cli-hooks:browser",
           "options": {
             "outputPath": "dist/app",
             "index": "projects/app/src/index.html",

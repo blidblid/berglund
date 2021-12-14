@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "es2019",
+    "module": "CommonJS",
+    "rootDir": "./",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "declaration": true,
+    "declarationMap": true,
+    "strictNullChecks": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "noErrorTruncation": true,
+    "resolveJsonModule": true,
+    "lib": ["dom", "es2018"]
+  },
+  "include": [
+    "./src",
+    "./builders.json",
+    "./package.json",
+    "./schema.json",
+    "./src/builders/app-shell/schema.json",
+    "./src/builders/browser/schema.json",
+    "./src/builders/dev-server/schema.json",
+    "./src/builders/extract-i18n/schema.json",
+    "./src/builders/karma/schema.json",
+    "./src/builders/ng-packagr/schema.json",
+    "./src/builders/protractor/schema.json",
+    "./src/builders/server/schema.json"
+  ]
+}

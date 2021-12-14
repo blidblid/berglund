@@ -11,7 +11,11 @@
       "@berglund/mixins": ["./projects/mixins/src"],
       "@berglund/mixins/testing": ["./projects/mixins/testing/src"],
       "@berglund/mixins/generators": ["./projects/mixins/generators/src"],
-      "@berglund/firebase": ["./projects/firebase/src"]
+      "@berglund/firebase": ["./projects/firebase/src"],
+      "angular-cli-hooks": [
+        "dist/angular-cli-hooks/angular-cli-hooks",
+        "dist/angular-cli-hooks"
+      ]
     }
   }
 }
