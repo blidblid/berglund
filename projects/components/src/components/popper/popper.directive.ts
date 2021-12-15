@@ -156,8 +156,8 @@ export class BergPopperDirective
   }
 
   private createPositionStrategy(
-    xOffset: number = 0,
-    yOffset: number = 0
+    xOffset = 0,
+    yOffset = 0
   ): FlexibleConnectedPositionStrategy {
     const origin: ConnectedPosition = {
       originX: 'center',

@@ -5,14 +5,14 @@ import { ESLint } from 'eslint';
 const hooks: Hook[] = [
   {
     name: 'executeBrowserBuilder',
-    after: async ({
+    before: async ({
       workspaceRoot,
     }: BuilderContext): Promise<BuilderOutput> => {
       const eslint = new ESLint();
       const results = await eslint.lintFiles([`${workspaceRoot}/**/*.ts`]);
 
       if (results.length > 0) {
-        throw new Error('');
+        console.log((await eslint.loadFormatter()).format(results));
       }
 
       return { success: true };

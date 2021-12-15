@@ -41,7 +41,7 @@ export class CrudApi<T extends Entity> {
   push(value: T): string {
     const id = value.id || this.afd.createPushId();
 
-    this.afd.object<T>(this.getPath(id)).set({
+    void this.afd.object<T>(this.getPath(id)).set({
       ...value,
       id: id,
     });
@@ -83,7 +83,7 @@ export class CrudApi<T extends Entity> {
       .pipe(map((posts) => posts.reverse()));
   }
 
-  getProperty<K1 extends keyof T, K2 extends keyof T[K1]>(
+  getProperty<K1 extends keyof T>(
     id: string,
     property: K1
   ): Observable<T[K1] | null>;

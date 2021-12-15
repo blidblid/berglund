@@ -8,6 +8,10 @@ export function toRelativePath(path: string): string {
   return `./${path}`;
 }
 
+export function toPosixPath(path: string): string {
+  return path.replace(/\\/g, '/');
+}
+
 export function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }

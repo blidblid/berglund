@@ -2,7 +2,6 @@
 
 # compiled output
 **/dist
-**/components-showcase
 **/generated
 **/tmp
 /showcase
@@ -35,6 +34,7 @@ chrome-profiler-events*.json
 .history/*
 
 # misc
+firebase-debug.log
 *.cache
 .angular
 /.sass-cache

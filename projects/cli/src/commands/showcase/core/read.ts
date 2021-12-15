@@ -5,8 +5,7 @@ import { ShowcaseConfig } from './../schemas/showcase/schema';
 
 type RequiredBy<T, K extends keyof T> = T & Required<Pick<T, K>>;
 
-export interface ValidatedShowcaseConfig
-  extends RequiredBy<ShowcaseConfig, 'componentOut' | 'name' | 'tsconfig'> {}
+export type ValidatedShowcaseConfig = RequiredBy<ShowcaseConfig, 'componentOut' | 'name' | 'tsconfig'>
 
 export interface FeaturePath {
   path: string;

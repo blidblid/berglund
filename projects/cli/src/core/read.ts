@@ -20,7 +20,7 @@ export function readParentConfig<T>(
 
     if (existsSync(configPath)) {
       return {
-        content: JSON.parse(readFileSync(configPath, 'utf-8')),
+        content: JSON.parse(readFileSync(configPath, 'utf-8')) as T,
         dir: path,
       };
     }
@@ -37,12 +37,12 @@ export function readParentConfig<T>(
   return null;
 }
 
-function readChildConfigs(configFileName: string): any[] {
+function readChildConfigs<T>(configFileName: string): ConfigFile<T>[] {
   return sync([cwd, '**', configFileName].join('/'), {
     ignore: '**/node_modules',
   }).map((path) => {
     return {
-      content: JSON.parse(readFileSync(path, 'utf-8')),
+      content: JSON.parse(readFileSync(path, 'utf-8')) as T,
       dir: dirname(path),
     };
   });

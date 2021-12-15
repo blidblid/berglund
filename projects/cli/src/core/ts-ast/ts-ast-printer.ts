@@ -91,7 +91,7 @@ export class TsAstPrinter {
             undefined,
             f.createArrayLiteralExpression(
               files.map((file) => {
-                return f.createIdentifier(file.className!);
+                return f.createIdentifier(file.className ?? '');
               }),
               true
             )

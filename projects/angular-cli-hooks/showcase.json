@@ -1,0 +1,20 @@
+{
+  "appOut": "../../showcase/projects/angular-cli-hooks",
+  "tsconfig": "./tsconfig.lib.json",
+  "name": "@berglund/angular-cli-hooks",
+  "repositoryUrl": "https://github.com/blidblid/berg/tree/main/projects/angular-cli-hooks",
+  "appExternalLinks": [
+    {
+      "name": "@berglund/material",
+      "href": "https://material.albinberglund.com"
+    },
+    {
+      "name": "@berglund/mixins",
+      "href": "https://mixins.albinberglund.com"
+    },
+    {
+      "name": "@berglund/rx",
+      "href": "https://rx.albinberglund.com"
+    }
+  ]
+}

@@ -72,7 +72,7 @@ export class PresentCharacterComponents {
         shareReplay(1)
       ),
       updateRouteFromValue: (value: Character | null, router: Router) => {
-        router.navigate([], {
+        void router.navigate([], {
           queryParams: {
             characterName: value?.characterName,
           },

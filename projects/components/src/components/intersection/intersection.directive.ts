@@ -17,7 +17,7 @@ export class BergIntersectionDirective {
 
   private intersectionEntriesSub = new Subject<IntersectionObserverEntry[]>();
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef<HTMLElement>) {}
 
   observe(element: HTMLElement): Observable<boolean> {
     this.intersectionObserver.observe(element);

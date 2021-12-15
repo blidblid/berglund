@@ -17,7 +17,7 @@ export class ReadmeComponentFactory extends ComponentFactory {
     super(context, readmeDomBuilder, tsComponentAstPrinter);
   }
 
-  async create() {
+  create() {
     return this.createComponent(this.readmeDomBuilder.getExampleComponents());
   }
 }

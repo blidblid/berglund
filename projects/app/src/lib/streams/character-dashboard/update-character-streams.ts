@@ -52,7 +52,6 @@ export class UpdateCharacterStreams {
     this.luckyNumber,
     this.drinks
   );
-  constructor() {}
 }
 
 function mockApi(

@@ -27,7 +27,7 @@ export function eagerUnflatten<T, K1, K2, K3, K4>(
   c: Observable<K3>,
   d: Observable<K4>
 ): Observable<T>;
-export function eagerUnflatten<T, O, K1, K2, K3, K4, K5>(
+export function eagerUnflatten<T, K1, K2, K3, K4, K5>(
   api: (a: K1, b: K2, c: K3, d: K4, e: K5) => Observable<T>,
   unflattener: typeof switchMap,
   a: Observable<K1>,

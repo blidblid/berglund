@@ -67,6 +67,6 @@ export class MainComponent {
   }
 
   toggleSidenav(): void {
-    this.sidenav.toggle();
+    void this.sidenav.toggle();
   }
 }

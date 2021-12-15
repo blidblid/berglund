@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import * as yargonaut from 'yargonaut';
 import * as Yargs from 'yargs';
 import { MODEL_COMMAND } from './commands/model/model';
 import { SHOWCASE_COMMAND } from './commands/showcase/showcase';
@@ -9,12 +8,13 @@ import { SHOWCASE_COMMAND } from './commands/showcase/showcase';
 // that are used in Angular attributes.
 // https://github.com/jsdom/jsdom/issues/2477
 (function monkeyPatch() {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const validateNames = require('jsdom/lib/jsdom/living/helpers/validate-names.js');
   const qname_ = validateNames.qname;
   validateNames.qname = (name: string) => {
     try {
       qname_(name);
-    } catch {}
+    } catch {} // eslint-disable-line no-empty
   };
 })();
 
@@ -23,7 +23,7 @@ function handleError(error: any) {
   process.exit(1);
 }
 
-process.on('unhandledRejection', (reason, p) => {
+process.on('unhandledRejection', (reason) => {
   handleError(reason);
 });
 
@@ -31,16 +31,10 @@ process.on('uncaughtException', (error) => {
   handleError(error);
 });
 
-(async function run() {
-  yargonaut
-    .style('blue')
-    .style('blue', 'number')
-    .errorsStyle('red')
-    .style('green', ['default:', 'choices:']);
-
+void (async function run() {
   const commandChain = Yargs.command(SHOWCASE_COMMAND).command(MODEL_COMMAND);
 
-  commandChain
+  await commandChain
     .usage('\n Usage: berg <command>')
     .wrap(Math.min(Yargs.terminalWidth(), 150))
     .version(false)

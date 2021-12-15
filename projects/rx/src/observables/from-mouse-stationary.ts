@@ -3,7 +3,7 @@ import { debounceTime, map, switchMap, take, takeUntil } from 'rxjs/operators';
 
 export function mouseStationary(
   element: HTMLElement,
-  debounce: number = 250
+  debounce = 250
 ): Observable<MouseEvent> {
   const mousemove$ = fromEvent<MouseEvent>(element, 'mousemove');
   const mouseleave$ = fromEvent<MouseEvent>(element, 'mouseleave');

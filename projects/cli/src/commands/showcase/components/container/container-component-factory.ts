@@ -21,17 +21,21 @@ export class ContainerComponentFactory extends ComponentFactory {
     super(context, containerDomBuilder, tsComponentAstPrinter);
   }
 
-  async create(): Promise<ContainerComponent | null> {
+  create(): ContainerComponent | null {
     if (this.children.length === 0) {
       return null;
     }
 
-    return {
-      ...this.createComponent()!,
-      name: this.context.name,
-      children: this.children,
-      type: this.resolveComponentType(),
-    };
+    const component = this.createComponent();
+
+    return (
+      component && {
+        ...component,
+        name: this.context.name,
+        children: this.children,
+        type: this.resolveComponentType(),
+      }
+    );
   }
 
   private resolveComponentType(): ShowcaseComponentType {

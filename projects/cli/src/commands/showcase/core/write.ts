@@ -1,10 +1,10 @@
 import { exec } from 'child_process';
 import { existsSync, writeFileSync } from 'fs';
-import { copySync, ensureDirSync, mkdirSync } from 'fs-extra';
+import { copySync, emptyDirSync, ensureDirSync, mkdirSync } from 'fs-extra';
 import { promisify } from 'util';
 import { fileNames, paths } from '../../../core/constants';
 import { join } from '../../../core/path';
-import { replaceAngularSyntax } from '../../../core/util';
+import { replaceAngularSyntax, toPosixPath } from '../../../core/util';
 import { Component, ContainerComponent, File } from './dom-builder-model';
 import { ValidatedShowcaseConfig } from './read';
 import { TsCommonAstPrinter } from './ts-common-ast-printer';
@@ -80,7 +80,12 @@ export function writeComponent(component: Component, dir: string): void {
 
 export function writeApp(path: string): void {
   copySync(paths.app, path, {
-    filter: (src) => !src.includes('node_modules'),
+    filter: (src) => {
+      return (
+        !src.includes('node_modules') &&
+        !toPosixPath(src).includes(paths.appComponentOut)
+      );
+    },
   });
 }
 
@@ -90,6 +95,10 @@ export async function buildApp(path: string): Promise<void> {
 
 export function createOutDir(componentOut: string, appOut?: string): string {
   const outPath = appOut ? join(appOut, paths.appComponentOut) : componentOut;
+
+  if (appOut) {
+    emptyDirSync(outPath);
+  }
 
   if (!existsSync(outPath)) {
     mkdirSync(outPath, { recursive: true });

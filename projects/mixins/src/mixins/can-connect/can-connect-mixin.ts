@@ -1,7 +1,6 @@
 import { ValidationErrors } from '@angular/forms';
-import { Connectable } from '@berglund/rx';
-import { CanConnect, connectConnectable } from '@berglund/rx';
-import { asapScheduler, Observable, Subject } from 'rxjs';
+import { CanConnect, Connectable, connectConnectable } from '@berglund/rx';
+import { asapScheduler, Observable } from 'rxjs';
 import { delay, takeUntil } from 'rxjs/operators';
 import { Constructor, Mixin, MixinApi } from '../core';
 
@@ -32,7 +31,7 @@ export function mixinCanConnect<
 
       this._connect$
         // delay to let mixin finish mixing
-        .pipe(takeUntil(this.destroyed$), delay(0, asapScheduler))
+        .pipe(delay(0, asapScheduler), takeUntil(this.destroyed$))
         .subscribe((subject) => {
           if (subject) {
             connectConnectable(subject, this, this.destroyed$);

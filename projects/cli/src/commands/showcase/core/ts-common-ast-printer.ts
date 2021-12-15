@@ -129,7 +129,7 @@ export class TsCommonAstPrinter extends TsAstPrinter {
             ),
             factory.createPropertyAssignment(
               factory.createIdentifier('component'),
-              factory.createIdentifier(component.componentFile.className!)
+              factory.createIdentifier(component.componentFile.className ?? '')
             ),
             factory.createPropertyAssignment(
               factory.createIdentifier('children'),
@@ -197,7 +197,7 @@ export class TsCommonAstPrinter extends TsAstPrinter {
             ),
             factory.createPropertyAssignment(
               factory.createIdentifier('component'),
-              factory.createIdentifier(component.componentFile.className!)
+              factory.createIdentifier(component.componentFile.className ?? '')
             ),
           ],
           true
@@ -319,7 +319,9 @@ export class TsCommonAstPrinter extends TsAstPrinter {
               ),
               factory.createPropertyAssignment(
                 factory.createIdentifier('component'),
-                factory.createIdentifier(component.componentFile.className!)
+                factory.createIdentifier(
+                  component.componentFile.className ?? ''
+                )
               ),
               factory.createPropertyAssignment(
                 factory.createIdentifier('name'),

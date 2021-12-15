@@ -40,7 +40,7 @@ export class LocalStorageCache {
   private readLocalStorage<T>(key: string, fallbackApi: Observable<T>) {
     const stringFromLocalStorage = localStorage.getItem(key);
     const fromLocalStorage = stringFromLocalStorage
-      ? JSON.parse(stringFromLocalStorage)
+      ? (JSON.parse(stringFromLocalStorage) as T)
       : null;
 
     if (fromLocalStorage) {

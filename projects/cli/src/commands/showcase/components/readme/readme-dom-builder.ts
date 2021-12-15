@@ -89,7 +89,7 @@ export class ReadmeDomBuilder extends DomBuilder {
 
   private createComponentOutletElement(componentFile: File): HTMLElement {
     const element = this.document.createElement('ng-container');
-    this.setAttribute(element, '*ngComponentOutlet', componentFile.className!);
+    this.setAttribute(element, '*ngComponentOutlet', componentFile.className);
     return element;
   }
 
@@ -102,11 +102,16 @@ export class ReadmeDomBuilder extends DomBuilder {
     const showcaseComponents: ExampleComponent[] = [];
 
     while (files.length) {
-      const head = files.pop()!;
+      const head = files.pop()!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
+
+      if (!head.preElement.parentElement) {
+        continue;
+      }
+
       const showcaseComponent: ExampleComponent = {
         id: head.id,
         files: [head],
-        containerElement: head.preElement.parentElement!,
+        containerElement: head.preElement.parentElement,
       };
 
       for (const file of [...files]) {

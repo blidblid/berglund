@@ -8,6 +8,8 @@ import {
   SyntaxList,
 } from 'typescript';
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 export function chainTypeGuards<
   T extends (node: Node) => node is any,
   V extends Node
@@ -77,8 +79,8 @@ export function chainTypeGuards<
   t5: (node: Node) => node is V5,
   t6: (node: Node) => node is V6
 ): V6 | null;
-export function chainTypeGuards<T extends (node: Node) => node is any>(
-  node: any,
+export function chainTypeGuards<T extends (node: Node) => node is Node>(
+  node: Node,
   ...typeGuards: T[]
 ): any {
   for (const typeGuard of typeGuards) {

@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { Constructor, Mixin, MixinApi } from '../core';
 import { Label } from './label-model';
 
-interface LabelMixin extends MixinApi<Label> {}
+type LabelMixin = MixinApi<Label>;
 
 export type LabelConstructor = Constructor<LabelMixin>;
 

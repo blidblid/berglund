@@ -1,15 +1,14 @@
 import {
-  Component,
-  ViewEncapsulation,
   ChangeDetectionStrategy,
+  Component,
   OnDestroy,
+  ViewEncapsulation,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
-
-import { NavigatorService } from './navigator.service';
+import { map, switchMap, takeUntil } from 'rxjs/operators';
 import { NavigatorTarget } from './navigator-model';
+import { NavigatorService } from './navigator.service';
 
 @Component({
   selector: 'app-navigator',
@@ -46,9 +45,13 @@ export class NavigatorComponent implements OnDestroy {
 
     this.navigatorService
       .getRouting()
-      .pipe(takeUntil(this.destroySub))
-      .subscribe((resolvedQuery) => {
-        this.router.navigateByUrl(resolvedQuery.url);
+      .pipe(
+        switchMap((resolvedQuery) => {
+          return this.router.navigateByUrl(resolvedQuery.url);
+        }),
+        takeUntil(this.destroySub)
+      )
+      .subscribe(() => {
         this.navigatorService.reset();
       });
   }

@@ -10,7 +10,7 @@ export function actionArrayReducer<T>(): OperatorFunction<
       scan((acc, curr) => {
         switch (curr.action) {
           case 'add':
-            return [...acc, curr.value as T];
+            return [...acc, curr.value];
           case 'remove':
             return acc.filter((a) => a !== curr.value);
           case 'update':

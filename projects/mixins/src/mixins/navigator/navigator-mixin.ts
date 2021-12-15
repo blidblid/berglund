@@ -9,7 +9,7 @@ import {
   NavigatorUpdateRoute,
 } from './navigator-model';
 
-interface NavigatorMixin<T> extends MixinApi<Navigator<T>> {}
+type NavigatorMixin<T> = MixinApi<Navigator<T>>
 
 export type NavigatorConstructor<T> = Constructor<NavigatorMixin<T>>;
 

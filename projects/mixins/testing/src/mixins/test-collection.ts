@@ -1,7 +1,12 @@
 import { Collection } from '@berglund/mixins';
 import { MixinComponentSpec } from '../core';
 
-const DATA = [
+interface Element {
+  id: string;
+  name: string;
+}
+
+const DATA: Element[] = [
   { id: 'f', name: 'Fire' },
   { id: 'w', name: 'Water' },
   { id: 'e', name: 'Earth' },
@@ -29,7 +34,7 @@ export function getPluckLabelSpec(
   return {
     givenInputs: {
       data: DATA,
-      pluckLabel: (element) => element.name,
+      pluckLabel: (element: Element) => element.name,
     },
     thenDomChange: {
       thenTextContent: [

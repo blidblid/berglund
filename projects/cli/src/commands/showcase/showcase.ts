@@ -78,7 +78,7 @@ async function handler(args: yargs.Arguments<ShowcaseConfig>): Promise<void> {
   }
 }
 
-export const getReadmeComponent = async (context: Context) => {
+export const getReadmeComponent = (context: Context) => {
   const readmePath = join(
     context.featureDir,
     context.featureConfig.readmePath || fileNames.readmeMd
@@ -123,7 +123,9 @@ export const getApiComponent = async (context: Context) => {
   ).create();
 };
 
-export type GetComponent = (context: Context) => Promise<Component | null>;
+export type GetComponent = (
+  context: Context
+) => Component | null | Promise<Component | null>;
 
 export async function showcase(
   showcaseConfig: ValidatedShowcaseConfig,
@@ -174,7 +176,7 @@ export async function showcase(
       }
     }
 
-    const containerComponent = await new ContainerComponentFactory(
+    const containerComponent = new ContainerComponentFactory(
       context,
       new ContainerDomBuilder(new JSDOM(), context, featureComponents),
       new TsComponentAstPrinter(),

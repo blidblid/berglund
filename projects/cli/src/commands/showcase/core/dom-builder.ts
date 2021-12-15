@@ -103,22 +103,31 @@ export abstract class DomBuilder {
       listGroup.classList.add('berg-showcase-table-of-contents');
 
       for (const title of this.getTitles()) {
-        const id = title.getAttribute('id')!;
+        const id = title.getAttribute('id');
+
+        if (!id) {
+          continue;
+        }
+
         const item = this.document.createElement(this.listItemTagName);
         item.classList.add(
           `berg-showcase-table-of-contents-level-${tocLevels[title.tagName]}`
         );
+
         item.textContent = title.childNodes[0].textContent;
+
         this.setAttribute(
           item,
           '(click)',
           `updateLocationWithId('${id}', true)`
         );
+
         this.setAttribute(
           item,
           '[class.berg-showcase-active-item]',
           `isActiveRoute('${id}')`
         );
+
         listGroup.appendChild(item);
       }
 
@@ -127,7 +136,7 @@ export abstract class DomBuilder {
 
     const addLinkButtons = () => {
       for (const title of this.getTitles()) {
-        const id = title.getAttribute('id')!;
+        const id = title.getAttribute('id');
         const buttonElement = this.createIconButtonElement('link');
         this.setAttribute(
           buttonElement,
@@ -140,7 +149,7 @@ export abstract class DomBuilder {
 
     const addIntersectionObserverNodes = () => {
       for (const title of this.getTitles()) {
-        const id = title.getAttribute('id')!;
+        const id = title.getAttribute('id');
         this.setAttribute(title, 'bergIntersectionNode');
         this.setAttribute(
           title,
@@ -327,8 +336,12 @@ export abstract class DomBuilder {
   }
 
   protected cleanJsdom(body: HTMLElement): void {
-    const html = this.jsdom.window.document.querySelector('html')!;
-    this.jsdom.window.document.removeChild(html);
+    const html = this.jsdom.window.document.querySelector('html');
+
+    if (html) {
+      this.jsdom.window.document.removeChild(html);
+    }
+
     this.jsdom.window.document.appendChild(body);
   }
 }

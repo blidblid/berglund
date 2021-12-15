@@ -16,7 +16,7 @@ export function getConfig(context: BuilderContext): Config {
           join(context.workspaceRoot, extendAngularCliJsonFileName),
           'utf8'
         )
-      );
+      ) as Config;
     } catch {
       throw new Error(`No ${extendAngularCliJsonFileName} found.`);
     }
@@ -27,7 +27,9 @@ export function getConfig(context: BuilderContext): Config {
 
 export function resolveHooks(context: BuilderContext): Hook[] {
   const packageName = getConfig(context).hookPackage;
-  const hooksPackage = require(packageName);
+
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const hooksPackage = require(packageName) as { default: Hook[] };
 
   if (hooksPackage && Array.isArray(hooksPackage.default)) {
     return hooksPackage.default;

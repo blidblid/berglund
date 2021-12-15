@@ -1,6 +1,17 @@
 {
   "hosting": [
     {
+      "target": "hooks",
+      "public": "showcase/projects/angular-cli-hooks/dist",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
       "target": "rx",
       "public": "showcase/projects/rx/dist",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],

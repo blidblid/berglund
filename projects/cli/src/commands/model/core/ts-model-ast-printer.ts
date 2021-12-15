@@ -9,10 +9,10 @@ import { createDummySourceFile, TsAstPrinter } from '../../../core';
 import { ResolvedSchema } from './schema-resolver-model';
 
 export class TsModelAstPrinter extends TsAstPrinter {
-  async printComponents(
+  printComponents(
     resolvedSchema: ResolvedSchema,
     generators: MixinComponentGenerator[]
-  ): Promise<string> {
+  ): string {
     const imports: Record<string, Set<string>> = {};
 
     const nodes = this.getNamedSchemas(resolvedSchema.schema).map(

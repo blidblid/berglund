@@ -35,7 +35,7 @@ export abstract class BergShowcaseBase {
   }
 
   navigateToChild(url: string): void {
-    this.router.navigate([url], { relativeTo: this.activatedRoute });
+    void this.router.navigate([url], { relativeTo: this.activatedRoute });
   }
 
   onIntersectionChanged(intersecting: boolean, htmlId: string): void {

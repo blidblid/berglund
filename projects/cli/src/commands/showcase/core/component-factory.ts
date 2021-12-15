@@ -13,7 +13,7 @@ export abstract class ComponentFactory {
   protected abstract idPrefix: string | null;
   protected abstract showcaseComponentType: ShowcaseComponentType;
 
-  abstract create(): Promise<Component | null>;
+  abstract create(): Component | null;
 
   constructor(
     protected context: Context,

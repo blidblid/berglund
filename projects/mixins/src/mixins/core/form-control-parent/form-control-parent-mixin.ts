@@ -37,11 +37,15 @@ export function mixinFormControlParent<T extends Constructor<Mixin> = any>(
       map(() => this._formControl.errors)
     );
 
+    _touched: boolean;
+
     constructor(...args: any[]) {
       super(...args);
     }
 
-    registerOnTouched(): void {}
+    registerOnTouched(): void {
+      this._touched = true;
+    }
 
     registerOnChange(fn: (value: any) => void) {
       this.getChanges().pipe(takeUntil(this.destroyed$)).subscribe(fn);

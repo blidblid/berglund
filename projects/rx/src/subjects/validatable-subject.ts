@@ -8,14 +8,14 @@ export class ValidatedSubject<T> extends ReplaySubject<T> {
 
   constructor(public validators: ValidatorFn[], private emitInvalid?: boolean) {
     super(1);
-    this.next = this.nextWithValidation;
+    this.next = (value: T) => this.nextWithValidation(value);
   }
 
   getErrors(): Observable<ValidationErrors | null> {
     return this.formControl
       ? this.formControl.statusChanges.pipe(
           startWith(null),
-          map(() => this.formControl!.errors)
+          map(() => this.formControl.errors)
         )
       : of(null);
   }

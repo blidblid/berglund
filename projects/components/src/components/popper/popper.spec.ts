@@ -33,8 +33,8 @@ describe('BergPopper', () => {
       () => Promise.resolve()
     );
 
-    unitTestElement.hover();
-    expect(overlayContainerElement.textContent!.trim()).toBe(
+    void unitTestElement.hover();
+    expect((overlayContainerElement.textContent ?? '').trim()).toBe(
       fixture.componentInstance.text
     );
   }));
@@ -48,11 +48,11 @@ describe('BergPopper', () => {
       () => Promise.resolve()
     );
 
-    unitTestElement.hover();
+    void unitTestElement.hover();
     tick();
     fixture.detectChanges();
 
-    expect(overlayContainerElement.textContent!.trim()).toBe(
+    expect((overlayContainerElement.textContent ?? '').trim()).toBe(
       fixture.componentInstance.text
     );
   }));
@@ -66,11 +66,11 @@ describe('BergPopper', () => {
       () => Promise.resolve()
     );
 
-    unitTestElement.hover();
+    void unitTestElement.hover();
     tick();
     fixture.detectChanges();
 
-    expect(overlayContainerElement.textContent!.trim()).toBe(
+    expect((overlayContainerElement.textContent ?? '').trim()).toBe(
       new BergPopperComponentTestContentComponent().text
     );
   }));

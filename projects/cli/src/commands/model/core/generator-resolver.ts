@@ -5,6 +5,7 @@ export class GeneratorResolver {
   constructor(private context: Context) {}
 
   getGenerators(): MixinComponentGenerator[] {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const generatorPackage = require(this.context.config.package);
 
     try {

@@ -12,7 +12,7 @@ export class DisplaysEntity<T extends Entity> implements OnDestroy {
       this.idSub.next(value);
     }
   }
-  private idSub = new ReplaySubject<string>();
+  private idSub = new ReplaySubject<string>(1);
 
   @Input()
   set entity(value: T | null) {
@@ -20,7 +20,7 @@ export class DisplaysEntity<T extends Entity> implements OnDestroy {
       this.entitySub.next(value);
     }
   }
-  private entitySub = new ReplaySubject<T>();
+  private entitySub = new ReplaySubject<T>(1);
 
   entity$: Observable<T> = race(
     this.entitySub.asObservable(),

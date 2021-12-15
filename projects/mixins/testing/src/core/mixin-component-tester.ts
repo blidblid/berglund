@@ -33,7 +33,7 @@ export class MixinComponentTester<T> implements QueriesDomChange {
     return this.componentInstance.viewContainerRef;
   }
 
-  constructor(private component: Type<T>, private ngModules: any[]) {
+  constructor(private component: Type<T>, private ngModules: Type<any>[]) {
     this.setupTestBed();
     this.createComponent();
   }
@@ -127,7 +127,7 @@ export class MixinComponentTester<T> implements QueriesDomChange {
   }
 
   private setupTestBed(): void {
-    TestBed.configureTestingModule({
+    void TestBed.configureTestingModule({
       declarations: [MixinComponentTesterComponent, this.component],
       imports: [
         ...this.ngModules,
@@ -140,7 +140,7 @@ export class MixinComponentTester<T> implements QueriesDomChange {
     this.componentBuilder = TestBed.inject(BergComponentBuilder);
   }
 
-  private getBoilerplateModules(ngModules: any[]): any[] {
+  private getBoilerplateModules(ngModules: Type<any>[]): Type<any>[] {
     const boilerplateNgModules = [];
 
     if (!ngModules.includes(NoopAnimationsModule)) {

@@ -42,7 +42,7 @@ export function connectConnectable<T>(
 
   if (!isObservable(connectable)) {
     if (canConnect.update) {
-      canConnect.update!(connectable);
+      canConnect.update(connectable);
     }
 
     return;
@@ -54,7 +54,11 @@ export function connectConnectable<T>(
         filter(() => !isUserInput),
         takeUntil(destroyed$)
       )
-      .subscribe((value) => canConnect.update!(value));
+      .subscribe((value) => {
+        if (canConnect.update) {
+          canConnect.update(value);
+        }
+      });
   }
 
   if (
@@ -79,7 +83,11 @@ export function connectConnectable<T>(
     connectable
       .getErrors()
       .pipe(takeUntil(destroyed$))
-      .subscribe((errors) => canConnect.setErrors!(errors));
+      .subscribe((errors) => {
+        if (canConnect.setErrors) {
+          canConnect.setErrors(errors);
+        }
+      });
   }
 }
 
@@ -93,7 +101,7 @@ export function subscribeSubject<T, C extends Subject<T>>(
       next(value) {
         subject.next(value);
       },
-      error(value) {
+      error(value: unknown) {
         subject.error(value);
       },
     });

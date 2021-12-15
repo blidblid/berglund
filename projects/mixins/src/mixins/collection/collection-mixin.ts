@@ -173,7 +173,8 @@ export function mixinCollection<
 
         return data.slice().sort(
           sort.comparator
-            ? (a, b) => sort.comparator!(a, b, sort.descending)
+            ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              (a, b) => sort.comparator!(a, b, sort.descending)
             : (a, b) => {
                 return (sort.descending ? 1 : -1) * (a[key] > b[key] ? 1 : -1);
               }

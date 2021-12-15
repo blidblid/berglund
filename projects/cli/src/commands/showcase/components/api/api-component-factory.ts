@@ -17,7 +17,7 @@ export class ApiComponentFactory extends ComponentFactory {
     super(context, apiDomBuilder, tsComponentAstPrinter);
   }
 
-  async create(): Promise<Component | null> {
+  create(): Component | null {
     return this.createComponent();
   }
 }

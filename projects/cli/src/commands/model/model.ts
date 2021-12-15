@@ -46,7 +46,7 @@ async function handler(args: yargs.Arguments<ModelConfig>) {
   }
 
   for (const schema of schemas) {
-    const component = await printer.printComponents(schema, generators);
+    const component = printer.printComponents(schema, generators);
     const name = basename(schema.path).split('.')[0];
     const outDir = context.config.out ?? dirname(schema.path);
 

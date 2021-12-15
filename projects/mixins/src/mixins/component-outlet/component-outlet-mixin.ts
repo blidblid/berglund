@@ -5,7 +5,7 @@ import {
   GetProjectedComponent,
 } from './component-outlet-model';
 
-interface ComponentOutletMixin<V> extends MixinApi<ComponentOutlet<V>> {}
+type ComponentOutletMixin<V> = MixinApi<ComponentOutlet<V>>
 
 export type ComponentOutletConstructor<V> = Constructor<
   ComponentOutletMixin<V>

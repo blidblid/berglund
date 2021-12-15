@@ -93,7 +93,7 @@ export class Mixin<T = any> implements OnDestroy {
 
   private getInjectedInput<K extends keyof T>(
     key: K
-  ): Observable<T[K]> | Symbol {
+  ): Observable<T[K]> | symbol {
     const inputs = this._injector.get<AddObservable<T> | null>(
       COMPONENT_INPUTS,
       null

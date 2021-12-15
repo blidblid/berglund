@@ -10,6 +10,6 @@ export function shareReplayUntil<T>(
   })
 ): MonoTypeOperatorFunction<T> {
   return (source$): Observable<T> => {
-    return source$.pipe(takeUntil(takeUntil$), shareReplayOperator);
+    return source$.pipe(shareReplayOperator, takeUntil(takeUntil$));
   };
 }

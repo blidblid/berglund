@@ -7,7 +7,7 @@ const buildAngularPath = dirname(
   dirname(require.resolve('@angular-devkit/build-angular'))
 );
 
-(async function generate() {
+void (async function generate() {
   await generateSchemaModels();
   generateBuildersJson();
   generateSchemaJson();

@@ -11,7 +11,9 @@ export class AngularValidatorHandlers
     >
 {
   min = (validationErrors: ValidationErrors | null): string | null => {
-    const error = validationErrors && validationErrors['min'];
+    const error =
+      validationErrors &&
+      (validationErrors['min'] as { actual: number; min: number });
 
     if (error) {
       return `${error.actual} is smaller than ${error.min}.`;
@@ -21,7 +23,9 @@ export class AngularValidatorHandlers
   };
 
   max = (validationErrors: ValidationErrors | null): string | null => {
-    const error = validationErrors && validationErrors['max'];
+    const error =
+      validationErrors &&
+      (validationErrors['max'] as { actual: number; max: number });
 
     if (error) {
       return `${error.actual} is greater than ${error.max}.`;
@@ -31,7 +35,7 @@ export class AngularValidatorHandlers
   };
 
   required = (validationErrors: ValidationErrors | null): string | null => {
-    const error = validationErrors && validationErrors['required'];
+    const error = validationErrors && (validationErrors['required'] as object);
 
     if (error) {
       return `This field is required.`;
@@ -45,7 +49,7 @@ export class AngularValidatorHandlers
   };
 
   email = (validationErrors: ValidationErrors | null): string | null => {
-    const error = validationErrors && validationErrors['email'];
+    const error = validationErrors && (validationErrors['email'] as object);
 
     if (error) {
       return `Input an email.`;
@@ -55,7 +59,12 @@ export class AngularValidatorHandlers
   };
 
   minLength = (validationErrors: ValidationErrors | null): string | null => {
-    const error = validationErrors && validationErrors['minlength'];
+    const error =
+      validationErrors &&
+      (validationErrors['minlength'] as {
+        requiredLength: number;
+        actualLength: number;
+      });
 
     if (error) {
       return `Min length ${error.requiredLength}, actual length ${error.actualLength}.`;
@@ -65,7 +74,12 @@ export class AngularValidatorHandlers
   };
 
   maxLength = (validationErrors: ValidationErrors | null): string | null => {
-    const error = validationErrors && validationErrors['maxLength'];
+    const error =
+      validationErrors &&
+      (validationErrors['maxLength'] as {
+        requiredLength: number;
+        actualLength: number;
+      });
 
     if (error) {
       return `Max length ${error.requiredLength}, actual length ${error.actualLength}.`;
@@ -75,7 +89,12 @@ export class AngularValidatorHandlers
   };
 
   pattern = (validationErrors: ValidationErrors | null): string | null => {
-    const error = validationErrors && validationErrors['pattern'];
+    const error =
+      validationErrors &&
+      (validationErrors['pattern'] as {
+        actualValue: number;
+        requiredPattern: number;
+      });
 
     if (error) {
       return `${error.actualValue} does not match the pattern ${error.requiredPattern}.`;

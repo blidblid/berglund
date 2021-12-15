@@ -10,7 +10,7 @@ describe('BergErrorPipe', () => {
   let componentInstance: ErrorPipeTestComponent;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
+    void TestBed.configureTestingModule({
       declarations: [ErrorPipeTestComponent],
       imports: [BergErrorPipeModule],
     }).compileComponents();

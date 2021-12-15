@@ -17,12 +17,14 @@ describe('session cache', () => {
       .subscribe((value) => {
         sessionCache
           .get('a', () => a$)
+          // eslint-disable-next-line rxjs/no-nested-subscribe
           .subscribe((cachedValue) => {
             expect(value).toBe(cachedValue);
           });
 
         sessionCache
           .get('b', () => a$)
+          // eslint-disable-next-line rxjs/no-nested-subscribe
           .subscribe((cachedValue) => {
             expect(value).not.toBe(cachedValue);
           });

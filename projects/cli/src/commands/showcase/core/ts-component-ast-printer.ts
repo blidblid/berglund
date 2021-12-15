@@ -81,10 +81,10 @@ export class TsComponentAstPrinter extends TsAstPrinter {
         return factory.createPropertyDeclaration(
           undefined,
           undefined,
-          file.className!,
+          file.className ?? '',
           undefined,
           undefined,
-          factory.createIdentifier(file.className!)
+          factory.createIdentifier(file.className ?? '')
         );
       }),
     ];
@@ -155,7 +155,7 @@ export class TsComponentAstPrinter extends TsAstPrinter {
           factory.createPropertyAssignment(
             factory.createIdentifier('declarations'),
             factory.createArrayLiteralExpression([
-              factory.createIdentifier(componentFile.className!),
+              factory.createIdentifier(componentFile.className ?? ''),
             ])
           ),
           factory.createPropertyAssignment(
@@ -164,7 +164,7 @@ export class TsComponentAstPrinter extends TsAstPrinter {
               factory.createSpreadElement(
                 factory.createIdentifier(this.apiIdentifierName)
               ),
-              factory.createIdentifier(componentFile.className!),
+              factory.createIdentifier(componentFile.className ?? ''),
             ])
           ),
           factory.createPropertyAssignment(

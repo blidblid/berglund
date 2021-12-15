@@ -98,7 +98,7 @@ export class TsdocAstParser {
         ? node.comment?.tags.map((tag: any) => ` ${tag.text}`)
         : '';
 
-      return node.comment.shortText + tags;
+      return `${node.comment.shortText} ${tags}`;
     }
 
     if (!Array.isArray(node.signatures)) {
