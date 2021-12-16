@@ -1223,13 +1223,17 @@
     "@babel/helper-validator-identifier" "^7.15.7"
     to-fast-properties "^2.0.0"
 
-"@berglund/angular-cli-hooks@./projects/angular-cli-hooks/dist":
+"@berglund/angular-cli-hooks@^0.0.1":
   version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@berglund/angular-cli-hooks/-/angular-cli-hooks-0.0.1.tgz#ee729419d34f8e02897c6fb60aa2a8d3cfdd54cb"
+  integrity sha512-Ha6CVn2CEC80QV3mF/SmSB+jCL1llEMZZ356JxCUSnBH93EYfv28VOK8RKq/dKq3kt5hhkyGY/bepK03bLrNEg==
   dependencies:
     tslib "^2.3.0"
 
-"@berglund/builder-hooks@./projects/builder-hooks/dist":
+"@berglund/builder-hooks@^0.0.1":
   version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@berglund/builder-hooks/-/builder-hooks-0.0.1.tgz#4dd4326630d27492cd0828189057d9de0550f424"
+  integrity sha512-pvGduOVWfQPMWgECPvIXBie9neUaRz1sY6VbCs1s5yuG4vG2O5FW/0ut7NDyATI7RE6/DPbcE112mn5VyTVPKQ==
   dependencies:
     tslib "^2.3.0"
 

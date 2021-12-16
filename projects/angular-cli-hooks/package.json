@@ -6,8 +6,8 @@
   "builders": "builders.json",
   "main": "src/index.js",
   "scripts": {
-    "prepack": "yarn run generate",
-    "generate": "ts-node ./scripts/generate"
+    "build": "tsc",
+    "prepack": "node ./scripts/generate"
   },
   "peerDependencies": {
     "@angular-devkit/architect": "~0.1301.1",

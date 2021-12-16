@@ -16,6 +16,7 @@
   },
   "include": [
     "./src",
+    "./scripts",
     "./builders.json",
     "./package.json",
     "./schema.json",
