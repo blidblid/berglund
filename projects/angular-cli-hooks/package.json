@@ -7,7 +7,7 @@
   "main": "src/index.js",
   "scripts": {
     "build": "tsc",
-    "prepack": "node ./scripts/generate"
+    "postinstall": "node ./scripts/postinstall"
   },
   "peerDependencies": {
     "@angular-devkit/architect": "~0.1301.1",

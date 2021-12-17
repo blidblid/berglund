@@ -1,41 +1,54 @@
-import { BuilderContext } from '@angular-devkit/architect';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { Config } from '../../schema';
-import { Hook } from '../model/hook-model';
+import { GenericHook } from '../model/hook-model';
 
-let config: Config;
+let config: Config | null;
 
-export function getConfig(context: BuilderContext): Config {
+export function getConfig(workspaceRoot: string): Config | null {
   const extendAngularCliJsonFileName = 'angular-cli-hooks.json';
 
-  if (!config) {
+  if (config === undefined) {
     try {
       config = JSON.parse(
-        readFileSync(
-          join(context.workspaceRoot, extendAngularCliJsonFileName),
-          'utf8'
-        )
+        readFileSync(join(workspaceRoot, extendAngularCliJsonFileName), 'utf8')
       ) as Config;
     } catch {
-      throw new Error(`No ${extendAngularCliJsonFileName} found.`);
+      console.warn(
+        `@berglund/angular-cli-hooks could not find an ${extendAngularCliJsonFileName} file in ${workspaceRoot}. ` +
+          'This file must exists and include a property "hooksPackage".'
+      );
+
+      config = null;
     }
   }
 
   return config;
 }
 
-export function resolveHooks(context: BuilderContext): Hook[] {
-  const packageName = getConfig(context).hookPackage;
+export function resolveHooks(workspaceRoot: string): GenericHook[] {
+  const config = getConfig(workspaceRoot);
+
+  if (!config) {
+    return [];
+  }
+
+  const packageName = config.hookPackage;
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const hooksPackage = require(packageName) as { default: Hook[] };
+  const hooksPackage = require(packageName) as {
+    default: GenericHook[];
+  };
+  const hooks =
+    hooksPackage && Array.isArray(hooksPackage.default)
+      ? hooksPackage.default
+      : [];
 
-  if (hooksPackage && Array.isArray(hooksPackage.default)) {
-    return hooksPackage.default;
-  } else {
-    throw new Error(
-      `Could not resolve any hooks in package ${packageName}. Found ${hooksPackage}.`
+  if (hooks.length === 0) {
+    console.warn(
+      `@berglund/angular-cli-hooks could not resolve any hooks in package ${packageName}.`
     );
   }
+
+  return hooks;
 }

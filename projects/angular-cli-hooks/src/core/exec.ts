@@ -3,6 +3,7 @@ import { from, isObservable, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import {
   BuilderName,
+  BuilderOptions,
   BUILDER_SUCCESS$,
   GenericBuilderOutput,
 } from '../model/builder-model';
@@ -10,36 +11,42 @@ import { Hook } from '../model/hook-model';
 import { resolveHooks } from './context';
 import { isPromise } from './util';
 
-export function execute(
+export function execute<T extends BuilderName>(
+  options: BuilderOptions[T],
   context: BuilderContext,
   name: BuilderName,
   executeBuilder: () => GenericBuilderOutput
 ): Observable<BuilderOutput> {
-  const hooks = resolveHooks(context);
+  const hooks = resolveHooks(context.workspaceRoot);
   const builderHooks = hooks.find((hook) => hook.name === name);
-  return executeWithHooks(context, executeBuilder, builderHooks);
+  return executeWithHooks(options, context, executeBuilder, builderHooks);
 }
 
-function executeWithHooks(
+function executeWithHooks<T extends BuilderName>(
+  options: BuilderOptions[T],
   context: BuilderContext,
   executeBuilder: () => GenericBuilderOutput,
-  hook?: Hook
+  hook?: Hook<T, Record<string, never>>
 ): Observable<BuilderOutput> {
   const {
-    before = (_: BuilderContext) => BUILDER_SUCCESS$,
     override,
-    after = (_: BuilderContext, __: BuilderOutput) => BUILDER_SUCCESS$,
+    before = (_: BuilderOptions[T], __: BuilderContext) => BUILDER_SUCCESS$,
+    after = (_: BuilderOptions[T], __: BuilderContext, ___: BuilderOutput) => {
+      return BUILDER_SUCCESS$;
+    },
   } = hook ?? {};
 
-  return toObservableBuilderOutput(before(context)).pipe(
+  return toObservableBuilderOutput(before(options, context)).pipe(
     switchMap(() => {
       const genericBuilderOutput = override
-        ? override(context)
+        ? override(options, context)
         : executeBuilder();
 
       return toObservableBuilderOutput(genericBuilderOutput);
     }),
-    switchMap((output) => toObservableBuilderOutput(after(context, output)))
+    switchMap((output) => {
+      return toObservableBuilderOutput(after(options, context, output));
+    })
   );
 }
 

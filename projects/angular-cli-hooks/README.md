@@ -24,6 +24,14 @@ import { ESLint } from 'eslint';
 
 const hooks: Hook[] = [
   {
+    schema: {
+      properties: {
+        failOnLint: {
+          type: 'boolean',
+          description: 'Whether to fail the build on lint errors.',
+        },
+      },
+    },
     name: 'executeBrowserBuilder',
     before: async ({
       workspaceRoot,
