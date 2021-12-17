@@ -1,6 +1,6 @@
 # Mixins
 
-`@berglund/mixins` is a collection of [TypeScript mixins](https://www.typescriptlang.org/docs/handbook/mixins.html). The mixins form a middleware between apps and component libraries that aims to
+`@berglund/mixins` is a collection of [TypeScript mixins](https://www.typescriptlang.org/docs/handbook/mixins.html). The mixins form a layer between apps and component libraries that aims to
 
 - increase productivity
 - reduce code duplication
@@ -118,15 +118,53 @@ import {
   Component,
   ViewEncapsulation,
 } from '@angular/core';
-import { component } from '@berglund/mixins';
-import { BergSelectComponent } from '@berglund/material';
 
 @Component({
   templateUrl: './select-mixin.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SelectMixinExampleComponent {
+export class SelectMixinExampleComponent {}
+```
+
+```html
+<!-- select-mixin.component.html -->
+<berg-select label="Drinks" [data]="['Coffee', 'Tea']"></berg-select>
+```
+
+```typescript
+// select-mixin.module.ts
+import { NgModule } from '@angular/core';
+import { BergSelectModule } from '@berglund/material';
+import { SelectMixinExampleComponent } from './select-mixin.component';
+
+@NgModule({
+  declarations: [SelectMixinExampleComponent],
+  exports: [SelectMixinExampleComponent],
+  imports: [BergSelectModule],
+})
+export class SelectMixinExampleModule {}
+```
+
+Or if you wanted to increase reusability and declare the inputs programmatically
+
+```typescript
+// select-mixin-programmatic.component.ts
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+} from '@angular/core';
+import { BergSelectComponent } from '@berglund/material';
+import { component } from '@berglund/mixins';
+import { of } from 'rxjs';
+
+@Component({
+  templateUrl: './select-mixin-programmatic.component.html',
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class SelectMixinProgrammaticExampleComponent {
   drinks = component({
     component: BergSelectComponent,
     inputs: {
@@ -135,28 +173,29 @@ export class SelectMixinExampleComponent {
     },
   });
 
-  eveningDrinks = component(this.drinks, { data: ['Beer', 'Wine'] });
+  eveningDrinks = component(this.drinks, { data: of(['Beer', 'Wine']) });
 }
 ```
 
-```typescript
-// select-mixin.module.ts
-import { NgModule } from '@angular/core';
-import { BergOutletModule } from '@berglund/mixins';
-import { SelectMixinExampleComponent } from './select-mixin.component';
-
-@NgModule({
-  declarations: [SelectMixinExampleComponent],
-  exports: [SelectMixinExampleComponent],
-  imports: [BergOutletModule],
-})
-export class SelectMixinExampleModule {}
-```
-
 ```html
-<!-- select-mixin.component.html -->
+<!-- select-mixin-programmatic.component.html -->
 <berg-outlet [component]="drinks"></berg-outlet>
 <berg-outlet [component]="eveningDrinks"></berg-outlet>
+```
+
+```typescript
+// select-mixin-programmatic.module.ts
+import { NgModule } from '@angular/core';
+import { BergOutletModule } from '@berglund/mixins';
+import { BergSelectModule } from '@berglund/material';
+import { SelectMixinProgrammaticExampleComponent } from './select-mixin-programmatic.component';
+
+@NgModule({
+  declarations: [SelectMixinProgrammaticExampleComponent],
+  exports: [SelectMixinProgrammaticExampleComponent],
+  imports: [BergOutletModule, BergSelectModule],
+})
+export class SelectMixinProgrammaticExampleModule {}
 ```
 
 As you can see, the API is
@@ -167,4 +206,4 @@ As you can see, the API is
 
 ### Final thoughts
 
-Is a middleware between apps and component libraries is a good idea for your code? It depends on the context. If you're working on a hobby-project, the constraints would probably be too frustrating. But if you're working in a company with multiple apps, then a middleware using mixins would do a lot for productivity and unified UX.
+Is a layer between apps and component libraries is a good idea for your code? It depends on the context. If you're working on a hobby-project, the constraints would probably be too frustrating. But if you're working in a company with multiple apps, then a layer using mixins would do a lot for productivity and unified UX.

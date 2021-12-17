@@ -27,13 +27,13 @@ export class ErrorPipeExampleComponent {
 ```typescript
 // error-pipe.module.ts
 import { NgModule } from '@angular/core';
-import { ErrorPipeModule } from '@berglund/mixins';
+import { BergErrorPipeModule } from '@berglund/mixins';
 import { ErrorPipeExampleComponent } from './error-pipe.component';
 
 @NgModule({
   declarations: [ErrorPipeExampleComponent],
   exports: [ErrorPipeExampleComponent],
-  imports: [ErrorPipeModule],
+  imports: [BergErrorPipeModule],
 })
 export class ErrorPipeExampleModule {}
 ```

@@ -19,9 +19,9 @@ type AddObservable<T> = {
 };
 
 /** Adds both sync and async properties of T. */
-export type MixinApi<T> = AddObservable<T> &
-  { [P in keyof T & string as `_${P}$`]: Observable<T[P]> } &
-  { [P in keyof T & string as `_${P}`]: T[P] };
+export type MixinApi<T> = AddObservable<T> & {
+  [P in keyof T & string as `_${P}$`]: Observable<T[P]>;
+} & { [P in keyof T & string as `_${P}`]: T[P] };
 
 /** Omits everything from T that is not an input. */
 export type MixinInputs<T> = MixinComponentInputs<ExtractConstructor<T>>;
@@ -55,8 +55,10 @@ export class Mixin<T = any> implements OnDestroy {
     initialValue: T[K]
   ): Observable<T[K]> {
     const injectedInput = this.getInjectedInput(key);
+    const setterSub = new Subject<T[K]>();
 
     const observable$ = merge(
+      setterSub,
       of(initialValue),
       injectedInput === this.noInjectedValueSymbol
         ? of(initialValue)
@@ -69,9 +71,9 @@ export class Mixin<T = any> implements OnDestroy {
           `Do not access ${key}. Either use its observable form _${key}$ or its sync form _${key}.`
         );
       },
+      set: (value: T[K]) => setterSub.next(value),
     });
 
-    const syncKey = `_${key}`;
     let syncValue = initialValue;
 
     observable$
@@ -80,6 +82,8 @@ export class Mixin<T = any> implements OnDestroy {
         syncValue = value;
         this.changeDetectorRef.markForCheck();
       });
+
+    const syncKey = `_${key}`;
 
     Object.defineProperty(this, syncKey, {
       set: () => {
