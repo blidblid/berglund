@@ -39,6 +39,12 @@ export class MainComponent {
   externalLinks = SHOWCASE_CONFIG.appExternalLinks;
   breakpointClass: string;
 
+  get hasSideNav() {
+    return (
+      this.uncategorizedSideNav.length > 0 || this.categorizedSideNav.length > 0
+    );
+  }
+
   breakpointClass$ = this.breakpoint.getMatches().pipe(
     map((breakpoint) => {
       if (breakpoint.breakpoints[MOBILE_BREAKPOINT]) {

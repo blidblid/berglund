@@ -5,6 +5,10 @@
   "repositoryUrl": "https://github.com/blidblid/berg/tree/main/projects/rx",
   "appExternalLinks": [
     {
+      "name": "@berglund/angular-cli-hooks",
+      "href": "https://hooks.albinberglund.com"
+    },
+    {
       "name": "@berglund/material",
       "href": "https://material.albinberglund.com"
     },

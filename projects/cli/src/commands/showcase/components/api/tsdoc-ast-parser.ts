@@ -438,7 +438,6 @@ export class TsdocAstParser {
       readme: undefined,
       excludePrivate: true,
       excludeProtected: true,
-      excludeExternals: true,
       tsconfig: this.context.showcaseConfig.tsconfig,
       pretty: false,
     };

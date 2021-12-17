@@ -42,6 +42,7 @@
 
 <mat-sidenav-container class="app-main-sidenav-container">
   <mat-sidenav class="mat-elevation-z12 app-main-sidenav"
+               *ngIf="hasSideNav"
                position="start"
                [opened]="sidenavOpen$ | async"
                [mode]="sidenavMode$ | async"
