@@ -1,4 +1,4 @@
-import { BuilderContext, BuilderOutput } from '@angular-devkit/architect';
+import { BuilderOutput } from '@angular-devkit/architect';
 import { hook } from '@berglund/angular-cli-hooks';
 import { ESLint } from 'eslint';
 
@@ -14,8 +14,8 @@ const hooks = [
     },
     name: 'executeBrowserBuilder',
     before: async (
-      options,
-      { workspaceRoot }: BuilderContext
+      { failOnLintErrors },
+      { workspaceRoot }
     ): Promise<BuilderOutput> => {
       const eslint = new ESLint();
       const results = await eslint.lintFiles([`${workspaceRoot}/**/*.ts`]);
@@ -23,7 +23,7 @@ const hooks = [
       if (results.length > 0) {
         console.log((await eslint.loadFormatter()).format(results));
 
-        if (options.failOnLintErrors) {
+        if (failOnLintErrors) {
           throw new Error('ESLint found lint errors.');
         }
       }

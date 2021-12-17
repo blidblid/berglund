@@ -7,7 +7,7 @@ import {
   BUILDER_SUCCESS$,
   GenericBuilderOutput,
 } from '../model/builder-model';
-import { Hook } from '../model/hook-model';
+import { GenericHook } from '../model/hook-model';
 import { resolveHooks } from './context';
 import { isPromise } from './util';
 
@@ -26,7 +26,7 @@ function executeWithHooks<T extends BuilderName>(
   options: BuilderOptions[T],
   context: BuilderContext,
   executeBuilder: () => GenericBuilderOutput,
-  hook?: Hook<T, Record<string, never>>
+  hook?: GenericHook
 ): Observable<BuilderOutput> {
   const {
     override,

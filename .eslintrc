@@ -35,7 +35,8 @@
       {
         "ignoreStatic": true
       }
-    ]
+    ],
+    "@typescript-eslint/ban-types": ["warn", { "types": { "{}": false } }]
   },
   "ignorePatterns": ["**/dist/*"]
 }
