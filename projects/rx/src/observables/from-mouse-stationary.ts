@@ -1,6 +1,7 @@
 import { fromEvent, merge, Observable } from 'rxjs';
 import { debounceTime, map, switchMap, take, takeUntil } from 'rxjs/operators';
 
+/** Triggers when a mouse pointer becomes stationary over an element. */
 export function mouseStationary(
   element: HTMLElement,
   debounce = 250

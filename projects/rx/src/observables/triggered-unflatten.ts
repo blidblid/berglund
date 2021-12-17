@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
+/** Unflattens observables to call an API lazily, using `withLatestFrom` and a trigger observable. */
 export function triggeredUnflatten<T, O1>(
   trigger: Observable<any>,
   api: (a: O1) => Observable<T>,

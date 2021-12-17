@@ -1,6 +1,7 @@
 import { combineLatest, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
+/** Unflattens observables to call an API eagerly, using `combineLatest`. */
 export function eagerUnflatten<T, K1>(
   api: (a: K1) => Observable<T>,
   unflattener: typeof switchMap,

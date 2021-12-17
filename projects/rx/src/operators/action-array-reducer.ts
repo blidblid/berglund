@@ -1,6 +1,7 @@
 import { OperatorFunction } from 'rxjs';
 import { scan, shareReplay } from 'rxjs/operators';
 
+/** Reduces an array from a stream of `ReducerAction`. */
 export function actionArrayReducer<T>(): OperatorFunction<
   ReducerAction<T>,
   T[]

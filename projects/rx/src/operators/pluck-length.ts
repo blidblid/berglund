@@ -1,6 +1,7 @@
 import { OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+/** Plucks the length of a value. */
 export function pluckLength(): OperatorFunction<any, number> {
   return (observable) =>
     observable.pipe(
@@ -13,11 +14,7 @@ export function pluckLength(): OperatorFunction<any, number> {
           return value.size;
         }
 
-        if (value === null) {
-          return 0;
-        }
-
-        if (typeof value === 'object') {
+        if (typeof value === 'object' && value !== null) {
           return Object.values(value).length;
         }
 

@@ -8,6 +8,7 @@ import {
 
 export type UpdateValue<T> = { oldValue: T; newValue: T };
 
+/** Reduces an array from sources that add, clear, remove or update that array.  */
 export function arrayReducer<T>(observables: {
   add?: Observable<T>;
   clear?: Observable<any>;
