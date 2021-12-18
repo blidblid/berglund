@@ -2,11 +2,12 @@
   "name": "@berglund/angular-cli-hooks",
   "author": "Albin Berglund",
   "license": "MIT",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "builders": "builders.json",
   "main": "src/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "npx rimraf ./dist && tsc && yarn run build-assets",
+    "build-assets": "npx cpx ./README.md ./dist",
     "postinstall": "node ./scripts/postinstall"
   },
   "peerDependencies": {
