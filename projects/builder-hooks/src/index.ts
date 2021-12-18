@@ -4,6 +4,7 @@ import { ESLint } from 'eslint';
 
 const hooks = [
   hook({
+    name: 'build',
     schema: {
       properties: {
         failOnLintErrors: {
@@ -12,7 +13,6 @@ const hooks = [
         },
       },
     },
-    name: 'build',
     before: async (
       { failOnLintErrors },
       { workspaceRoot }
