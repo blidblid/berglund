@@ -17,41 +17,49 @@ import {
 } from '@angular-devkit/build-angular';
 import { Observable, of } from 'rxjs';
 
-export const BUILDERS = {
-  executeBrowserBuilder,
-  executeDevServerBuilder,
-  executeExtractI18nBuilder,
-  executeKarmaBuilder,
-  executeNgPackagrBuilder,
-  executeProtractorBuilder,
-  executeServerBuilder,
+export type BuilderCommandName =
+  | 'build'
+  | 'serve'
+  | 'i18n'
+  | 'test'
+  | 'build-lib'
+  | 'e2e'
+  | 'server';
+
+export const BUILDER_RUNNERS = {
+  build: executeBrowserBuilder,
+  serve: executeDevServerBuilder,
+  i18n: executeExtractI18nBuilder,
+  test: executeKarmaBuilder,
+  'build-lib': executeNgPackagrBuilder,
+  e2e: executeProtractorBuilder,
+  server: executeServerBuilder,
 };
+
+export type BuilderRunners = typeof BUILDER_RUNNERS;
 
 export const BUILDER_SUCCESS: BuilderOutput = { success: true };
 export const BUILDER_SUCCESS$: Observable<BuilderOutput> = of(BUILDER_SUCCESS);
 
-export type Builders = typeof BUILDERS;
-export type BuilderName = keyof Builders;
+export const BUILDER_DIR_NAMES: Record<BuilderCommandName, string> = {
+  build: 'browser',
+  serve: 'dev-server',
+  i18n: 'extract-i18n',
+  test: 'karma',
+  'build-lib': 'ng-packagr',
+  e2e: 'protractor',
+  server: 'server',
+} as const;
 
 export type BuilderOptions = {
-  executeBrowserBuilder: BrowserBuilderOptions;
-  executeDevServerBuilder: DevServerBuilderOptions;
-  executeExtractI18nBuilder: ExtractI18nBuilderOptions;
-  executeKarmaBuilder: KarmaBuilderOptions;
-  executeNgPackagrBuilder: NgPackagrBuilderOptions;
-  executeProtractorBuilder: ProtractorBuilderOptions;
-  executeServerBuilder: ServerBuilderOptions;
+  build: BrowserBuilderOptions;
+  serve: DevServerBuilderOptions;
+  i18n: ExtractI18nBuilderOptions;
+  test: KarmaBuilderOptions;
+  'build-lib': NgPackagrBuilderOptions;
+  e2e: ProtractorBuilderOptions;
+  server: ServerBuilderOptions;
 };
-
-export const BUILDER_DIR_NAMES = {
-  executeBrowserBuilder: 'browser',
-  executeDevServerBuilder: 'dev-server',
-  executeExtractI18nBuilder: 'extract-i18n',
-  executeKarmaBuilder: 'karma',
-  executeNgPackagrBuilder: 'ng-packagr',
-  executeProtractorBuilder: 'protractor',
-  executeServerBuilder: 'server',
-} as const;
 
 export type GenericBuilderOutput =
   | Observable<BuilderOutput>

@@ -66,13 +66,14 @@ export class TsdocAstParser {
       return [];
     }
 
-    const nodes = apiJson.children;
     const groups = this.extractors.reduce((acc, extractor) => {
       return {
         ...acc,
         [extractor.title]: { ...extractor, nodes: [] },
       };
     }, {} as Record<string, ApiGroup>);
+
+    const nodes = Array.isArray(apiJson.children) ? apiJson.children : [];
 
     for (const node of nodes) {
       for (const extractor of this.extractors) {

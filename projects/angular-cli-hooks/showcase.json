@@ -1,6 +1,6 @@
 {
   "appOut": "../../showcase/projects/angular-cli-hooks",
-  "tsconfig": "./tsconfig.lib.json",
+  "tsconfig": "./tsconfig.json",
   "name": "@berglund/angular-cli-hooks",
   "repositoryUrl": "https://github.com/blidblid/berg/tree/main/projects/angular-cli-hooks",
   "appExternalLinks": [

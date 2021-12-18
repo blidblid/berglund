@@ -4,15 +4,15 @@
   "type": "object",
   "properties": {
     "name": {
-      "description": "Name of the component.",
+      "description": "Name of the feature.",
       "type": "string"
     },
     "id": {
-      "description": "Id of the component.",
+      "description": "Id of the feature.",
       "type": "string"
     },
     "category": {
-      "description": "Category of the component.",
+      "description": "Category of the feature.",
       "type": "string"
     },
     "readmePath": {

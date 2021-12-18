@@ -11,21 +11,24 @@ A few examples include
 - Running `eslint` before `ng build` runs
 - Using `jest` over `jasmine` when running `ng test`
 
-## Hooking into Angular CLI builders
+## Usage
 
-### Step 1
+### Step 1 - creating a hook package
 
-First, you need to create a package of hooks. To add ESLint to `ng build`, add a hook to `executeBrowserBuilder`.
+First, you need to create a package of hooks. To run ESLint before `ng build`, add both a hook to `build` and a before-function. The before-function can return either `Observable`, `Promise` or a sync value.
 
-Then, if you want to the code configurable, add a JsonSchema for those configurations.
+Then, to make the hook configurable, use the `schema`-property to add a JsonSchema for any configurations. The hook schema is merged with the native Angular CLI builder schema, making both the hook configuration and the builder configuration available when implementing the hook. Both are also listed when running `ng build --help` 🥳.
 
 ```typescript
+// index.ts in @berglund/builder-hooks
+
 import { BuilderOutput } from '@angular-devkit/architect';
 import { hook } from '@berglund/angular-cli-hooks';
 import { ESLint } from 'eslint';
 
 const hooks = [
   hook({
+    name: 'build',
     schema: {
       properties: {
         failOnLintErrors: {
@@ -34,7 +37,6 @@ const hooks = [
         },
       },
     },
-    name: 'executeBrowserBuilder',
     before: async (
       { failOnLintErrors },
       { workspaceRoot }
@@ -58,9 +60,9 @@ const hooks = [
 export default hooks;
 ```
 
-### Step 2
+### Step 2 - using a hook package
 
-Add a `angular-cli-hooks.json` file to your project and add the name of the package of hooks
+Install the hook-package wherever you want to hook into Angular CLI. Then add a `angular-cli-hooks.json` file to your project and specify the name of the package of hooks
 
 ```json
 {
@@ -69,7 +71,7 @@ Add a `angular-cli-hooks.json` file to your project and add the name of the pack
 }
 ```
 
-### Step 3
+### Step 3 - updating angular.json
 
 Update angular.json to use `@berglund/angular-cli-hooks` over `@angular-devkit/build-angular`.
 

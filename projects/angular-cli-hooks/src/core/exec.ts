@@ -2,31 +2,32 @@ import { BuilderContext, BuilderOutput } from '@angular-devkit/architect';
 import { from, isObservable, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import {
-  BuilderName,
+  BuilderCommandName,
   BuilderOptions,
   BUILDER_SUCCESS$,
   GenericBuilderOutput,
 } from '../model/builder-model';
-import { GenericHook } from '../model/hook-model';
+import { Hook } from '../model/hook-model';
 import { resolveHooks } from './context';
 import { isPromise } from './util';
 
-export function execute<T extends BuilderName>(
+export function execute<T extends BuilderCommandName>(
   options: BuilderOptions[T],
   context: BuilderContext,
-  name: BuilderName,
+  name: BuilderCommandName,
   executeBuilder: () => GenericBuilderOutput
 ): Observable<BuilderOutput> {
   const hooks = resolveHooks(context.workspaceRoot);
   const builderHooks = hooks.find((hook) => hook.name === name);
+
   return executeWithHooks(options, context, executeBuilder, builderHooks);
 }
 
-function executeWithHooks<T extends BuilderName>(
+function executeWithHooks<T extends BuilderCommandName>(
   options: BuilderOptions[T],
   context: BuilderContext,
   executeBuilder: () => GenericBuilderOutput,
-  hook?: GenericHook
+  hook?: Hook<T, {}>
 ): Observable<BuilderOutput> {
   const {
     override,

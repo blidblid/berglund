@@ -1,7 +1,8 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { Config } from '../../schema';
-import { GenericHook } from '../model/hook-model';
+import { BuilderCommandName } from '../model/builder-model';
+import { Hook } from '../model/hook-model';
 
 let config: Config | null;
 
@@ -26,7 +27,9 @@ export function getConfig(workspaceRoot: string): Config | null {
   return config;
 }
 
-export function resolveHooks(workspaceRoot: string): GenericHook[] {
+export function resolveHooks(
+  workspaceRoot: string
+): Hook<BuilderCommandName, {}>[] {
   const config = getConfig(workspaceRoot);
 
   if (!config) {
@@ -37,8 +40,9 @@ export function resolveHooks(workspaceRoot: string): GenericHook[] {
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const hooksPackage = require(packageName) as {
-    default: GenericHook[];
+    default: Hook<BuilderCommandName, {}>[];
   };
+
   const hooks =
     hooksPackage && Array.isArray(hooksPackage.default)
       ? hooksPackage.default

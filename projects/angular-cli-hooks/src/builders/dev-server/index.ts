@@ -1,4 +1,4 @@
 import { createBuilder } from '@angular-devkit/architect';
 import { createWrappedBuilder } from '../create-wrapped-builder';
 
-export default createBuilder(createWrappedBuilder('executeDevServerBuilder'));
+export default createBuilder(createWrappedBuilder('serve'));

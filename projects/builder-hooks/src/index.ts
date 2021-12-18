@@ -12,7 +12,7 @@ const hooks = [
         },
       },
     },
-    name: 'executeBrowserBuilder',
+    name: 'build',
     before: async (
       { failOnLintErrors },
       { workspaceRoot }

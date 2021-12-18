@@ -20,7 +20,7 @@
     "@angular/platform-browser": "^13.0.0",
     "@angular/platform-browser-dynamic": "^13.0.0",
     "@angular/router": "^13.0.0",
-    "@berglund/angular-cli-hooks": "^0.0.2",
+    "@berglund/angular-cli-hooks": "^0.0.3",
     "@berglund/builder-hooks": "^0.0.1",
     "@berglund/components": "^0.0.1",
     "@berglund/firebase": "^0.0.1",

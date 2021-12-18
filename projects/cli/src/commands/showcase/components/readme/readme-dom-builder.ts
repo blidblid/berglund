@@ -10,21 +10,25 @@ export class ReadmeDomBuilder extends DomBuilder {
       cssClassName: 'language-typescript',
       commentPrefix: '//',
       commentSuffix: '\n',
+      extension: '.ts',
     },
     {
       cssClassName: 'language-html',
       commentPrefix: '<!--',
       commentSuffix: '-->',
+      extension: '.html',
     },
     {
       cssClassName: 'language-scss',
       commentPrefix: '//',
       commentSuffix: '\n',
+      extension: '.scss',
     },
     {
       cssClassName: 'language-css',
       commentPrefix: '//',
       commentSuffix: '\n',
+      extension: '.css',
     },
   ];
 
@@ -94,8 +98,7 @@ export class ReadmeDomBuilder extends DomBuilder {
   }
 
   private createExampleComponents(): ExampleComponent[] {
-    const codeElements = this.document.querySelectorAll('code');
-    const files = Array.from(codeElements)
+    const files = Array.from(this.document.querySelectorAll('code'))
       .map((codeElement) => this.extractFileFromCodeElement(codeElement))
       .filter((file): file is DomFile => !!file);
 
@@ -148,6 +151,14 @@ export class ReadmeDomBuilder extends DomBuilder {
         }
 
         const fileName = match[1].trim();
+
+        if (
+          this.isForbiddenFileName(fileName) ||
+          !fileName.endsWith(mapper.extension)
+        ) {
+          return null;
+        }
+
         const id = fileName.split('.')[0];
         const content = code.replace(match[0], '').trim();
         const astData = this.tsAstParser.parse(content);
@@ -167,5 +178,9 @@ export class ReadmeDomBuilder extends DomBuilder {
     }
 
     return null;
+  }
+
+  private isForbiddenFileName(fileName: string): boolean {
+    return !!/<>:"\/\\\|\?\*/.exec(fileName);
   }
 }
