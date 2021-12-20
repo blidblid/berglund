@@ -5,7 +5,10 @@ import { ShowcaseConfig } from './../schemas/showcase/schema';
 
 type RequiredBy<T, K extends keyof T> = T & Required<Pick<T, K>>;
 
-export type ValidatedShowcaseConfig = RequiredBy<ShowcaseConfig, 'componentOut' | 'name' | 'tsconfig'>
+export type ValidatedShowcaseConfig = RequiredBy<
+  ShowcaseConfig,
+  'componentOut' | 'name' | 'tsconfig'
+>;
 
 export interface FeaturePath {
   path: string;
@@ -35,10 +38,6 @@ export function validateConfig(
 ): config is ValidatedShowcaseConfig {
   if (!config.componentOut && !config.appOut) {
     throw new Error(`Specify either --componentOut or --appOut`);
-  }
-
-  if (!config.name) {
-    config.name = 'Untitled';
   }
 
   if (!config.tsconfig) {

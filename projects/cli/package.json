@@ -1,5 +1,6 @@
 {
-  "name": "@berglund/showcase",
+  "name": "@berglund/cli",
+  "repositoryUrl": "https://github.com/blidblid/berg/tree/main/projects/cli",
   "version": "0.0.2",
   "license": "MIT",
   "scripts": {

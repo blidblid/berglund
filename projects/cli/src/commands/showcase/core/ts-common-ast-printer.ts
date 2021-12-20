@@ -14,6 +14,7 @@ import {
   TsAstPrinter,
 } from '../../../core';
 import { ShowcaseConfig } from '../schemas/showcase/schema';
+import { Context } from './context';
 import { Component, ContainerComponent, File } from './dom-builder-model';
 
 export class TsCommonAstPrinter extends TsAstPrinter {
@@ -336,15 +337,18 @@ export class TsCommonAstPrinter extends TsAstPrinter {
     }
   }
 
-  createShowcaseConfigContent(config: ShowcaseConfig): string {
+  createShowcaseConfigContent(context: Context): string {
+    const { showcaseConfig, packageJson } = context;
+
     const writeConfig = {};
     const keysToWrite: (keyof RemoveIndex<ShowcaseConfig>)[] = [
       'name',
+      'repositoryUrl',
       'appExternalLinks',
     ];
 
     for (const key of keysToWrite) {
-      writeConfig[key] = config[key] ?? null;
+      writeConfig[key] = showcaseConfig[key] ?? packageJson[key] ?? null;
     }
 
     return `export const SHOWCASE_CONFIG = ${JSON.stringify(

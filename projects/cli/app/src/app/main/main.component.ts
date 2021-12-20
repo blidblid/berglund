@@ -36,6 +36,7 @@ export class MainComponent {
   uncategorizedSideNav = UNCATEGORIZED_FEATURES;
   categorizedSideNav = CATEGORIZED_FEATURES;
   name = SHOWCASE_CONFIG.name;
+  repositoryUrl = SHOWCASE_CONFIG.repositoryUrl;
   externalLinks = SHOWCASE_CONFIG.appExternalLinks;
   breakpointClass: string;
 

@@ -1,5 +1,6 @@
 {
   "name": "@berglund/material",
+  "repositoryUrl": "https://github.com/blidblid/berg/tree/main/projects/material",
   "version": "0.0.6",
   "peerDependencies": {
     "@angular/cdk": "^13.0.0",

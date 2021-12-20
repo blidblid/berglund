@@ -5,7 +5,7 @@
 - observables
 - operator components
 
-The library is more of an idea than an implementation. If you look through the sources, you'll find very few lines of code.
+The goal is to maximize `rxjs`, and to minimize other state patterns, such as reducer actions. It does this by setting up all observables in services and viewing stateful components as operators in these streams.
 
 ## The architecture
 
@@ -19,7 +19,7 @@ and is a central part of component development. This architecture, however, aims
 
 ### Step 1 - setup observables
 
-The first step in the architecture is to describe information flow using nothing but `Observable`. For a user on imdb, it might look something like this:
+The first step in the architecture is to describe information flow using nothing but `Observable`. For a user on imdb.com, it might look something like this:
 
 ```typescript
 @Injectable({ providedIn: 'root' })

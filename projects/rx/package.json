@@ -1,5 +1,6 @@
 {
   "name": "@berglund/rx",
+  "repositoryUrl": "https://github.com/blidblid/berg/tree/main/projects/rx",
   "description": "A simple state library for Angular.",
   "version": "0.0.3",
   "peerDependencies": {

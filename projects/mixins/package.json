@@ -1,5 +1,6 @@
 {
   "name": "@berglund/mixins",
+  "repositoryUrl": "https://github.com/blidblid/berg/tree/main/projects/mixins",
   "description": "TypeScript mixins for Angular components.",
   "version": "0.0.4",
   "peerDependencies": {

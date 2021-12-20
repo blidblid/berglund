@@ -1,7 +1,11 @@
 import { existsSync } from 'fs';
 import { directories, fileNames } from '../../../core/constants';
 import { join, resolve } from '../../../core/path';
-import { capitalize, readJsonObjectSafely } from '../../../core/util';
+import {
+  capitalize,
+  readJsonObject,
+  readJsonObjectSafely,
+} from '../../../core/util';
 import { ValidatedShowcaseConfig } from '../core/read';
 import { FeatureConfig } from '../schemas/feature/schema';
 
@@ -13,6 +17,7 @@ export class Context {
   name: string;
   isRoot: boolean;
   featureConfig: FeatureConfig;
+  packageJson: PackageJson;
   relativeGitUrl?: string;
 
   constructor(
@@ -25,6 +30,7 @@ export class Context {
     this.setName();
     this.setGitUrl();
     this.setIsRoot();
+    this.setPackageJson();
   }
 
   private setFeatureConfig(): void {
@@ -65,7 +71,7 @@ export class Context {
   }
 
   private setGitUrl(): void {
-    const gitParentDir = this.findGitParentDir();
+    const gitParentDir = this.findParentPath(directories.git);
 
     if (!gitParentDir) {
       return;
@@ -74,18 +80,31 @@ export class Context {
     this.relativeGitUrl = this.featureDir.replace(gitParentDir, '');
   }
 
-  private findGitParentDir(): string | null {
-    let searchGitAt = this.featureDir;
+  private findParentPath(childPath: string): string | null {
+    let searchAt = this.featureDir;
 
-    while (searchGitAt) {
-      if (existsSync(join(searchGitAt, directories.git))) {
-        return searchGitAt;
+    while (searchAt) {
+      if (existsSync(join(searchAt, childPath))) {
+        return searchAt;
       }
 
-      searchGitAt = resolve(join(searchGitAt, '..'));
+      searchAt = resolve(join(searchAt, '..'));
     }
 
     return null;
+  }
+
+  private setPackageJson(): void {
+    const packageJsonParentPath = this.findParentPath(fileNames.package);
+
+    if (!packageJsonParentPath) {
+      this.packageJson = {};
+      return;
+    }
+
+    this.packageJson = readJsonObject(
+      join(packageJsonParentPath, fileNames.package)
+    );
   }
 
   private setIsRoot(): void {
@@ -93,4 +112,9 @@ export class Context {
       existsSync(join(this.featureDir, fileNames.package)) ||
       existsSync(join(this.featureDir, fileNames.showcaseConfig));
   }
+}
+
+export interface PackageJson {
+  name?: string;
+  repositoryUrl?: string;
 }

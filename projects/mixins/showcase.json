@@ -1,8 +1,6 @@
 {
   "appOut": "../../showcase/projects/mixins",
   "tsconfig": "./tsconfig.lib.json",
-  "name": "@berglund/mixins",
-  "repositoryUrl": "https://github.com/blidblid/berg/tree/main/projects/mixins",
   "appExternalLinks": [
     {
       "name": "@berglund/angular-cli-hooks",

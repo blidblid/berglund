@@ -1,27 +1,31 @@
-# berg
+# berglund
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.0.
+This monorepo is a framework built on top of Angular. The framework is geared towards enterprise development. The overall goal of the framework is app productivity at the cost of configurability.
 
-## Development server
+## @berglund/rx
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+`@berglund/rx` is a state architecture.
 
-## Code scaffolding
+## @berglund/mixins
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+`@berglund/mixins` is a collection of TypeScript mixins to create fully programmatic Angular components.
 
-## Build
+## @berglund/material
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+An implementation of `@berglund/mixins` that uses `@angular/material`.
 
-## Running unit tests
+## @berglund/angular-cli-hooks
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Utilities to extend Angular CLI.
 
-## Running end-to-end tests
+## @berglund/cli/showcase
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice.
+A documentation generator that generates https://rx.albinberglund.com and all other API documentations.
 
-## Further help
+## @berglund/cli/generator
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+A generator that generates components from models, such as JsonSchema or TypeScript interfaces.
+
+## @berglund/firebase
+
+A few firebase utilities.

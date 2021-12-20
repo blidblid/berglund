@@ -1,8 +1,6 @@
 {
   "appOut": "../../showcase/projects/material",
   "tsconfig": "./tsconfig.lib.json",
-  "name": "@berglund/material",
-  "repositoryUrl": "https://github.com/blidblid/berg/tree/main/projects/material",
   "appExternalLinks": [
     {
       "name": "@berglund/angular-cli-hooks",

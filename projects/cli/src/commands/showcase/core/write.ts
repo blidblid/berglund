@@ -5,8 +5,8 @@ import { promisify } from 'util';
 import { fileNames, paths } from '../../../core/constants';
 import { join } from '../../../core/path';
 import { replaceAngularSyntax, toPosixPath } from '../../../core/util';
+import { Context } from './context';
 import { Component, ContainerComponent, File } from './dom-builder-model';
-import { ValidatedShowcaseConfig } from './read';
 import { TsCommonAstPrinter } from './ts-common-ast-printer';
 
 const promiseExec = promisify(exec);
@@ -16,7 +16,7 @@ export interface CommonComponents {
   componentFiles: File[];
   components: Component[];
   containerComponents: ContainerComponent[];
-  showcaseConfig: ValidatedShowcaseConfig;
+  context: Context;
   outDir: string;
 }
 
@@ -25,7 +25,7 @@ export interface FileWriter {
   fileName: string;
 }
 
-export function writeCommonComponents(context: CommonComponents): void {
+export function writeCommonComponents(components: CommonComponents): void {
   const tsCommonAstPrinter = new TsCommonAstPrinter();
 
   const fileWriters: FileWriter[] = [
@@ -52,15 +52,14 @@ export function writeCommonComponents(context: CommonComponents): void {
       fileName: fileNames.features,
     },
     {
-      api: (c) =>
-        tsCommonAstPrinter.createShowcaseConfigContent(c.showcaseConfig),
+      api: (c) => tsCommonAstPrinter.createShowcaseConfigContent(c.context),
       fileName: fileNames.showcaseConfigModule,
     },
   ];
 
   for (const fileWriter of fileWriters) {
-    const path = join(context.outDir, fileWriter.fileName);
-    writeFileSync(path, fileWriter.api(context));
+    const path = join(components.outDir, fileWriter.fileName);
+    writeFileSync(path, fileWriter.api(components));
   }
 }
 

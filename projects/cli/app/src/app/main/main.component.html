@@ -21,8 +21,16 @@
       {{name}}
     </button>
 
+    <a class="app-main-links-button"
+       *ngIf="repositoryUrl"
+       [attr.href]="repositoryUrl"
+       mat-icon-button
+       color="accent">
+      <mat-icon svgIcon="github"></mat-icon>
+    </a>
+
     <ng-container *ngIf="externalLinks">
-      <button class="app-main-external-links-button"
+      <button class="app-main-links-button"
               mat-icon-button
               color="accent"
               [matMenuTriggerFor]="menu">

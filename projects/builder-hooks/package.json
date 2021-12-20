@@ -1,5 +1,6 @@
 {
   "name": "@berglund/builder-hooks",
+  "repositoryUrl": "https://github.com/blidblid/berg/tree/main/projects/builder-hooks",
   "author": "Albin Berglund",
   "license": "MIT",
   "version": "0.0.1",

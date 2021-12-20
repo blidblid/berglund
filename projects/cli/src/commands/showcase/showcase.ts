@@ -192,7 +192,7 @@ export async function showcase(
       components,
       componentFiles,
       containerComponents,
-      showcaseConfig,
+      context,
       outDir,
     });
 
