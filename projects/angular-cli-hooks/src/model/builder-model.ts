@@ -41,7 +41,17 @@ export type BuilderRunners = typeof BUILDER_RUNNERS;
 export const BUILDER_SUCCESS: BuilderOutput = { success: true };
 export const BUILDER_SUCCESS$: Observable<BuilderOutput> = of(BUILDER_SUCCESS);
 
-export const BUILDER_DIR_NAMES: Record<BuilderCommandName, string> = {
+export type BuilderDirName =
+  | 'app-shell'
+  | 'browser'
+  | 'dev-server'
+  | 'extract-i18n'
+  | 'karma'
+  | 'ng-packagr'
+  | 'protractor'
+  | 'server';
+
+export const BUILDER_DIR_NAMES: Record<BuilderCommandName, BuilderDirName> = {
   build: 'browser',
   serve: 'dev-server',
   i18n: 'extract-i18n',

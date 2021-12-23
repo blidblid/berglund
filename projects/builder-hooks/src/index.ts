@@ -2,7 +2,7 @@ import { BuilderOutput } from '@angular-devkit/architect';
 import { hook } from '@berglund/angular-cli-hooks';
 import { ESLint } from 'eslint';
 
-const hooks = [
+export default [
   hook({
     name: 'build',
     schema: {
@@ -32,5 +32,3 @@ const hooks = [
     },
   }),
 ];
-
-export default hooks;

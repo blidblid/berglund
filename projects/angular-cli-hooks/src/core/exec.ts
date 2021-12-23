@@ -20,10 +20,10 @@ export function execute<T extends BuilderCommandName>(
   const hooks = resolveHooks(context.workspaceRoot);
   const builderHooks = hooks.find((hook) => hook.name === name);
 
-  return executeWithHooks(options, context, executeBuilder, builderHooks);
+  return executeWithHook(options, context, executeBuilder, builderHooks);
 }
 
-function executeWithHooks<T extends BuilderCommandName>(
+export function executeWithHook<T extends BuilderCommandName>(
   options: BuilderOptions[T],
   context: BuilderContext,
   executeBuilder: () => GenericBuilderOutput,

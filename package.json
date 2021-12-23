@@ -6,7 +6,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng b rx && ng b mixins && ng b components && ng b material && ng b firebase",
-    "test": "ng test --watch=false --browsers=ChromeHeadlessCustom"
+    "test-angular-cli-hooks": "cd projects/angular-cli-hooks && yarn run test && cd ../..",
+    "test-angular-libraries": "ng test --watch=false --browsers=ChromeHeadlessCustom",
+    "test": "yarn run test-angular-cli-hooks && yarn run test-angular-libraries"
   },
   "dependencies": {
     "@angular/animations": "^13.0.0",
