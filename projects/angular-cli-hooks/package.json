@@ -10,7 +10,7 @@
     "build": "npx rimraf ./dist && tsc && yarn run build-assets",
     "build-assets": "npx cpx ./README.md ./dist",
     "postinstall": "node ./scripts/postinstall",
-    "test": "ts-node node_modules/jasmine/bin/jasmine"
+    "test": "npx ts-node --project ./tsconfig.json ../../node_modules/jasmine/bin/jasmine"
   },
   "peerDependencies": {
     "@angular-devkit/architect": "~0.1301.1",
@@ -23,9 +23,5 @@
   },
   "dependencies": {
     "tslib": "^2.3.0"
-  },
-  "devDependencies": {
-    "jasmine": "^3.10.0",
-    "ts-node": "^10.4.0"
   }
 }
