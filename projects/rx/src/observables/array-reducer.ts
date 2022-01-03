@@ -12,13 +12,14 @@ export type UpdateValue<T> = { oldValue: T; newValue: T };
 export function arrayReducer<T>(observables: {
   add?: Observable<T>;
   clear?: Observable<any>;
+  push?: Observable<any>;
   remove?: Observable<T>;
   update?: Observable<UpdateValue<T>>;
-  push?: Observable<void>;
 }): Observable<T[]> {
   const {
     add = EMPTY,
     clear = EMPTY,
+    push = EMPTY,
     remove = EMPTY,
     update = EMPTY,
   } = observables;
@@ -26,6 +27,7 @@ export function arrayReducer<T>(observables: {
   return merge(
     add.pipe(map<T, ReducerAction<T>>((value) => ({ value, action: 'add' }))),
     clear.pipe(map<T, ReducerAction<T>>(() => ({ action: 'clear' }))),
+    push.pipe(map<T, ReducerAction<T>>(() => ({ action: 'push' }))),
     remove.pipe(
       map<T, ReducerAction<T>>((value) => ({ value, action: 'remove' }))
     ),
