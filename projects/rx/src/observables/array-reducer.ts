@@ -14,6 +14,7 @@ export function arrayReducer<T>(observables: {
   clear?: Observable<any>;
   remove?: Observable<T>;
   update?: Observable<UpdateValue<T>>;
+  push?: Observable<void>;
 }): Observable<T[]> {
   const {
     add = EMPTY,

@@ -138,7 +138,7 @@
           "style": "scss",
           "changeDetection": "OnPush",
           "viewEncapsulation": "None",
-          "prefix": "bop",
+          "prefix": "berg",
           "export": true
         }
       },

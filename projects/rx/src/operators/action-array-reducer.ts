@@ -12,12 +12,14 @@ export function actionArrayReducer<T>(): OperatorFunction<
         switch (curr.action) {
           case 'add':
             return [...acc, curr.value];
+          case 'clear':
+            return [];
+          case 'push':
+            return acc;
           case 'remove':
             return acc.filter((a) => a !== curr.value);
           case 'update':
             return acc.map((a) => (a === curr.oldValue ? curr.newValue : a));
-          case 'clear':
-            return [];
           default:
             return acc;
         }
@@ -35,6 +37,10 @@ export interface ClearAction {
   action: 'clear';
 }
 
+export interface PushAction {
+  action: 'push';
+}
+
 export interface RemoveAction<T> {
   action: 'remove';
   value: T;
@@ -49,5 +55,6 @@ export interface UpdateAction<T> {
 export type ReducerAction<T> =
   | AddAction<T>
   | ClearAction
+  | PushAction
   | RemoveAction<T>
   | UpdateAction<T>;
