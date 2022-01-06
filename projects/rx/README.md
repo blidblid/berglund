@@ -5,17 +5,23 @@
 - observables
 - operator components
 
-The goal is to maximize `rxjs`, and to minimize other state patterns, such as reducer actions. It does this by setting up all observables in services and viewing stateful components as operators in these streams.
+The goal is to maximize the power of `rxjs`, and to minimize other state patterns, such as reducer actions and reactive forms. It does this by setting up all observables in services and viewing stateful components as operators in these streams.
 
 ## The architecture
 
-Normally, information flow in an Angular app comes from a combination of
+In most Angular app architectures, information flow is partly declared inside components through APIs like `FormControl`, `NgRx.Action` and the odd stateful `@Input`. They're all great APIs, but they share a common problem - they don't always mix well with `rxjs`.
 
-- `@Output` and `@Input`
-- Forms
-- State management, such as ngrx action dispatching.
+`rxjs` is a declarative paradigm. We're supposed to declare our streams, fire our event producers, kick back, and watch as the app start updating magically. But when we rely on things like `FormControl` and `NgRx.Action`, we're including imperative programming into the code base. We're forced to call `subscribe` on observables, how else are we going to call `formControl.setValue`? And in many cases, what could have been neat declarative state code becomes a mess of `Subject` and `subscribe` calls.
 
-and is a central part of component development. This architecture, however, aims to completely separate information flow from components. It does that in two steps.
+To get around this, and to truly maximize the power of `rxjs`, this architecture aims to completely remove stateful components. Instead, it treats those components as operator functions.
+
+```typescript
+// pseudo code
+of(true).pipe(
+  checkbox(),
+  switchMap((preference) => this.preferences.update(preference))
+);
+```
 
 ### Step 1 - setup observables
 
@@ -73,3 +79,5 @@ But other component libraries can connect too, with a `FormControl` for example:
   [connectFormControlValue]="rx.user.userName$"
 />
 ```
+
+And that's it.
