@@ -1,7 +1,7 @@
 {
   "name": "@berglund/firebase",
   "repositoryUrl": "https://github.com/blidblid/berg/tree/main/projects/firebase",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "peerDependencies": {
     "@angular/common": "^13.0.0",
     "@angular/core": "^13.0.0",

@@ -8,7 +8,6 @@ export class ValidatedSubject<T> extends ReplaySubject<T> {
 
   constructor(public validators: ValidatorFn[], private emitInvalid?: boolean) {
     super(1);
-    this.next = (value: T) => this.nextWithValidation(value);
   }
 
   getErrors(): Observable<ValidationErrors | null> {
@@ -20,13 +19,11 @@ export class ValidatedSubject<T> extends ReplaySubject<T> {
       : of(null);
   }
 
-  // This hack is only necessary in rxjs 6.
-  // In rxjs 7, it is simple to properly override next.
-  nextWithValidation(value: T): void {
+  override next(value: T): void {
     this.formControl.setValue(value);
 
-    if (this.emitInvalid || this.formControl?.errors === null) {
-      super['nextInfiniteTimeWindow'](value);
+    if (this.emitInvalid || this.formControl.errors === null) {
+      super.next(value);
     }
   }
 }

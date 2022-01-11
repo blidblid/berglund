@@ -1,7 +1,7 @@
 {
   "name": "@berglund/components",
   "repositoryUrl": "https://github.com/blidblid/berg/tree/main/projects/components",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "peerDependencies": {
     "@angular/common": "^13.0.0",
     "@angular/core": "^13.0.0",

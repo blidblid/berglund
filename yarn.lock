@@ -4149,10 +4149,10 @@ eslint-plugin-prettier@^4.0.0:
   dependencies:
     prettier-linter-helpers "^1.0.0"
 
-eslint-plugin-rxjs@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.npmjs.org/eslint-plugin-rxjs/-/eslint-plugin-rxjs-4.0.3.tgz"
-  integrity sha512-YMRBp7/P88nVYzeY8Gtqs+NQsZFiYb2RRaNTTN+b134pw3+/cG/qDMYnfOJRbVR/quy1j3tBGPd7X8ySkyCYTg==
+eslint-plugin-rxjs@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-rxjs/-/eslint-plugin-rxjs-5.0.0.tgz#7c393b5c046ee2fffdef3b1646d9871f022eec28"
+  integrity sha512-3P4VPSloECace1al8Cg7zR+5c4J6fXpwCivKj5jsdPBioDUtPq6NB44sIfwImjJz+s/pTF44+zP0CnbAy+YPrA==
   dependencies:
     "@typescript-eslint/experimental-utils" "^5.0.0"
     common-tags "^1.8.0"
@@ -7897,7 +7897,7 @@ rxjs-report-usage@^1.0.4:
     glob "~7.2.0"
     prompts "~2.4.2"
 
-rxjs@6.6.7, rxjs@^6.5.0, rxjs@^6.6.2, rxjs@~6.6.7:
+rxjs@6.6.7, rxjs@^6.5.0, rxjs@^6.6.2:
   version "6.6.7"
   resolved "https://registry.npmjs.org/rxjs/-/rxjs-6.6.7.tgz"
   integrity sha512-hTdwr+7yYNIT5n4AMYp85KA6yw2Va0FLa3Rguvbpa4W3I5xynaBZo41cM3XM+4Q6fRMj3sBYIR1VAmZMXYJvRQ==
@@ -7910,6 +7910,13 @@ rxjs@^7.2.0:
   integrity sha512-7SQDi7xeTMCJpqViXh8gL/lebcwlp3d831F05+9B44A4B0WfsEwUQHR64gsH1kvJ+Ep/J9K2+n1hVl1CsGN23w==
   dependencies:
     tslib "~2.1.0"
+
+rxjs@^7.4.0:
+  version "7.5.2"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.5.2.tgz#11e4a3a1dfad85dbf7fb6e33cbba17668497490b"
+  integrity sha512-PwDt186XaL3QN5qXj/H9DGyHhP3/RYYgZZwqBv9Tv8rsAaiwFH1IsJJlcgD37J7UW5a6O67qX0KWKS3/pu0m4w==
+  dependencies:
+    tslib "^2.1.0"
 
 safe-buffer@5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.2"

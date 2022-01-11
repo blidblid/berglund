@@ -7,7 +7,7 @@ export function safeUnflatten<T>(
 ): OperatorFunction<T | Observable<T>, T> {
   return (source: Observable<T | Observable<T>>) => {
     return source.pipe(
-      unflattener((value) => (isObservable<T>(value) ? value : of(value)))
+      unflattener((value) => (isObservable(value) ? value : of(value)))
     );
   };
 }
