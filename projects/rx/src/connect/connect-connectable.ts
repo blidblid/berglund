@@ -4,7 +4,7 @@ import { CanConnect, Connectable } from './can-connect';
 import { UserInputSubject, UserTriggerSubject } from './user-input';
 
 /** Connects a CanConnect class with a Connectable. */
-export function connectConnectable<T>(
+export function connectCanConnect<T>(
   connectable: Connectable<T>,
   canConnect: CanConnect<T> = {},
   destroyed$: Observable<any> = EMPTY

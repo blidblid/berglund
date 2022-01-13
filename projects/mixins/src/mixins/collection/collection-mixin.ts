@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
-import { Connectable, connectConnectable } from '@berglund/rx';
+import { Connectable, connectCanConnect } from '@berglund/rx';
 import {
   BehaviorSubject,
   combineLatest,
@@ -199,7 +199,7 @@ export function mixinCollection<
         .pipe(takeUntil(this.destroyed$))
         .subscribe((connectable) => {
           if (connectable) {
-            connectConnectable<V[]>(
+            connectCanConnect<V[]>(
               connectable,
               {
                 getChanges: () => this.getCollectionChanges(),

@@ -8,7 +8,7 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { EMPTY, Observable, Subject } from 'rxjs';
-import { CanConnect, Connectable, connectConnectable } from '../../connect';
+import { CanConnect, Connectable, connectCanConnect } from '../../connect';
 
 /** Connects a FormControl to a Subject. */
 @Directive({
@@ -20,7 +20,7 @@ export class BergConnectFormControlValueDirective<T = any>
   /** Connectable to connect the FormControl. */
   @Input('connectFormControlValue')
   set connectable(connectable: Connectable<T>) {
-    connectConnectable(connectable, this, this.destroySub);
+    connectCanConnect(connectable, this, this.destroySub);
   }
 
   get formControl(): FormControl | FormGroup {
