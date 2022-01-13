@@ -4,10 +4,10 @@ import { ValidatedSubject } from './validatable-subject';
 /** Subscribes a Subject to an Observable, omitting the complete-handler. */
 export function subscribeSubject<T, C extends Subject<T>>(
   subject: C,
-  initialValue: Observable<T> | T = EMPTY
+  source: Observable<T> | T = EMPTY
 ): void {
-  if (isObservable(initialValue)) {
-    initialValue.subscribe({
+  if (isObservable(source)) {
+    source.subscribe({
       next(value) {
         subject.next(value);
       },
@@ -16,7 +16,7 @@ export function subscribeSubject<T, C extends Subject<T>>(
       },
     });
   } else {
-    subject.next(initialValue);
+    subject.next(source);
   }
 }
 
