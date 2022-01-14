@@ -4,7 +4,6 @@ import {
   Mixin,
   mixinCollection,
   mixinComponentOutlet,
-  mixinCanConnect,
   mixinInteractive,
   mixinStateful,
 } from '../../mixins';
@@ -27,13 +26,5 @@ export class BergCalendarMixinBase extends Mixin {
 }
 
 export const BergCalendarBase = mixinInteractive(
-  mixinStateful(
-    mixinCollection(
-      mixinComponentOutlet(
-        mixinCanConnect<typeof BergCalendarMixinBase, BergCalendarDate>(
-          BergCalendarMixinBase
-        )
-      )
-    )
-  )
+  mixinStateful(mixinCollection(mixinComponentOutlet(BergCalendarMixinBase)))
 );

@@ -12,7 +12,7 @@ import {
   MAT_RANGE_DATE_SELECTION_MODEL_PROVIDER,
 } from '@angular/material/datepicker';
 import { BergCalendarBase, BergCalendarDate } from '@berglund/mixins';
-import { BehaviorSubject, merge, Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, merge, ReplaySubject } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { enumerateInputs } from '../../util';
 
@@ -32,10 +32,8 @@ import { enumerateInputs } from '../../util';
     'pluckRearrangeable',
     'groupBy',
     'comparators',
-    'connectCollection',
     'selection',
     'getProjectedComponent',
-    'connect',
     'disabled',
     'dataChanged',
     'isRange'
@@ -87,18 +85,6 @@ export class BergCalendarComponent extends BergCalendarBase {
 
   constructor(protected override injector: Injector) {
     super(injector);
-  }
-
-  override getChanges(): Observable<BergCalendarDate> {
-    return this._selected$;
-  }
-
-  override update(date: BergCalendarDate): void {
-    this.writeSub.next(date);
-  }
-
-  override setErrors(errors: ValidationErrors | null) {
-    this._errors = errors;
   }
 
   _onSelectedChange(date: Date): void {

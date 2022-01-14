@@ -26,7 +26,6 @@ import { BergTablePluckCellLabelFn } from './table-model';
     'pluckRearrangeable',
     'groupBy',
     'comparators',
-    'connectCollection',
     'selection',
     'hint',
     'label',

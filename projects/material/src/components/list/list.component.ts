@@ -5,8 +5,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { BergListBase } from '@berglund/mixins';
-import { Observable } from 'rxjs';
-import { map, share, withLatestFrom } from 'rxjs/operators';
 import { enumerateInputs } from '../../util';
 
 @Component({
@@ -17,18 +15,16 @@ import { enumerateInputs } from '../../util';
   changeDetection: ChangeDetectionStrategy.OnPush,
   inputs: enumerateInputs(
     BergListComponent,
-    'updateRouteFromValue',
-    'getValueFromRoute',
+    'formControl',
+    'connectToForm',
     'required',
     'readonly',
-    'connect',
     'data',
     'pluckLabel',
     'pluckDisabled',
     'pluckRearrangeable',
     'groupBy',
     'comparators',
-    'connectCollection',
     'selection',
     'disabled',
     'dataChanged'
@@ -38,14 +34,6 @@ import { enumerateInputs } from '../../util';
   },
 })
 export class BergListComponent extends BergListBase {
-  override getChanges(): Observable<any> {
-    return this._formControl.valueChanges.pipe(
-      withLatestFrom(this._multiple$),
-      map(([value, multiple]) => (multiple ? value : value && value[0])),
-      share()
-    );
-  }
-
   constructor(protected override injector: Injector) {
     super(injector);
   }

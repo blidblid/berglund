@@ -9,7 +9,7 @@ import {
   UserInputSubject,
   UserTriggerSubject,
 } from '@berglund/rx';
-import { isObservable, merge, Observable, of, Subject } from 'rxjs';
+import { EMPTY, isObservable, merge, Observable, of, Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { COMPONENT_INPUTS, MixinComponentInputs } from '../../../core';
 import { Constructor } from './constructor';
@@ -52,18 +52,19 @@ export class Mixin<T = any> implements OnDestroy {
    */
   protected defineAccessors<K extends keyof AddObservable<T>>(
     key: K,
-    initialValue: T[K]
+    initialValue?: T[K]
   ): Observable<T[K]> {
     const injectedInput = this.getInjectedInput(key);
     const setterSub = new Subject<T[K]>();
-
-    const observable$ = merge(
-      setterSub,
-      of(initialValue),
+    const initialValue$ = initialValue === undefined ? EMPTY : of(initialValue);
+    const injectedValue$ =
       injectedInput === this.noInjectedValueSymbol
-        ? of(initialValue)
-        : (injectedInput as Observable<T[K]>)
-    ).pipe(shareReplayUntil(this.destroyed$));
+        ? EMPTY
+        : (injectedInput as Observable<T[K]>);
+
+    const observable$ = merge(setterSub, initialValue$, injectedValue$).pipe(
+      shareReplayUntil(this.destroyed$)
+    );
 
     Object.defineProperty(this, key, {
       get: () => {

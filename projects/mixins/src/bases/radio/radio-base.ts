@@ -2,8 +2,7 @@ import { Directive, Injector } from '@angular/core';
 import {
   Mixin,
   mixinCollection,
-  mixinCanConnect,
-  mixinFormControlParent,
+  mixinForm,
   mixinInteractive,
   mixinLabel,
   mixinStateful,
@@ -18,13 +17,9 @@ export class BergRadioMixinBase extends Mixin {
 
 export const BergRadioBase = mixinLabel(
   mixinInteractive(
-    mixinFormControlParent(
+    mixinForm(
       mixinStateful(
-        mixinCanConnect(
-          mixinCollection<typeof BergRadioMixinBase, 'radio'>(
-            BergRadioMixinBase
-          )
-        )
+        mixinCollection<typeof BergRadioMixinBase, 'radio'>(BergRadioMixinBase)
       )
     )
   )

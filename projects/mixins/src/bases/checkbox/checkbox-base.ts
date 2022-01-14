@@ -2,8 +2,7 @@ import { Directive, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   Mixin,
-  mixinCanConnect,
-  mixinFormControlParent,
+  mixinForm,
   mixinInteractive,
   mixinLabel,
   mixinStateful,
@@ -25,12 +24,8 @@ export class BergCheckboxMixinBase extends Mixin {
 
 export const BergCheckboxBase = mixinInteractive(
   mixinStateful(
-    mixinFormControlParent(
-      mixinLabel(
-        mixinCanConnect<typeof BergCheckboxMixinBase, boolean>(
-          BergCheckboxMixinBase
-        )
-      )
+    mixinLabel(
+      mixinForm<typeof BergCheckboxMixinBase, boolean>(BergCheckboxMixinBase)
     )
   )
 );

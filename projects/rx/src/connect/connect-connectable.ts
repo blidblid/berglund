@@ -1,63 +1,51 @@
+import { FormControl, FormGroup } from '@angular/forms';
 import { EMPTY, filter, isObservable, Observable, takeUntil } from 'rxjs';
-import { isValidatedSubject } from '../subjects';
-import { CanConnect, Connectable } from './can-connect';
+import { Connectable } from './can-connect';
 import { UserInputSubject, UserTriggerSubject } from './user-input';
 
-/** Connects a CanConnect class with a Connectable. */
-export function connectCanConnect<T>(
+/** Connects a FormControl with a Connectable. */
+export function connectForm<T>(
   connectable: Connectable<T>,
-  canConnect: CanConnect<T> = {},
+  form: FormControl | FormGroup,
   destroyed$: Observable<any> = EMPTY
+): void {
+  connect(connectable, form.valueChanges, destroyed$, (value) => {
+    form.setValue(value, { emitEvent: false });
+  });
+}
+
+export function connect<T>(
+  connectable: Connectable<T>,
+  valueChanges: Observable<T>,
+  destroyed$: Observable<any>,
+  writeValue?: (value: T | null) => void
 ): void {
   let isUserInput = false;
 
-  if (!isObservable(connectable)) {
-    if (canConnect.update) {
-      canConnect.update(connectable);
-    }
-
-    return;
-  }
-
-  if (canConnect.update) {
-    connectable
-      .pipe(
-        filter(() => !isUserInput),
-        takeUntil(destroyed$)
-      )
-      .subscribe((value) => {
-        if (canConnect.update) {
-          canConnect.update(value);
-        }
-      });
-  }
-
   if (
-    !(connectable instanceof UserInputSubject) &&
-    !(connectable instanceof UserTriggerSubject)
+    connectable instanceof UserInputSubject ||
+    connectable instanceof UserTriggerSubject
   ) {
+    valueChanges.pipe(takeUntil(destroyed$)).subscribe((value) => {
+      isUserInput = true;
+      connectable.next(value);
+      isUserInput = false;
+    });
+  }
+
+  if (!writeValue) {
     return;
   }
 
-  if (canConnect.getChanges) {
-    canConnect
-      .getChanges()
-      .pipe(takeUntil(destroyed$))
-      .subscribe((data) => {
-        isUserInput = true;
-        connectable.next(data);
-        isUserInput = false;
-      });
+  if (!isObservable(connectable)) {
+    writeValue(connectable);
+    return;
   }
 
-  if (canConnect.setErrors && isValidatedSubject(connectable)) {
-    connectable
-      .getErrors()
-      .pipe(takeUntil(destroyed$))
-      .subscribe((errors) => {
-        if (canConnect.setErrors) {
-          canConnect.setErrors(errors);
-        }
-      });
-  }
+  connectable
+    .pipe(
+      filter(() => !isUserInput),
+      takeUntil(destroyed$)
+    )
+    .subscribe((value) => writeValue(value));
 }

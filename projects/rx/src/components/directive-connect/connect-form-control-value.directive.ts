@@ -5,22 +5,19 @@ import {
   FormControlName,
   FormGroup,
   FormGroupDirective,
-  ValidationErrors,
 } from '@angular/forms';
-import { EMPTY, Observable, Subject } from 'rxjs';
-import { CanConnect, Connectable, connectCanConnect } from '../../connect';
+import { Subject } from 'rxjs';
+import { Connectable, connectForm } from '../../connect';
 
 /** Connects a FormControl to a Subject. */
 @Directive({
   selector: '[connectFormControlValue]',
 })
-export class BergConnectFormControlValueDirective<T = any>
-  implements CanConnect
-{
-  /** Connectable to connect the FormControl. */
-  @Input('connectFormControlValue')
+export class BergConnectFormControlValueDirective<T = any> {
+  /** Connectable to connect with FormControl. */
+  @Input('connectForm')
   set connectable(connectable: Connectable<T>) {
-    connectCanConnect(connectable, this, this.destroySub);
+    connectForm(connectable, this.formControl, this.destroySub);
   }
 
   get formControl(): FormControl | FormGroup {
@@ -38,24 +35,6 @@ export class BergConnectFormControlValueDirective<T = any>
     @Optional() @Host() private formGroupDirective: FormGroupDirective,
     @Optional() @Host() private formControlName: FormControlName
   ) {}
-
-  update(value: T) {
-    if (this.formControl) {
-      this.formControl.setValue(value, { emitEvent: false });
-    }
-  }
-
-  getChanges(): Observable<T> {
-    if (!this.formControl) {
-      return EMPTY;
-    }
-
-    return this.formControl.valueChanges;
-  }
-
-  setErrors(errors: ValidationErrors | null) {
-    this.formControl.setErrors(errors);
-  }
 
   ngOnDestroy(): void {
     this.destroySub.next();

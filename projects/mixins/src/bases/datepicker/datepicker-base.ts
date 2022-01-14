@@ -1,8 +1,7 @@
 import { Directive, Injector } from '@angular/core';
 import {
   Mixin,
-  mixinCanConnect,
-  mixinFormControlParent,
+  mixinForm,
   mixinInteractive,
   mixinLabel,
   mixinStateful,
@@ -17,12 +16,8 @@ export class BergDatepickerMixinBase extends Mixin {
 
 export const BergDatepickerBase = mixinInteractive(
   mixinStateful(
-    mixinFormControlParent(
-      mixinLabel(
-        mixinCanConnect<typeof BergDatepickerMixinBase, boolean>(
-          BergDatepickerMixinBase
-        )
-      )
+    mixinLabel(
+      mixinForm<typeof BergDatepickerMixinBase, Date>(BergDatepickerMixinBase)
     )
   )
 );

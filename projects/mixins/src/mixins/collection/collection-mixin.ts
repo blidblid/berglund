@@ -1,6 +1,5 @@
 import { EventEmitter } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
-import { Connectable, connectCanConnect } from '@berglund/rx';
 import {
   BehaviorSubject,
   combineLatest,
@@ -8,7 +7,7 @@ import {
   Observable,
   ReplaySubject,
 } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { IncludeType } from '../../util';
 import { Constructor, Mixin, MixinApi } from '../core';
 import {
@@ -81,11 +80,6 @@ export function mixinCollection<
     );
 
     _radio$ = this._selection$.pipe(map((selection) => selection === 'radio'));
-
-    connectCollection: Connectable<V[]> | Observable<Connectable<V[]>>;
-    _connectCollection: Connectable<V[]>;
-    _connectCollection$ = this.defineAccessors('connectCollection', null);
-
     private updateCollectionSub = new ReplaySubject<V[]>(1);
     data: V[] | Observable<V[]>;
     _data: V[];
@@ -194,24 +188,6 @@ export function mixinCollection<
 
     constructor(...args: any[]) {
       super(...args);
-
-      this._connectCollection$
-        .pipe(takeUntil(this.destroyed$))
-        .subscribe((connectable) => {
-          if (connectable) {
-            connectCanConnect<V[]>(
-              connectable,
-              {
-                getChanges: () => this.getCollectionChanges(),
-                setErrors: (errors: ValidationErrors | null) => {
-                  return this.setCollectionErrors(errors);
-                },
-                update: (value: V[]) => this.updateCollection(value),
-              },
-              this.destroyed$
-            );
-          }
-        });
     }
 
     _sortCollection(sortEvent: CollectionSortEvent<V>) {

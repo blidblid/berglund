@@ -32,7 +32,7 @@ export class UpdateCharacterStreams {
     Validators.required,
   ]);
 
-  trigger = userTrigger<MouseEvent>();
+  trigger = userTrigger();
 
   errors$ = mergeWith(
     mergeValidationErrors,

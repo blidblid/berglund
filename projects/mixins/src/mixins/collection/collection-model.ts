@@ -1,4 +1,3 @@
-import { Connectable } from '@berglund/rx';
 import { IncludeType } from '../../util';
 
 /**
@@ -26,9 +25,6 @@ export interface Collection<
 
   /** Comparators to sort data by. */
   comparators: CollectionSortComparators<T> | null;
-
-  /** A Connectable to connect with. */
-  connectCollection: Connectable<T[]>;
 
   /** Selection type. */
   selection?: S;

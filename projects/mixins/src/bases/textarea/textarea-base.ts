@@ -1,8 +1,7 @@
 import { Directive, Injector } from '@angular/core';
 import {
   Mixin,
-  mixinCanConnect,
-  mixinFormControlParent,
+  mixinForm,
   mixinInteractive,
   mixinLabel,
   mixinStateful,
@@ -16,13 +15,9 @@ export class BergTextareaMixinBase extends Mixin {
 }
 
 export const BergTextareaBase = mixinInteractive(
-  mixinFormControlParent(
-    mixinStateful(
-      mixinLabel(
-        mixinCanConnect<typeof BergTextareaMixinBase, string>(
-          BergTextareaMixinBase
-        )
-      )
+  mixinStateful(
+    mixinLabel(
+      mixinForm<typeof BergTextareaMixinBase, string>(BergTextareaMixinBase)
     )
   )
 );

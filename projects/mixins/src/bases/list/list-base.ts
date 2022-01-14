@@ -2,10 +2,8 @@ import { Directive, Injector } from '@angular/core';
 import {
   Mixin,
   mixinCollection,
-  mixinCanConnect,
-  mixinFormControlParent,
+  mixinForm,
   mixinInteractive,
-  mixinNavigator,
   mixinStateful,
 } from '../../mixins';
 
@@ -17,14 +15,10 @@ export class BergListMixinBase extends Mixin {
 }
 
 export const BergListBase = mixinInteractive(
-  mixinNavigator(
-    mixinFormControlParent(
-      mixinStateful(
-        mixinCanConnect(
-          mixinCollection<typeof BergListMixinBase, 'radio' | 'multiple'>(
-            BergListMixinBase
-          )
-        )
+  mixinForm(
+    mixinStateful(
+      mixinCollection<typeof BergListMixinBase, 'radio' | 'multiple'>(
+        BergListMixinBase
       )
     )
   )

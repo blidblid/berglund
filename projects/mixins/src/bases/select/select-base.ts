@@ -3,8 +3,7 @@ import {
   Mixin,
   mixinCollection,
   mixinComponentOutlet,
-  mixinCanConnect,
-  mixinFormControlParent,
+  mixinForm,
   mixinInteractive,
   mixinLabel,
   mixinStateful,
@@ -18,14 +17,12 @@ export class BergSelectMixinBase extends Mixin {
 }
 
 export const BergSelectBase = mixinInteractive(
-  mixinFormControlParent(
+  mixinForm(
     mixinStateful(
       mixinLabel(
-        mixinCanConnect(
-          mixinComponentOutlet(
-            mixinCollection<typeof BergSelectMixinBase, 'radio' | 'multiple'>(
-              BergSelectMixinBase
-            )
+        mixinComponentOutlet(
+          mixinCollection<typeof BergSelectMixinBase, 'radio' | 'multiple'>(
+            BergSelectMixinBase
           )
         )
       )

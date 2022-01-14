@@ -18,11 +18,11 @@ import { enumerateInputs } from '../../util';
   changeDetection: ChangeDetectionStrategy.OnPush,
   inputs: enumerateInputs(
     BergButtonComponent,
-    'connect',
+    'connectToEvent',
+    'eventName',
     'type',
     'style',
     'isError',
-    'eventName',
     'context',
     'disabled',
     'hint',

@@ -3,8 +3,7 @@ import { Observable } from 'rxjs';
 import {
   Mixin,
   mixinComponentOutlet,
-  mixinCanConnect,
-  mixinFormControlParent,
+  mixinForm,
   mixinInteractive,
   mixinLabel,
   mixinStateful,
@@ -24,13 +23,11 @@ export class BergInputMixinBase extends Mixin {
 }
 
 export const BergInputBase = mixinStateful(
-  mixinFormControlParent(
-    mixinInteractive(
-      mixinLabel(
-        mixinComponentOutlet(
-          mixinCanConnect<typeof BergInputMixinBase, string | number>(
-            BergInputMixinBase
-          )
+  mixinInteractive(
+    mixinLabel(
+      mixinComponentOutlet(
+        mixinForm<typeof BergInputMixinBase, string | number>(
+          BergInputMixinBase
         )
       )
     )

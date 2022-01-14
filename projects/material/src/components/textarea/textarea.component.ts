@@ -16,6 +16,8 @@ import { enumerateInputs } from '../../util';
   changeDetection: ChangeDetectionStrategy.OnPush,
   inputs: enumerateInputs(
     BergTextareaComponent,
+    'formControl',
+    'connectToForm',
     'required',
     'readonly',
     'hint',
@@ -23,7 +25,6 @@ import { enumerateInputs } from '../../util';
     'placeholder',
     'ariaLabel',
     'ariaLabelledby',
-    'connect',
     'disabled',
     'minRows',
     'maxRows'

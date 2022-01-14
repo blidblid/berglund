@@ -1,36 +1,34 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router } from '@angular/router';
-import { Character } from '@app/api';
+import { FormControl } from '@angular/forms';
 import {
   BergButtonComponent,
   BergListComponent,
   BergTableComponent,
 } from '@berglund/material';
-import { component, components } from '@berglund/mixins';
-import { map, shareReplay } from 'rxjs/operators';
+import { component } from '@berglund/mixins';
 import { Streams } from '../../streams/streams';
 import { UpdateCharacterComponents } from './update-character-components';
 
 @Injectable({ providedIn: 'root' })
 export class PresentCharacterComponents {
-  actions = components(
-    {
+  actions = [
+    component({
       component: BergButtonComponent,
       inputs: {
         style: 'icon',
         label: 'edit',
-        connect: this.streams.character.update.selectedCharacter,
+        connectToEvent: this.streams.character.update.selectedCharacter,
       },
-    },
-    {
+    }),
+    component({
       component: BergButtonComponent,
       inputs: {
         style: 'icon',
         label: 'delete',
-        connect: this.streams.character.update.removedCharacter,
+        connectToEvent: this.streams.character.update.removedCharacter,
       },
-    }
-  );
+    }),
+  ];
 
   table = component({
     component: BergTableComponent,
@@ -55,29 +53,8 @@ export class PresentCharacterComponents {
     inputs: {
       data: this.streams.character.characters,
       pluckLabel: 'characterName',
-      connect: this.streams.character.selected.selectedCharacter,
-      getValueFromRoute: this.streams.character.characters.pipe(
-        map((characters) => {
-          return (activatedRoute: ActivatedRouteSnapshot) => {
-            const character = characters.find((c) => {
-              return (
-                activatedRoute.queryParamMap.get('characterName') ===
-                c.characterName
-              );
-            });
-
-            return character ? [character] : [];
-          };
-        }),
-        shareReplay(1)
-      ),
-      updateRouteFromValue: (value: Character | null, router: Router) => {
-        void router.navigate([], {
-          queryParams: {
-            characterName: value?.characterName,
-          },
-        });
-      },
+      connectToForm: this.streams.character.selected.selectedCharacter,
+      formControl: new FormControl(),
     },
   });
 

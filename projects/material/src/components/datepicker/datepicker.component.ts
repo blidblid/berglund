@@ -15,6 +15,8 @@ import { enumerateInputs } from '../../util';
   encapsulation: ViewEncapsulation.None,
   inputs: enumerateInputs(
     BergDatepickerComponent,
+    'formControl',
+    'connectToForm',
     'required',
     'readonly',
     'hint',
@@ -22,7 +24,6 @@ import { enumerateInputs } from '../../util';
     'placeholder',
     'ariaLabel',
     'ariaLabelledby',
-    'connect',
     'disabled'
   ),
   host: {

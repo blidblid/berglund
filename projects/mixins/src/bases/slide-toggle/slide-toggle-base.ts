@@ -1,8 +1,7 @@
 import { Directive, Injector } from '@angular/core';
 import {
   Mixin,
-  mixinCanConnect,
-  mixinFormControlParent,
+  mixinForm,
   mixinInteractive,
   mixinLabel,
   mixinStateful,
@@ -17,11 +16,9 @@ export class BergSlideToggleMixinBase extends Mixin {
 
 export const BergSlideToggleBase = mixinInteractive(
   mixinStateful(
-    mixinFormControlParent(
-      mixinLabel(
-        mixinCanConnect<typeof BergSlideToggleMixinBase, boolean>(
-          BergSlideToggleMixinBase
-        )
+    mixinLabel(
+      mixinForm<typeof BergSlideToggleMixinBase, boolean>(
+        BergSlideToggleMixinBase
       )
     )
   )

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { BergButtonComponent } from '@berglund/material';
 import { component } from '@berglund/mixins';
 import { Streams } from '../../streams/streams';
@@ -7,22 +8,25 @@ import { CharacterModelComponents } from './model-components';
 @Injectable({ providedIn: 'root' })
 export class AddCharacterComponents {
   characterName = component(this.characterModelComponents.characterName, {
-    connect: this.streams.character.add.characterName,
+    connectToForm: this.streams.character.add.characterName,
+    formControl: new FormControl(),
   });
 
   luckyNumber = component(this.characterModelComponents.luckyNumber, {
-    connect: this.streams.character.add.luckyNumber,
+    connectToForm: this.streams.character.add.luckyNumber,
+    formControl: new FormControl(),
   });
 
   drinks = component(this.characterModelComponents.drinks, {
-    connect: this.streams.character.add.drinks,
+    connectToForm: this.streams.character.add.drinks,
+    formControl: new FormControl(),
   });
 
   trigger = component({
     component: BergButtonComponent,
     inputs: {
-      connect: this.streams.character.add.trigger,
       disabled: this.streams.character.add.hasErrors$,
+      connectToEvent: this.streams.character.add.trigger,
       label: 'Add',
       hint: 'Hints',
     },

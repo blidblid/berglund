@@ -15,6 +15,8 @@ import { enumerateInputs } from '../../util';
   changeDetection: ChangeDetectionStrategy.OnPush,
   inputs: enumerateInputs(
     BergInputComponent,
+    'formControl',
+    'connectToForm',
     'disabled',
     'hint',
     'label',
@@ -22,7 +24,6 @@ import { enumerateInputs } from '../../util';
     'ariaLabel',
     'ariaLabelledby',
     'getProjectedComponent',
-    'connect',
     'required',
     'readonly',
     'type'

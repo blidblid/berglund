@@ -26,11 +26,8 @@ export function userInput<T>(
   return subject;
 }
 
-export function userTrigger<T>(source: Observable<T> | T = EMPTY): Subject<T> {
-  const subject = new UserTriggerSubject<T>();
-  subscribeSubject(subject, source);
-
-  return subject;
+export function userTrigger<T = any>(): Subject<T> {
+  return new UserTriggerSubject<T>();
 }
 
 export interface UserInputOptions {

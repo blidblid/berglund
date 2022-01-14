@@ -15,6 +15,8 @@ import { enumerateInputs } from '../../util';
   changeDetection: ChangeDetectionStrategy.OnPush,
   inputs: enumerateInputs(
     BergSelectComponent,
+    'formControl',
+    'connectToForm',
     'required',
     'readonly',
     'hint',
@@ -22,7 +24,6 @@ import { enumerateInputs } from '../../util';
     'placeholder',
     'ariaLabel',
     'ariaLabelledby',
-    'connect',
     'getProjectedComponent',
     'data',
     'pluckLabel',
@@ -30,7 +31,6 @@ import { enumerateInputs } from '../../util';
     'pluckRearrangeable',
     'groupBy',
     'comparators',
-    'connectCollection',
     'selection',
     'disabled',
     'dataChanged'
