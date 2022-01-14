@@ -8,9 +8,9 @@ import {
   Observable,
 } from 'rxjs';
 import { delay, map, switchMap, takeUntil } from 'rxjs/operators';
-import { Constructor } from '../mixin/constructor';
-import { Mixin, MixinApi } from '../mixin/mixin-base';
-import { Form } from './form-control-parent-model';
+import { Constructor } from '../core/mixin/constructor';
+import { Mixin, MixinApi } from '../core/mixin/mixin-base';
+import { Form } from './form-model';
 
 interface FormMixin<T> extends MixinApi<Form<T>> {
   _errors$: Observable<ValidationErrors | null>;
