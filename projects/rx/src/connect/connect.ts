@@ -1,18 +1,6 @@
-import { FormControl, FormGroup } from '@angular/forms';
-import { EMPTY, filter, isObservable, Observable, takeUntil } from 'rxjs';
-import { Connectable } from './can-connect';
+import { filter, isObservable, Observable, takeUntil } from 'rxjs';
+import { Connectable } from './connect-model';
 import { UserInputSubject, UserTriggerSubject } from './user-input';
-
-/** Connects a FormControl with a Connectable. */
-export function connectForm<T>(
-  connectable: Connectable<T>,
-  form: FormControl | FormGroup,
-  destroyed$: Observable<any> = EMPTY
-): void {
-  connect(connectable, form.valueChanges, destroyed$, (value) => {
-    form.setValue(value, { emitEvent: false });
-  });
-}
 
 export function connect<T>(
   connectable: Connectable<T>,
