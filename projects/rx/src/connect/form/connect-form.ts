@@ -1,7 +1,7 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { EMPTY, Observable } from 'rxjs';
-import { connect } from '../connect';
 import { Connectable } from '../connect-model';
+import { connect } from '../connect-util';
 
 /** Connects a FormControl with a Connectable. */
 export function connectForm<T>(

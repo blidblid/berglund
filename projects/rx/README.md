@@ -3,9 +3,9 @@
 `@berglund/rx` is a state architecture that divides state into two parts
 
 - observables
-- operator components
+- connected components
 
-The goal is to maximize the power of `rxjs`, and to minimize other state patterns, such as reducer actions and reactive forms. It does this by setting up all observables in services and viewing stateful components as operators in these streams.
+The goal is to maximize the power of `rxjs`, and to minimize other state patterns, such as reducer actions and reactive forms. It does this by setting up all observables in services and connecting stateful components to these streams.
 
 ## The architecture
 
@@ -13,19 +13,9 @@ In most Angular app architectures, information flow is partly declared inside co
 
 `rxjs` is a declarative paradigm. We're supposed to declare our streams, fire our event producers, kick back, and watch as the app start updating magically. But when we rely on things like `FormControl` and `NgRx.Action`, we're including imperative programming into the code base. We're forced to call `subscribe` on observables, how else are we going to call `formControl.setValue`? And in many cases, what could have been neat declarative state code becomes a mess of `Subject` and `subscribe` calls.
 
-To get around this, and to truly maximize the power of `rxjs`, this architecture aims to completely remove stateful components. Instead, it treats those components as operator functions.
-
-```typescript
-// pseudo code
-of(true).pipe(
-  checkbox(),
-  switchMap((preference) => this.preferences.update(preference))
-);
-```
-
 ### Step 1 - setup observables
 
-The first step in the architecture is to describe information flow using nothing but `Observable`. For a user on imdb.com, it might look something like this:
+The first step in this architecture is to describe information flow using nothing but `Observable`. For a user on imdb.com, it might look something like this:
 
 ```typescript
 @Injectable({ providedIn: 'root' })
@@ -47,37 +37,32 @@ export class UserRx {
 In step 1, the information flow does not describe user interaction. This is where the second step comes in. Revisit the observables above and wrap some of them with `userInput`. This will create a `Subject` and subscribe it to that observable. The observable has become _connectable_, in the sense that values can be pushed onto it.
 
 ```typescript
-import { userInput } from '@berglund/rx';
+@Injectable({ providedIn: 'root' })
+export class UserRx {
+  userName$ = userInput<string>();
 
-userName$ = userInput<string>(EMPTY, [
-  Validators.minLength(3),
-  Validators.required,
-]);
+  user$ = this.userName$.pipe(
+    switchMap(userName => this.userService.auth(userName))
+  );
+
+  favoriteMovie$ = this.user$.pipe(
+    switchMap(user) => this.movieService.get(user.favoriteMovieId))
+  );
+}
 ```
 
-### Step 3 - connect operator components
+### Step 3 - connect to the subject
 
-At this point, the observable chain is ready to start firing. The `Subject` just needs values pushed onto it. This is the job of operator-components. An operator component implements the `CanConnect`-interface, which specifies how to interact with the `Subject`.
+At this point, the observable chain is ready to start firing. The `Subject` just needs values pushed onto it. The simplest way would be to call `next` on the `Subject`, but then we'd still use statements to update state, and not declarations. This library contains utilities to get around this.
 
-Using `@berglund/material/BergInputComponent`, connection looks like this
-
-```typescript
-userName = component({
-  component: BergInputComponent,
-  inputs: {
-    label: 'User name',
-    connect: this.observables.userName$,
-  },
-});
-```
-
-But other component libraries can connect too, with a `FormControl` for example:
+To connect a `FormControl` to a `Subject`, use `ConnectedFormControl`
 
 ```html
-<input
-  [formControl]="formControl"
-  [connectFormControlValue]="rx.user.userName$"
-/>
+<input [formControl]="formControl" />
+```
+
+```typescript
+formControl = new ConnectedFormControl(this.userRx.userName$);
 ```
 
 And that's it.

@@ -37,3 +37,7 @@ export function connect<T>(
     )
     .subscribe((value) => writeValue(value));
 }
+
+export function getConnectableValue<T>(connectable: Connectable<T>): T | null {
+  return isObservable(connectable) ? null : connectable ?? null;
+}

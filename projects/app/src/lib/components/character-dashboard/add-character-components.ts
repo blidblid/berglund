@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BergButtonComponent } from '@berglund/material';
 import { component } from '@berglund/mixins';
+import { ConnectedFormControl } from '@berglund/rx';
 import { Streams } from '../../streams/streams';
 import { CharacterModelComponents } from './model-components';
 
 @Injectable({ providedIn: 'root' })
 export class AddCharacterComponents {
   characterName = component(this.characterModelComponents.characterName, {
-    connectToForm: this.streams.character.add.characterName,
-    formControl: new FormControl(),
+    formControl: new ConnectedFormControl(
+      this.streams.character.add.characterName
+    ),
   });
 
   luckyNumber = component(this.characterModelComponents.luckyNumber, {
