@@ -16,7 +16,8 @@ import { enumerateInputs } from '../../util';
   inputs: enumerateInputs(
     BergDatepickerComponent,
     'formControl',
-    'connectToForm',
+    'connectToFormValue',
+    'connectToFormError',
     'required',
     'readonly',
     'hint',

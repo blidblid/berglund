@@ -6,8 +6,9 @@ import {
 } from '@angular/core';
 import {
   shareReplayUntil,
-  UserInputSubject,
+  UserErrorSubject,
   UserTriggerSubject,
+  UserValueSubject,
 } from '@berglund/rx';
 import { EMPTY, isObservable, merge, Observable, of, Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
@@ -111,7 +112,8 @@ export class Mixin<T = any> implements OnDestroy {
     const value: T[K] | Observable<T[K]> = inputs[key];
 
     if (
-      value instanceof UserInputSubject ||
+      value instanceof UserErrorSubject ||
+      value instanceof UserValueSubject ||
       value instanceof UserTriggerSubject
     ) {
       return of(value as any);

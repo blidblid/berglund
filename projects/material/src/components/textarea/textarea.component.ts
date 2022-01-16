@@ -17,7 +17,8 @@ import { enumerateInputs } from '../../util';
   inputs: enumerateInputs(
     BergTextareaComponent,
     'formControl',
-    'connectToForm',
+    'connectToFormValue',
+    'connectToFormError',
     'required',
     'readonly',
     'hint',

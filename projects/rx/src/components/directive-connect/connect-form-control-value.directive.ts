@@ -7,7 +7,7 @@ import {
   FormGroupDirective,
 } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { Connectable, connectForm } from '../../connect';
+import { Connectable, connectFormValue } from '../../connect';
 
 /** Connects a FormControl to a Subject. */
 @Directive({
@@ -17,7 +17,7 @@ export class BergConnectFormControlValueDirective<T = any> {
   /** Connectable to connect with FormControl. */
   @Input('connectForm')
   set connectable(connectable: Connectable<T>) {
-    connectForm(connectable, this.formControl, this.destroySub);
+    connectFormValue(connectable, this.formControl, this.destroySub);
   }
 
   get formControl(): FormControl | FormGroup {

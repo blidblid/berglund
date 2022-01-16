@@ -1,5 +1,5 @@
 import { FormControl, ValidationErrors } from '@angular/forms';
-import { Connectable, connectForm } from '@berglund/rx';
+import { Connectable, connectFormError, connectFormValue } from '@berglund/rx';
 import {
   asapScheduler,
   BehaviorSubject,
@@ -25,9 +25,13 @@ export function mixinForm<T extends Constructor<Mixin<Form<V>>> = any, V = any>(
   base: T
 ): FormConstructor<V> & T {
   return class extends base {
-    connectToForm: Connectable<V> | Observable<Connectable<V>>;
-    _connectToForm: Connectable<V>;
-    _connectToForm$ = this.defineAccessors('connectToForm', null);
+    connectToFormValue: Connectable<V> | Observable<Connectable<V>>;
+    _connectToFormValue: Connectable<V>;
+    _connectToFormValue$ = this.defineAccessors('connectToFormValue', null);
+
+    connectToFormError: Connectable<V> | Observable<Connectable<V>>;
+    _connectToFormError: Connectable<V>;
+    _connectToFormError$ = this.defineAccessors('connectToFormError', null);
 
     formControl: FormControl | Observable<FormControl>;
     _formControl: FormControl;
@@ -51,18 +55,23 @@ export function mixinForm<T extends Constructor<Mixin<Form<V>>> = any, V = any>(
     constructor(...args: any[]) {
       super(...args);
 
-      combineLatest([this._formControl$, this._connectToForm$])
+      combineLatest([this._formControl$, this._connectToFormValue$])
         // delay to let mixin finish mixing
         .pipe(delay(0, asapScheduler), takeUntil(this.destroyed$))
-        .subscribe(([formControl, connectToForm]) => {
+        .subscribe(([formControl, connectToFormValue]) => {
           if (formControl) {
-            connectForm(connectToForm, formControl, this.destroyed$);
+            connectFormValue(connectToFormValue, formControl, this.destroyed$);
           }
         });
-    }
 
-    setErrors(errors: ValidationErrors | null): void {
-      this._formControl?.setErrors(errors);
+      combineLatest([this._formControl$, this._connectToFormError$])
+        // delay to let mixin finish mixing
+        .pipe(delay(0, asapScheduler), takeUntil(this.destroyed$))
+        .subscribe(([formControl, connectToFormError]) => {
+          if (formControl) {
+            connectFormError(connectToFormError, formControl, this.destroyed$);
+          }
+        });
     }
   };
 }

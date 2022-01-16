@@ -5,7 +5,7 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 import { isObservable } from 'rxjs';
-import { connectForm } from '.';
+import { connectFormValue } from '.';
 import { Connectable } from '../connect-model';
 import { getConnectableValue } from '../connect-util';
 
@@ -22,7 +22,7 @@ export class ConnectedFormControl extends FormControl {
     super(getConnectableValue(connectable), validatorOrOpts, asyncValidator);
 
     if (isObservable(connectable)) {
-      connectForm(connectable, this);
+      connectFormValue(connectable, this);
     }
   }
 }

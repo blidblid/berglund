@@ -53,7 +53,7 @@ export class PresentCharacterComponents {
     inputs: {
       data: this.streams.character.characters,
       pluckLabel: 'characterName',
-      connectToForm: this.streams.character.selected.selectedCharacter,
+      connectToFormValue: this.streams.character.selected.selectedCharacter,
       formControl: new FormControl(),
     },
   });

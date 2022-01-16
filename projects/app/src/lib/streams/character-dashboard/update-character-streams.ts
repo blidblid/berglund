@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Validators } from '@angular/forms';
 import { Character } from '@app/api';
 import { mergeValidationErrors } from '@berglund/mixins';
 import {
@@ -7,38 +6,38 @@ import {
   mergeWith,
   triggeredUnflatten,
   UpdateValue,
-  userInput,
+  userError,
   userTrigger,
+  userValue,
 } from '@berglund/rx';
 import { Observable, of } from 'rxjs';
 import { pluck, switchMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class UpdateCharacterStreams {
-  selectedCharacter = userInput<Character>();
-  removedCharacter = userInput<Character>();
+  selectedCharacter = userValue<Character>();
+  removedCharacter = userValue<Character>();
 
-  characterName = userInput<string>(
-    this.selectedCharacter.pipe(pluck('characterName')),
-    [Validators.minLength(3)]
+  characterName = userValue<string>(
+    this.selectedCharacter.pipe(pluck('characterName'))
   );
 
-  luckyNumber = userInput<string>(
-    this.selectedCharacter.pipe(pluck('luckyNumber')),
-    [Validators.required]
+  luckyNumber = userValue<string>(
+    this.selectedCharacter.pipe(pluck('luckyNumber'))
   );
 
-  drinks = userInput<string>(this.selectedCharacter.pipe(pluck('drinks')), [
-    Validators.required,
-  ]);
-
+  drinks = userValue<string>(this.selectedCharacter.pipe(pluck('drinks')));
   trigger = userTrigger();
+
+  drinksError = userError();
+  characterNameError = userError();
+  luckyNumberError = userError();
 
   errors$ = mergeWith(
     mergeValidationErrors,
-    this.characterName.getErrors(),
-    this.luckyNumber.getErrors(),
-    this.drinks.getErrors()
+    this.characterNameError,
+    this.luckyNumberError,
+    this.drinksError
   );
 
   hasErrors$ = this.errors$.pipe(hasLength());

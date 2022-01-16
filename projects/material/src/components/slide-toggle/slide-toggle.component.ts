@@ -16,7 +16,8 @@ import { enumerateInputs } from '../../util';
   inputs: enumerateInputs(
     BergSlideToggleComponent,
     'formControl',
-    'connectToForm',
+    'connectToFormValue',
+    'connectToFormError',
     'required',
     'readonly',
     'hint',

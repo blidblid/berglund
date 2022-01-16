@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { BergButtonComponent } from '@berglund/material';
 import { component } from '@berglund/mixins';
 import { ConnectedFormControl } from '@berglund/rx';
@@ -10,18 +10,19 @@ import { CharacterModelComponents } from './model-components';
 export class AddCharacterComponents {
   characterName = component(this.characterModelComponents.characterName, {
     formControl: new ConnectedFormControl(
-      this.streams.character.add.characterName
+      this.streams.character.add.characterName,
+      [Validators.minLength(3), Validators.required]
     ),
   });
 
   luckyNumber = component(this.characterModelComponents.luckyNumber, {
-    connectToForm: this.streams.character.add.luckyNumber,
-    formControl: new FormControl(),
+    connectToFormValue: this.streams.character.add.luckyNumber,
+    formControl: new FormControl(null, Validators.required),
   });
 
   drinks = component(this.characterModelComponents.drinks, {
-    connectToForm: this.streams.character.add.drinks,
-    formControl: new FormControl(),
+    connectToFormValue: this.streams.character.add.drinks,
+    formControl: new FormControl(null, Validators.required),
   });
 
   trigger = component({

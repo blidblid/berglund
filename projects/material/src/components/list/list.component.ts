@@ -16,7 +16,8 @@ import { enumerateInputs } from '../../util';
   inputs: enumerateInputs(
     BergListComponent,
     'formControl',
-    'connectToForm',
+    'connectToFormValue',
+    'connectToFormError',
     'required',
     'readonly',
     'data',

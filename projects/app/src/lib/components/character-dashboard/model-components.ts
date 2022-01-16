@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Character } from '@app/api';
-import { ModelComponents } from '@berglund/components';
 import { BergInputComponent, BergSelectComponent } from '@berglund/material';
-import { component } from '@berglund/mixins';
+import { component, ModelComponents } from '@berglund/mixins';
 
 @Injectable({ providedIn: 'root' })
 export class CharacterModelComponents

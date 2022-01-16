@@ -1,6 +1,6 @@
 import { filter, isObservable, Observable, takeUntil } from 'rxjs';
 import { Connectable } from './connect-model';
-import { UserInputSubject, UserTriggerSubject } from './user-input';
+import { UserTriggerSubject, UserValueSubject } from './user-input';
 
 export function connect<T>(
   connectable: Connectable<T>,
@@ -11,7 +11,7 @@ export function connect<T>(
   let isUserInput = false;
 
   if (
-    connectable instanceof UserInputSubject ||
+    connectable instanceof UserValueSubject ||
     connectable instanceof UserTriggerSubject
   ) {
     valueChanges.pipe(takeUntil(destroyed$)).subscribe((value) => {

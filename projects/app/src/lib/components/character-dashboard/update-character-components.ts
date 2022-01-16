@@ -8,17 +8,17 @@ import { CharacterModelComponents } from './model-components';
 @Injectable({ providedIn: 'root' })
 export class UpdateCharacterComponents {
   characterName = component(this.characterModelComponents.characterName, {
-    connectToForm: this.streams.character.update.characterName,
+    connectToFormValue: this.streams.character.update.characterName,
     formControl: new FormControl(),
   });
 
   luckyNumber = component(this.characterModelComponents.luckyNumber, {
-    connectToForm: this.streams.character.update.luckyNumber,
+    connectToFormValue: this.streams.character.update.luckyNumber,
     formControl: new FormControl(),
   });
 
   drinks = component(this.characterModelComponents.drinks, {
-    connectToForm: this.streams.character.update.drinks,
+    connectToFormValue: this.streams.character.update.drinks,
     formControl: new FormControl(),
   });
 

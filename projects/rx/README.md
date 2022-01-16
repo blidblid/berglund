@@ -34,12 +34,12 @@ export class UserRx {
 
 ### Step 2 - make observables connectable using subjects
 
-In step 1, the information flow does not describe user interaction. This is where the second step comes in. Revisit the observables above and wrap some of them with `userInput`. This will create a `Subject` and subscribe it to that observable. The observable has become _connectable_, in the sense that values can be pushed onto it.
+In step 1, the information flow does not describe user interaction. This is where the second step comes in. Revisit the observables above and wrap some of them with `userValue`. This will create a `Subject` and subscribe it to that observable. The observable has become _connectable_, in the sense that values can be pushed onto it.
 
 ```typescript
 @Injectable({ providedIn: 'root' })
 export class UserRx {
-  userName$ = userInput<string>();
+  userName$ = userValue<string>();
 
   user$ = this.userName$.pipe(
     switchMap(userName => this.userService.auth(userName))
@@ -53,16 +53,17 @@ export class UserRx {
 
 ### Step 3 - connect to the subject
 
-At this point, the observable chain is ready to start firing. The `Subject` just needs values pushed onto it. The simplest way would be to call `next` on the `Subject`, but then we'd still use statements to update state, and not declarations. This library contains utilities to get around this.
+At this point, the observable chain is ready to start firing. The `Subject` just needs values pushed onto it. The simplest way would be to call `next` on the `Subject`, but then we'd still use statements to update state. This library instead contain utilities to write fully declarative code.
 
-To connect a `FormControl` to a `Subject`, use `ConnectedFormControl`
-
-```html
-<input [formControl]="formControl" />
-```
+To connect a `FormControl` to a `Subject`, call connect `connectFormValue`
 
 ```typescript
-formControl = new ConnectedFormControl(this.userRx.userName$);
-```
+@Injectable({ providedIn: 'root' })
+export class UserForm {
+  userName = new FormControl();
 
-And that's it.
+  constructor(private userRx: UserRx) {
+    connectFormValue(this.userRx.userName, this.userName);
+  }
+}
+```

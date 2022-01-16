@@ -1,50 +1,50 @@
 import { Validators } from '@angular/forms';
-import { userInput } from '@berglund/rx';
+import { userValue } from '@berglund/rx';
 import { EMPTY, of } from 'rxjs';
 
-describe('userInput', () => {
+describe('userValue', () => {
   it('should emit values', () => {
     const value = 'hyzer';
-    const userInput$ = userInput();
-    userInput$.next(value);
+    const userValue$ = userValue();
+    userValue$.next(value);
 
-    userInput$.subscribe((value) => {
+    userValue$.subscribe((value) => {
       expect(value).toBe(value);
     });
   });
 
   it('should not emit invalid values', () => {
-    const userInput$ = userInput<number>(EMPTY, [Validators.min(5)]);
-    userInput$.next(0);
+    const userValue$ = userValue<number>(EMPTY, [Validators.min(5)]);
+    userValue$.next(0);
 
-    userInput$.subscribe(() => {
+    userValue$.subscribe(() => {
       fail();
     });
 
-    userInput$.getErrors().subscribe((errors) => {
+    userValue$.getErrors().subscribe((errors) => {
       expect(errors).not.toBe(null);
     });
   });
 
   it('should emit invalid values when emitInvalid is enabled', () => {
     const value = 'flip';
-    const userInput$ = userInput<string>(EMPTY, {
+    const userValue$ = userValue<string>(EMPTY, {
       validators: [Validators.min(5)],
       emitInvalid: true,
     });
 
-    userInput$.next(value);
+    userValue$.next(value);
 
-    userInput$.subscribe((value) => {
+    userValue$.subscribe((value) => {
       expect(value).toBe(value);
     });
   });
 
   it('should start with a sync source', () => {
     const source = 'noa';
-    const userInput$ = userInput(source);
+    const userValue$ = userValue(source);
 
-    userInput$.subscribe((value) => {
+    userValue$.subscribe((value) => {
       expect(value).toBe(source);
     });
   });
@@ -52,9 +52,9 @@ describe('userInput', () => {
   it('should subscribe to an observable source', () => {
     const source = 'noa';
     const source$ = of(source);
-    const userInput$ = userInput(source$);
+    const userValue$ = userValue(source$);
 
-    userInput$.subscribe((value) => {
+    userValue$.subscribe((value) => {
       expect(value).toBe(source);
     });
   });
