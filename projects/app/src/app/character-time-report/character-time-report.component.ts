@@ -4,7 +4,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { Components } from '@app/components';
-import { Streams } from '@app/streams';
+import { Rx } from 'projects/app/src/lib/rx';
 
 @Component({
   selector: 'app-character-time-report',
@@ -17,5 +17,5 @@ import { Streams } from '@app/streams';
   },
 })
 export class CharacterTimeReportComponent {
-  constructor(public streams: Streams, public components: Components) {}
+  constructor(public rx: Rx, public components: Components) {}
 }

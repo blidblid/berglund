@@ -3,7 +3,7 @@
   "compilerOptions": {
     "paths": {
       "@app/api": ["./projects/app/src/lib/api"],
-      "@app/streams": ["./projects/app/src/lib/streams"],
+      "@app/rx": ["projects/app/src/lib/rx"],
       "@app/components": ["./projects/app/src/lib/components"],
       "@berglund/rx": ["./projects/rx/src"],
       "@berglund/components": ["./projects/components/src"],

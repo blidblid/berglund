@@ -13,7 +13,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
-export class AddCharacterStreams {
+export class AddCharacterRx {
   characterName = userValue<string>();
   luckyNumber = userValue<string>();
   drinks = userValue<string>();

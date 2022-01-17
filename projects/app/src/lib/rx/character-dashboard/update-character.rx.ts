@@ -14,7 +14,7 @@ import { Observable, of } from 'rxjs';
 import { pluck, switchMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
-export class UpdateCharacterStreams {
+export class UpdateCharacterRx {
   selectedCharacter = userValue<Character>();
   removedCharacter = userValue<Character>();
 

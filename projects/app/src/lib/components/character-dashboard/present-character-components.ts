@@ -6,7 +6,7 @@ import {
   BergTableComponent,
 } from '@berglund/material';
 import { component } from '@berglund/mixins';
-import { Streams } from '../../streams/streams';
+import { Rx } from '../../rx/rx';
 import { UpdateCharacterComponents } from './update-character-components';
 
 @Injectable({ providedIn: 'root' })
@@ -17,7 +17,7 @@ export class PresentCharacterComponents {
       inputs: {
         style: 'icon',
         label: 'edit',
-        connectToEvent: this.streams.character.update.selectedCharacter,
+        connectToEvent: this.rx.character.update.selectedCharacter,
       },
     }),
     component({
@@ -25,7 +25,7 @@ export class PresentCharacterComponents {
       inputs: {
         style: 'icon',
         label: 'delete',
-        connectToEvent: this.streams.character.update.removedCharacter,
+        connectToEvent: this.rx.character.update.removedCharacter,
       },
     }),
   ];
@@ -33,7 +33,7 @@ export class PresentCharacterComponents {
   table = component({
     component: BergTableComponent,
     inputs: {
-      data: this.streams.character.characters,
+      data: this.rx.character.characters,
       placeholder: 'No characters yet.',
       columns: [
         { key: 'characterName', label: 'Character name' },
@@ -41,7 +41,7 @@ export class PresentCharacterComponents {
         { key: 'drinks', label: 'Drinks' },
       ],
       expandRowComponent: {
-        value: this.streams.character.update.selectedCharacter,
+        value: this.rx.character.update.selectedCharacter,
         component: this.updateCharacterComponents.all,
       },
       getProjectedComponent: () => this.actions,
@@ -51,15 +51,15 @@ export class PresentCharacterComponents {
   list = component({
     component: BergListComponent,
     inputs: {
-      data: this.streams.character.characters,
+      data: this.rx.character.characters,
       pluckLabel: 'characterName',
-      connectToFormValue: this.streams.character.selected.selectedCharacter,
+      connectToFormValue: this.rx.character.selected.selectedCharacter,
       formControl: new FormControl(),
     },
   });
 
   constructor(
-    private streams: Streams,
+    private rx: Rx,
     private updateCharacterComponents: UpdateCharacterComponents
   ) {}
 }

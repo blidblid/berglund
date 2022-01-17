@@ -2,23 +2,23 @@ import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BergButtonComponent } from '@berglund/material';
 import { component } from '@berglund/mixins';
-import { Streams } from '../../streams/streams';
+import { Rx } from '../../rx/rx';
 import { CharacterModelComponents } from './model-components';
 
 @Injectable({ providedIn: 'root' })
 export class UpdateCharacterComponents {
   characterName = component(this.characterModelComponents.characterName, {
-    connectToFormValue: this.streams.character.update.characterName,
+    connectToFormValue: this.rx.character.update.characterName,
     formControl: new FormControl(),
   });
 
   luckyNumber = component(this.characterModelComponents.luckyNumber, {
-    connectToFormValue: this.streams.character.update.luckyNumber,
+    connectToFormValue: this.rx.character.update.luckyNumber,
     formControl: new FormControl(),
   });
 
   drinks = component(this.characterModelComponents.drinks, {
-    connectToFormValue: this.streams.character.update.drinks,
+    connectToFormValue: this.rx.character.update.drinks,
     formControl: new FormControl(),
   });
 
@@ -27,15 +27,15 @@ export class UpdateCharacterComponents {
     inputs: {
       style: 'label',
       label: 'Update',
-      disabled: this.streams.character.update.hasErrors$,
-      connectToEvent: this.streams.character.update.trigger,
+      disabled: this.rx.character.update.hasErrors$,
+      connectToEvent: this.rx.character.update.trigger,
     },
   });
 
   all = [this.characterName, this.luckyNumber, this.drinks, this.trigger];
 
   constructor(
-    private streams: Streams,
+    private rx: Rx,
     private characterModelComponents: CharacterModelComponents
   ) {}
 }

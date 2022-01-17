@@ -3,6 +3,6 @@ import { Character } from '@app/api';
 import { userValue } from '@berglund/rx';
 
 @Injectable({ providedIn: 'root' })
-export class SelectedCharacterStreams {
+export class SelectedCharacterRx {
   selectedCharacter = userValue<Character>();
 }
