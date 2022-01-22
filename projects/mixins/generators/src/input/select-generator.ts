@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { BergSelectMixinBase } from '@berglund/mixins';
 import { JSONSchema7 } from 'json-schema';
 import {
+  createLabelInputs,
   createSelectionInputs,
   createStatefulInputs,
   isSelectionSchema,
@@ -23,6 +24,7 @@ export function createJsonSchemaToSelectGenerator(
       mixinComponent: {
         component,
         inputs: {
+          ...createLabelInputs(schema, context),
           ...createStatefulInputs(schema, context),
           ...createSelectionInputs(schema),
         },

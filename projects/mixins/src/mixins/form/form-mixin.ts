@@ -27,7 +27,7 @@ export function mixinForm<T extends Constructor<Mixin<Form<V>>> = any, V = any>(
   return class extends base {
     connectToFormValue: Connectable<V> | Observable<Connectable<V>>;
     _connectToFormValue: Connectable<V>;
-    _connectToFormValue$ = this.defineAccessors('connectToFormValue', null);
+    _connectToFormValue$ = this.defineAccessors('connectToFormValue');
 
     connectToFormError: Connectable<V> | Observable<Connectable<V>>;
     _connectToFormError: Connectable<V>;
@@ -35,7 +35,7 @@ export function mixinForm<T extends Constructor<Mixin<Form<V>>> = any, V = any>(
 
     formControl: FormControl | Observable<FormControl>;
     _formControl: FormControl;
-    _formControl$ = this.defineAccessors('formControl');
+    _formControl$ = this.defineAccessors('formControl', new FormControl());
 
     private _disabledSub = new BehaviorSubject<boolean>(false);
     _disabled$ = this._disabledSub.value;

@@ -2,7 +2,7 @@
   "name": "@berglund/rx",
   "repositoryUrl": "https://github.com/blidblid/berg/tree/main/projects/rx",
   "description": "A simple state library for Angular.",
-  "version": "0.0.6",
+  "version": "0.0.9",
   "peerDependencies": {
     "@angular/common": "^13.0.0",
     "@angular/core": "^13.0.0"

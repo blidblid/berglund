@@ -29,7 +29,6 @@
     "@berglund/material": "^0.0.5",
     "@berglund/mixins": "^0.0.1",
     "@berglund/rx": "^0.0.1",
-    "ajv": "^8.6.3",
     "firebase": "^9.2.0",
     "glob": "^7.2.0",
     "highlight.js": "^11.2.0",

@@ -59,10 +59,12 @@ Pretty smooth, but now the table is now hundreds of lines of code. And here lies
   - the code is overly focused on _how_ to solve a problem, not _what_ it's trying to solve. Let's say `mat-table` suddenly needs nested drag drop. Since `@angular/cdk/drag-drop` does not support that, the code needs massive refactoring
 - poor dynamic support
   - neither Angular directives or `@ContentChildren` can attach dynamically
+- poor serialization
+  - since the API is partly described by templates, components cannot be serialized. This makes mapping models, such as `JsonSchema`, to components very difficult.
 
 ## The solution
 
-Let's add another layer between apps and libraries. The goal is an API that is fully described by its inputs, and not by its template.
+Let's add another layer between apps and libraries. The goal is a programmatic API that and fully described by its inputs, and not at all by the template.
 
 To achieve that, all content projection has to go. But without content projection, the layer loses a lot of reusability. It can no longer can delegate functionality to directives. Instead, it has to to describe all functionality in its API.
 
@@ -204,6 +206,6 @@ As you can see, the API is
 - \+ reusable, components are easily reused since they are described as objects
 - \- stiff. You cannot even add a `(click)`-binding. Everything has to be described in the mixin-API
 
-### Final thoughts
+### So when is this useful?
 
-Is a layer between apps and component libraries is a good idea for your code? It depends on the context. If you're working on a hobby-project, the constraints would probably be too frustrating. But if you're working in a company with multiple apps, then a layer using mixins would do a lot for productivity and unified UX.
+Is a layer between apps and component libraries is a good idea for your code? It depends on the context. If you're working on a hobby-project, the constraints would probably be too frustrating. But if you're working in a company with multiple apps, then a layer using mixins would do a lot for productivity and unified UX. Not to mention that serializable components is a game changer for apps with forms that need customization.

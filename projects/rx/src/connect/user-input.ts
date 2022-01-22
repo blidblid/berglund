@@ -1,5 +1,4 @@
-import { ValidatorFn } from '@angular/forms';
-import ValidationError from 'ajv/dist/runtime/validation_error';
+import { ValidationErrors, ValidatorFn } from '@angular/forms';
 import {
   BehaviorSubject,
   EMPTY,
@@ -26,8 +25,8 @@ export function userTrigger<T = any>(): UserTriggerSubject<T> {
   return new UserTriggerSubject<T>();
 }
 
-export function userError(): UserValueSubject<ValidationError | null> {
-  return userValue<ValidationError | null>();
+export function userError(): UserValueSubject<ValidationErrors | null> {
+  return userValue<ValidationErrors | null>();
 }
 
 export interface UserInputOptions {

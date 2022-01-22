@@ -3,7 +3,7 @@ import { map, startWith } from 'rxjs/operators';
 
 /** Merges any number of observable emissions using a merger-function. */
 export function mergeWith<T>(
-  merger: (...values: T[]) => T,
+  merger: (values: T[]) => T,
   ...observables: Observable<T>[]
 ): Observable<T> {
   return combineLatest(
@@ -11,7 +11,7 @@ export function mergeWith<T>(
   ).pipe(
     map((emissions) => {
       return merger(
-        ...emissions.filter((emission): emission is T => emission !== null)
+        emissions.filter((emission): emission is T => emission !== null)
       );
     })
   );
