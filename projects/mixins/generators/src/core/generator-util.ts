@@ -1,7 +1,6 @@
-import { FormControl } from '@angular/forms';
-import { mergeValidationErrors } from '@berglund/mixins';
+import { FormControl, ValidationErrors } from '@angular/forms';
+import { component, mergeValidationErrors } from '@berglund/mixins';
 import { mergeWith } from '@berglund/rx';
-import { component } from 'dist/mixins/core';
 import { JSONSchema7, JSONSchema7Definition } from 'json-schema';
 import { map, share } from 'rxjs/operators';
 import { GeneratedForm, GeneratedFormItem } from './generated-form';
@@ -52,6 +51,10 @@ export function generateForm(
 
   const items: GeneratedFormItem[] = [];
 
+  const checkIfValid = (error: ValidationErrors | null) => {
+    return error === null || Object.keys(error).length === 0;
+  };
+
   for (const [key, value] of entries) {
     for (const generator of generators) {
       if (typeof value === 'boolean') {
@@ -71,7 +74,7 @@ export function generateForm(
           error$,
           value$: formControl.valueChanges,
           formControl,
-          isValid$: error$.pipe(map((error) => error !== null)),
+          isValid$: error$.pipe(map(checkIfValid)),
           component: component(generatedComponent.mixinComponent, {
             formControl,
           }),
@@ -91,7 +94,9 @@ export function generateForm(
         }),
         {}
       ),
-    ...items.map((item) => item.value$)
+    ...items.map((item) => {
+      return item.value$.pipe(map((value) => ({ [item.key]: value })));
+    })
   );
 
   const error$ = mergeWith(
@@ -103,6 +108,6 @@ export function generateForm(
     items,
     value$,
     error$,
-    isValid$: error$.pipe(map((error) => error === null)),
+    isValid$: error$.pipe(map(checkIfValid)),
   };
 }

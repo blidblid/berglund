@@ -2,6 +2,8 @@
 
 This monorepo is a framework built on top of Angular. The framework is geared towards enterprise development. The overall goal of the framework is app productivity at the cost of configurability.
 
+Note that most libraries are still experimental and _do not follow semantic versioning_.
+
 ## @berglund/rx
 
 `@berglund/rx` is a state architecture.

@@ -5,7 +5,7 @@ import {
   Stateful,
 } from '@berglund/mixins';
 import { JSONSchema7 } from 'json-schema';
-import { MixinGeneratorContext } from '.';
+import { MixinGeneratorContext } from './generator-model';
 import { isRequiredSchema, prettyPrintKey } from './generator-util';
 
 export function createLabelInputs(
