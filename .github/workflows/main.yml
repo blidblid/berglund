@@ -14,6 +14,16 @@ jobs:
         with:
           node-version: 12
           cache: 'yarn'
-      - run: yarn
-      - run: yarn run build
-      - run: yarn run test
+
+      - name: Install workspace
+        run: yarn
+
+      - name: Install angular-cli-hooks
+        working-directory: './projects/angular-cli-hooks'
+        run: yarn
+
+      - name: Build
+        run: yarn run build
+
+      - name: Test
+        run: yarn run test
