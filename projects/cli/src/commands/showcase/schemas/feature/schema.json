@@ -24,6 +24,14 @@
       "description": "Relative file path of entry point used in API generation.",
       "default": "index.ts",
       "type": "string"
+    },
+    "tsconfig": {
+      "description": "Relative tsconfig path to use when generating the api",
+      "type": "string"
+    },
+    "webComponent": {
+      "description": "Whether extracted components are web components",
+      "type": "boolean"
     }
   }
 }

@@ -36,6 +36,9 @@ export class Context {
   private setFeatureConfig(): void {
     const featureConfigPath = join(this.featureDir, fileNames.featureConfig);
     this.featureConfig = readJsonObjectSafely(featureConfigPath, {});
+    this.featureConfig.tsconfig =
+      this.featureConfig.tsconfig &&
+      join(featureConfigPath, this.featureConfig.tsconfig);
   }
 
   private setId(): void {
@@ -108,9 +111,7 @@ export class Context {
   }
 
   private setIsRoot(): void {
-    this.isRoot =
-      existsSync(join(this.featureDir, fileNames.package)) ||
-      existsSync(join(this.featureDir, fileNames.showcaseConfig));
+    this.isRoot = existsSync(join(this.featureDir, fileNames.showcaseConfig));
   }
 }
 

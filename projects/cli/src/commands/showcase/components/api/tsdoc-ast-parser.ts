@@ -399,15 +399,18 @@ export class TsdocAstParser {
       node.kind === TsdocSyntaxKind.Accessor
     ) {
       const type = this.stringifyNodeType(node);
+      const isInput = !!this.getDecoratorNode(node, 'Input');
+      const isOutput = !!this.getDecoratorNode(node, 'Output');
+      const name = this.getItemName(node.name, type);
+
       return {
-        name: this.getItemName(node.name, type),
         type,
         description: this.getComment(node),
-        nodeType: this.getDecoratorNode(node, 'Input')
-          ? '@Input()'
-          : this.getDecoratorNode(node, 'Output')
-          ? '@Output()'
-          : 'Property',
+        nodeType: isInput ? '@Input()' : isOutput ? '@Output()' : 'Property',
+        name:
+          this.context.featureConfig.webComponent && isInput
+            ? this.camelCaseToKebabCase(name)
+            : name,
       };
     }
 
@@ -439,7 +442,9 @@ export class TsdocAstParser {
       readme: undefined,
       excludePrivate: true,
       excludeProtected: true,
-      tsconfig: this.context.showcaseConfig.tsconfig,
+      tsconfig:
+        this.context.featureConfig.tsconfig ||
+        this.context.showcaseConfig.tsconfig,
       pretty: false,
     };
 
@@ -465,6 +470,10 @@ export class TsdocAstParser {
 
   private parenthesize(str: string): string {
     return `(${str})`;
+  }
+
+  private camelCaseToKebabCase(str: string): string {
+    return str.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
   }
 
   private joinTypes(

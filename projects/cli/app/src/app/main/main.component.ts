@@ -74,6 +74,8 @@ export class MainComponent {
   }
 
   toggleSidenav(): void {
-    void this.sidenav.toggle();
+    if (this.sidenav) {
+      void this.sidenav.toggle();
+    }
   }
 }

@@ -7,15 +7,15 @@
 
 export interface FeatureConfig {
   /**
-   * Name of the component.
+   * Name of the feature.
    */
   name?: string;
   /**
-   * Id of the component.
+   * Id of the feature.
    */
   id?: string;
   /**
-   * Category of the component.
+   * Category of the feature.
    */
   category?: string;
   /**
@@ -26,5 +26,13 @@ export interface FeatureConfig {
    * Relative file path of entry point used in API generation.
    */
   entryPointPath?: string;
+  /**
+   * Relative tsconfig path to use when generating the api
+   */
+  tsconfig?: string;
+  /**
+   * Whether extracted components are web components
+   */
+  webComponent?: boolean;
   [k: string]: unknown;
 }
