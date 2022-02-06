@@ -1,7 +1,7 @@
 import { FormControl, ValidationErrors } from '@angular/forms';
 import { component, mergeValidationErrors } from '@berglund/mixins';
 import { mergeWith } from '@berglund/rx';
-import { JSONSchema7, JSONSchema7Definition } from 'json-schema';
+import { JSONSchema7 } from 'json-schema';
 import { map, share } from 'rxjs/operators';
 import { GeneratedForm, GeneratedFormItem } from './generated-form';
 import { MixinComponentGenerator } from './generator-model';
@@ -18,12 +18,6 @@ export function prettyPrintKey(key: string): string {
       }`;
     })
     .join('');
-}
-
-export function isJsonSchema(
-  jsonSchemaDefinition: JSONSchema7Definition
-): jsonSchemaDefinition is JSONSchema7 {
-  return typeof jsonSchemaDefinition !== 'boolean';
 }
 
 export function isSelectionSchema(jsonSchema: JSONSchema7): boolean {

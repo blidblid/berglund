@@ -1,6 +1,6 @@
 import { InjectionToken, ValueProvider } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
-import { AngularValidatorHandlers } from '.';
+import { AngularValidatorHandlers } from './error-pipe-handlers';
 
 /** Maps a validation error to a readable string. */
 export type ErrorPipeHandler = (

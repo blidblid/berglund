@@ -1,13 +1,7 @@
 import { FormControl, ValidationErrors } from '@angular/forms';
 import { Connectable, connectFormError, connectFormValue } from '@berglund/rx';
-import {
-  asapScheduler,
-  BehaviorSubject,
-  combineLatest,
-  EMPTY,
-  Observable,
-} from 'rxjs';
-import { delay, map, switchMap, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, EMPTY, Observable } from 'rxjs';
+import { map, switchMap, takeUntil } from 'rxjs/operators';
 import { Constructor } from '../core/mixin/constructor';
 import { Mixin, MixinApi } from '../core/mixin/mixin-base';
 import { Form } from './form-model';
@@ -56,8 +50,7 @@ export function mixinForm<T extends Constructor<Mixin<Form<V>>> = any, V = any>(
       super(...args);
 
       combineLatest([this._formControl$, this._connectToFormValue$])
-        // delay to let mixin finish mixing
-        .pipe(delay(0, asapScheduler), takeUntil(this.destroyed$))
+        .pipe(takeUntil(this.destroyed$))
         .subscribe(([formControl, connectToFormValue]) => {
           if (formControl) {
             connectFormValue(connectToFormValue, formControl, this.destroyed$);
@@ -65,8 +58,7 @@ export function mixinForm<T extends Constructor<Mixin<Form<V>>> = any, V = any>(
         });
 
       combineLatest([this._formControl$, this._connectToFormError$])
-        // delay to let mixin finish mixing
-        .pipe(delay(0, asapScheduler), takeUntil(this.destroyed$))
+        .pipe(takeUntil(this.destroyed$))
         .subscribe(([formControl, connectToFormError]) => {
           if (formControl) {
             connectFormError(connectToFormError, formControl, this.destroyed$);

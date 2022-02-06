@@ -4,7 +4,10 @@ import {
   Injector,
   ViewContainerRef,
 } from '@angular/core';
-import { ComponentOutletContext, COMPONENT_OUTLET_CONTEXT } from '../../mixins';
+import {
+  ComponentOutletContext,
+  COMPONENT_OUTLET_CONTEXT,
+} from '../../mixins/component-outlet';
 import { IncludeArray } from '../../util';
 import {
   COMPONENT_INPUTS,

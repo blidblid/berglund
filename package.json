@@ -27,7 +27,7 @@
     "@berglund/components": "^0.0.4",
     "@berglund/firebase": "^0.0.7",
     "@berglund/material": "^0.0.8",
-    "@berglund/mixins": "^0.0.12",
+    "@berglund/mixins": "^0.0.14",
     "@berglund/rx": "^0.0.10",
     "firebase": "^9.2.0",
     "glob": "^7.2.0",

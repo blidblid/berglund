@@ -1,9 +1,6 @@
 import { MixinComponent } from '@berglund/mixins';
-import {
-  isJsonSchema,
-  MixinComponentGenerator,
-} from '@berglund/mixins/generators';
-import { JSONSchema7 } from 'json-schema';
+import { MixinComponentGenerator } from '@berglund/mixins/generators';
+import { JSONSchema7, JSONSchema7Definition } from 'json-schema';
 import { factory, NodeFlags, SyntaxKind } from 'typescript';
 import { createDummySourceFile, TsAstPrinter } from '../../../core';
 import { ResolvedSchema } from './schema-resolver-model';
@@ -51,7 +48,7 @@ export class TsModelAstPrinter extends TsAstPrinter {
     const namedSchemas = schema.definitions
       ? Object.entries(schema.definitions)
           .filter((entries): entries is [string, JSONSchema7] => {
-            return isJsonSchema(entries[1]);
+            return this.isJsonSchema(entries[1]);
           })
           .map(([typeName, schema]) => ({ schema, typeName }))
       : [];
@@ -65,6 +62,12 @@ export class TsModelAstPrinter extends TsAstPrinter {
     }
 
     return namedSchemas;
+  }
+
+  private isJsonSchema(
+    jsonSchemaDefinition: JSONSchema7Definition
+  ): jsonSchemaDefinition is JSONSchema7 {
+    return typeof jsonSchemaDefinition !== 'boolean';
   }
 
   private createComponentsAndAddImports(
