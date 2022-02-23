@@ -1,5 +1,6 @@
 {
   "name": "@berglund/angular-cli-hooks",
+  "homepage": "https://github.com/blidblid/berglund/tree/main/projects/angular-cli-hooks",
   "repositoryUrl": "https://github.com/blidblid/berg/tree/main/projects/angular-cli-hooks",
   "author": "Albin Berglund",
   "license": "MIT",
