@@ -1213,11 +1213,14 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
-"@berglund/angular-cli-hooks@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@berglund/angular-cli-hooks/-/angular-cli-hooks-0.0.4.tgz#7919bad58fbeb206d1822cfd7dab485347f1cc93"
-  integrity sha512-avW5Q8XWlBYL3KwO39faAgMbdsr31kRIyRERqpNjce1LBSSOv5LaNhApcJB1NIfPQzskNpucuDS2R3PG9t+vRA==
+"@berglund/angular-cli-hooks@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@berglund/angular-cli-hooks/-/angular-cli-hooks-0.0.5.tgz#a0ce89f73ed6242fda533b0167f2cf7050225921"
+  integrity sha512-g0oG7i3hJet5JBEY7+wcXD/Me/4TFFRageDXP/+q2VRuwK+pRBaFLduuXZHG6HHNSNpfCwFwwrf2H7GQ+wdzPg==
   dependencies:
+    glob "^7.2.0"
+    json-schema-to-typescript "^10.1.5"
+    rxjs "^6.0.0"
     tslib "^2.3.0"
 
 "@berglund/builder-hooks@^0.0.1":
@@ -7931,7 +7934,7 @@ rxjs-report-usage@^1.0.4:
     glob "~7.2.0"
     prompts "~2.4.2"
 
-rxjs@6.6.7, rxjs@^6.6.2:
+rxjs@6.6.7, rxjs@^6.0.0, rxjs@^6.6.2:
   version "6.6.7"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.6.7.tgz#90ac018acabf491bf65044235d5863c4dab804c9"
   integrity sha512-hTdwr+7yYNIT5n4AMYp85KA6yw2Va0FLa3Rguvbpa4W3I5xynaBZo41cM3XM+4Q6fRMj3sBYIR1VAmZMXYJvRQ==

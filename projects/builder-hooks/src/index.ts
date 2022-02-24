@@ -1,8 +1,25 @@
 import { BuilderOutput } from '@angular-devkit/architect';
-import { hook } from '@berglund/angular-cli-hooks';
+import { BuilderCommandName, hook } from '@berglund/angular-cli-hooks';
 import { ESLint } from 'eslint';
 
+const createLogHooks = (builderName: BuilderCommandName) => {
+  return hook({
+    name: builderName,
+    before() {
+      console.log(`Calling ${builderName} builder.`);
+      return { success: true };
+    },
+    after() {
+      console.log(`Exiting ${builderName} builder.`);
+      return { success: true };
+    },
+  });
+};
+
 export default [
+  createLogHooks('build-lib'),
+  createLogHooks('test'),
+  createLogHooks('serve'),
   hook({
     name: 'build',
     schema: {

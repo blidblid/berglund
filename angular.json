@@ -109,7 +109,7 @@
           "defaultConfiguration": "development"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@berglund/angular-cli-hooks:dev-server",
           "configurations": {
             "production": {
               "browserTarget": "app:build:production"
@@ -144,7 +144,7 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "@berglund/angular-cli-hooks:ng-packagr",
           "options": {
             "project": "projects/components/ng-package.json"
           },

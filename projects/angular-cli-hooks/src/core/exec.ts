@@ -3,10 +3,12 @@ import { from, isObservable, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import {
   BuilderCommandName,
-  BuilderOptions,
-  BUILDER_SUCCESS$,
   GenericBuilderOutput,
 } from '../model/builder-model';
+import {
+  BuilderOptions,
+  BUILDER_SUCCESS$,
+} from '../model/builder-model-private';
 import { Hook } from '../model/hook-model';
 import { resolveHooks } from './context';
 import { isPromise } from './util';

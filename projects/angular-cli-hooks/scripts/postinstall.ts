@@ -3,7 +3,7 @@ import { sync } from 'glob';
 import { JSONSchema7 } from 'json-schema';
 import { basename, dirname, join } from 'path';
 import { resolveHooks } from '../src/core/context';
-import { BUILDER_DIR_NAMES } from '../src/model/builder-model';
+import { BUILDER_DIR_NAMES } from '../src/model/builder-model-private';
 
 const buildAngularPath = dirname(
   dirname(require.resolve('@angular-devkit/build-angular'))
