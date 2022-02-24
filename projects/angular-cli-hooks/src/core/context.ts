@@ -36,22 +36,29 @@ export function resolveHooks(
     return [];
   }
 
-  const packageName = config.hookPackage;
+  const hooks: Hook<BuilderCommandName, {}>[] = [];
+  const packageNames = Array.isArray(config.hookPackage)
+    ? config.hookPackage
+    : [config.hookPackage];
 
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const hooksPackage = require(packageName) as {
-    default: Hook<BuilderCommandName, {}>[];
-  };
+  for (const packageName of packageNames) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const hooksPackage = require(packageName) as {
+      default: Hook<BuilderCommandName, {}>[];
+    };
 
-  const hooks =
-    hooksPackage && Array.isArray(hooksPackage.default)
-      ? hooksPackage.default
-      : [];
+    const resolvedHooks =
+      hooksPackage && Array.isArray(hooksPackage.default)
+        ? hooksPackage.default
+        : [];
 
-  if (hooks.length === 0) {
-    console.warn(
-      `@berglund/angular-cli-hooks could not resolve any hooks in package ${packageName}.`
-    );
+    if (resolvedHooks.length === 0) {
+      console.warn(
+        `@berglund/angular-cli-hooks could not resolve any hooks in package ${packageName}.`
+      );
+    }
+
+    hooks.push(...resolvedHooks);
   }
 
   return hooks;

@@ -3,7 +3,17 @@
   "title": "Config",
   "properties": {
     "hookPackage": {
-      "type": "string"
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
     }
   },
   "required": ["hookPackage"]

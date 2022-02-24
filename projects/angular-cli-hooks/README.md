@@ -10,6 +10,7 @@ A few examples include
 
 - Running `eslint` before `ng build` runs
 - Using `jest` over `jasmine` when running `ng test`
+- Starting a mock server with `ng serve`
 
 ## Usage
 
@@ -26,7 +27,7 @@ import { BuilderOutput } from '@angular-devkit/architect';
 import { hook } from '@berglund/angular-cli-hooks';
 import { ESLint } from 'eslint';
 
-const hooks = [
+export default [
   hook({
     name: 'build',
     schema: {
@@ -56,18 +57,25 @@ const hooks = [
     },
   }),
 ];
-
-export default hooks;
 ```
 
 ### Step 2 - using a hook package
 
-Install the hook-package wherever you want to hook into Angular CLI. Then add a `angular-cli-hooks.json` file to your project and specify the name of the package of hooks
+Install the hook package wherever you want to hook into Angular CLI. Then add a `angular-cli-hooks.json` file to your project and specify the name of the package of hooks
 
 ```json
 {
   "$schema": "./node_modules/@berglund/angular-cli-hooks/schema.json",
   "hookPackage": "@berglund/builder-hooks"
+}
+```
+
+or for multiple hook packages
+
+```json
+{
+  "$schema": "./node_modules/@berglund/angular-cli-hooks/schema.json",
+  "hookPackage": ["@berglund/builder-hooks", "@berglund/more-builder-hooks"]
 }
 ```
 
