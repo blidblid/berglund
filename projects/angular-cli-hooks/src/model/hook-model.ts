@@ -1,10 +1,7 @@
 import { BuilderContext, BuilderOutput } from '@angular-devkit/architect';
 import { JSONSchema7 } from 'json-schema';
-import {
-  BuilderCommandName,
-  BuilderOptions,
-  GenericBuilderOutput,
-} from './builder-model';
+import { BuilderCommandName, GenericBuilderOutput } from './builder-model';
+import { BuilderOptions } from './builder-model-private';
 import { SchemaToOptions } from './schema-model';
 
 /** A hook into a native Angular CLI builder. */

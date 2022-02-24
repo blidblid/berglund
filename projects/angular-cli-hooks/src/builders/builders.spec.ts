@@ -5,7 +5,7 @@ import {
 } from '@angular-devkit/build-angular';
 import { of } from 'rxjs';
 import { executeWithHook } from '../core/exec';
-import { BuilderRunners } from '../model/builder-model';
+import { BuilderRunners } from '../model/builder-model-private';
 import { hook } from '../model/hook-model';
 import { createWrappedBuilder } from './create-wrapped-builder';
 import createSpyObj = jasmine.createSpyObj;

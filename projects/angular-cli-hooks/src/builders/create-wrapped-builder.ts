@@ -1,10 +1,10 @@
 import { BuilderContext } from '@angular-devkit/architect';
 import { execute } from '../core/exec';
+import { BuilderCommandName } from '../model/builder-model';
 import {
-  BuilderCommandName,
   BuilderRunners,
   BUILDER_RUNNERS,
-} from '../model/builder-model';
+} from '../model/builder-model-private';
 
 export function createWrappedBuilder<T extends BuilderCommandName>(
   name: T,

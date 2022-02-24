@@ -1,4 +1,4 @@
 {
   "$schema": "./projects/angular-cli-hooks/schema.json",
-  "hookPackage": ["@berglund/builder-hooks"]
+  "hookPackage": "@berglund/builder-hooks"
 }

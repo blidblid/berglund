@@ -4,6 +4,7 @@
     "noImplicitReturns": true,
     "outDir": "dist",
     "sourceMap": true,
+    "declaration": true,
     "strict": true,
     "target": "es2017",
     "skipLibCheck": true,
