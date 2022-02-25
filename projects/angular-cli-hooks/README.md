@@ -4,7 +4,7 @@ This small package hooks into native Angular CLI builders. With it, you can...
 
 - ... run code **before** Angular CLI invocates native builders
 - ... and/or **override** invocations
-- ... and/or run code **after** invocations
+- ... and/or run code **after** Angular CLI emits `BuilderOutput`
 
 A few examples include
 
@@ -16,9 +16,11 @@ A few examples include
 
 ### Step 1 - creating a hook package
 
-First, you need to create a package of hooks. To run ESLint before `ng build`, add both a hook to `build` and a before-function. The before-function can return either `Observable`, `Promise` or a sync value.
+First, you need to create a package of hooks. To, for example, run ESLint before `ng build`, add a hook to `build` and a before-function. The before-function can return either `Observable`, `Promise` or a sync value.
 
-Then, to make the hook configurable, use the `schema`-property to add a JsonSchema for any configurations. The hook schema is merged with the native Angular CLI builder schema, making both the hook configuration and the builder configuration available when implementing the hook. Both are also listed when running `ng build --help` 🥳.
+Then, to make the hook configurable, use the `schema`-property to add a JsonSchema for any configurations. When _installing_ `@berglund/angular-cli-hooks`, this schema is merged with the native Angular CLI builder schema.
+
+Adding a JsonSchema makes both the hook configuration and the native builder configuration available when implementing the hook. Both are also listed when running `ng build --help` 🥳.
 
 ```typescript
 // index.ts in @berglund/builder-hooks
@@ -58,6 +60,17 @@ export default [
   }),
 ];
 ```
+
+This code hooks into `ng build`, but you can hook into other builders too.
+
+| Hook        | Command                   |          Node API           |
+| ----------- | ------------------------- | :-------------------------: |
+| `build`     | `ng build`                |   `executeBrowserBuilder`   |
+| `serve`     | `ng serve`                |  `executeDevServerBuilder`  |
+| `build-lib` | `ng build` (in libraries) |  `executeNgPackagrBuilder`  |
+| `i18n`      | `ng i18n`                 | `executeExtractI18nBuilder` |
+| `test`      | `ng test`                 |    `executeKarmaBuilder`    |
+| `e2e`       | `ng e2e`                  | `executeProtractorBuilder`  |
 
 ### Step 2 - using a hook package
 
@@ -106,3 +119,9 @@ becomes
 ```
 
 And that's it.
+
+### Gotchas
+
+- The JsonSchema for custom configurations is merged with Angular native schemas in the `postinstall` hook of `@berglund/angular-cli-hooks`. You have to reinstall to see changes.
+- The `before` hook will _only_ run before the Angular native builder is invoked the first time.
+- The `after` hook will run after an Angular builder emits a BuilderOutput. This means the `after` hook will run for both fresh builds and rebuilds.
