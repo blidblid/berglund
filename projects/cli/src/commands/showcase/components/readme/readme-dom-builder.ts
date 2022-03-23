@@ -1,40 +1,19 @@
+import { Context } from 'commands/showcase/core/context';
+import { existsSync, lstatSync, readdirSync, readFileSync } from 'fs';
 import { JSDOM } from 'jsdom';
+import { join } from 'path';
 import { TsAstParser } from '../../../../core';
 import { DomBuilder } from '../../core/dom-builder';
-import { DomFile, ExampleComponent, File } from '../../core/dom-builder-model';
-import { CodeElementToFileMapper } from './readme-dom-model';
+import { ExampleComponent, File } from '../../core/dom-builder-model';
 
 export class ReadmeDomBuilder extends DomBuilder {
-  private mappers: CodeElementToFileMapper[] = [
-    {
-      cssClassName: 'language-typescript',
-      commentPrefix: '//',
-      commentSuffix: '\n',
-      extension: '.ts',
-    },
-    {
-      cssClassName: 'language-html',
-      commentPrefix: '<!--',
-      commentSuffix: '-->',
-      extension: '.html',
-    },
-    {
-      cssClassName: 'language-scss',
-      commentPrefix: '//',
-      commentSuffix: '\n',
-      extension: '.scss',
-    },
-    {
-      cssClassName: 'language-css',
-      commentPrefix: '//',
-      commentSuffix: '\n',
-      extension: '.css',
-    },
-  ];
+  private exampleComponents = this.findExampleComponentPaths();
 
-  private exampleComponents = this.createExampleComponents();
-
-  constructor(protected jsdom: JSDOM, private tsAstParser: TsAstParser) {
+  constructor(
+    protected jsdom: JSDOM,
+    private context: Context,
+    private tsAstParser: TsAstParser
+  ) {
     super(jsdom);
 
     for (const exampleComponent of this.exampleComponents) {
@@ -63,7 +42,7 @@ export class ReadmeDomBuilder extends DomBuilder {
     const reference = this.document.createElement('div');
     exampleComponent.containerElement.insertBefore(
       reference,
-      exampleComponent.files[0].preElement
+      exampleComponent.referenceNode
     );
 
     const componentFile = exampleComponent.files.find(
@@ -81,8 +60,10 @@ export class ReadmeDomBuilder extends DomBuilder {
 
     for (const file of exampleComponent.files) {
       const tab = this.document.createElement(this.tabTagName);
+      const pre = this.document.createElement('pre');
       this.setAttribute(tab, 'label', file.fileName);
-      tab.appendChild(file.preElement);
+      tab.appendChild(pre);
+      pre.appendChild(this.createElementWithContent('code', file.content));
       tabGroup.appendChild(tab);
     }
 
@@ -97,90 +78,52 @@ export class ReadmeDomBuilder extends DomBuilder {
     return element;
   }
 
-  private createExampleComponents(): ExampleComponent[] {
-    const files = Array.from(this.document.querySelectorAll('code'))
-      .map((codeElement) => this.extractFileFromCodeElement(codeElement))
-      .filter((file): file is DomFile => !!file);
+  private findExampleComponentPaths(): ExampleComponent[] {
+    const commentNodes = Array.from(this.body.childNodes).filter(
+      (node) => node.nodeType === 8
+    );
 
-    const showcaseComponents: ExampleComponent[] = [];
+    const exampleComponents: ExampleComponent[] = [];
 
-    while (files.length) {
-      const head = files.pop()!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
+    for (const commentNode of commentNodes) {
+      const commentContent = commentNode.textContent?.trim();
 
-      if (!head.preElement.parentElement) {
+      if (!commentContent) {
         continue;
       }
 
-      const showcaseComponent: ExampleComponent = {
-        id: head.id,
-        files: [head],
-        containerElement: head.preElement.parentElement,
-      };
+      const dirPath = join(this.context.featureDir, commentContent);
 
-      for (const file of [...files]) {
-        if (file.id === showcaseComponent.id) {
-          showcaseComponent.files.push(files.splice(files.indexOf(file), 1)[0]);
-        }
+      if (!existsSync(dirPath) || !lstatSync(dirPath).isDirectory()) {
+        continue;
       }
 
-      showcaseComponents.push(showcaseComponent);
-    }
+      const files: File[] = [];
+      const fileNames = readdirSync(dirPath);
 
-    return showcaseComponents;
-  }
-
-  private extractFileFromCodeElement(codeElement: HTMLElement): DomFile | null {
-    const code = codeElement.textContent?.trim();
-
-    if (!code) {
-      return null;
-    }
-
-    for (const mapper of this.mappers) {
-      if (codeElement.classList.contains(mapper.cssClassName)) {
-        if (!code.startsWith(mapper.commentPrefix)) {
-          return null;
-        }
-
-        const match = code.match(
-          new RegExp(`^${mapper.commentPrefix}(.+)${mapper.commentSuffix}`)
-        );
-
-        if (!match) {
-          return null;
-        }
-
-        const fileName = match[1].trim();
-
-        if (
-          this.isForbiddenFileName(fileName) ||
-          !fileName.endsWith(mapper.extension)
-        ) {
-          return null;
-        }
-
-        const id = fileName.split('.')[0];
-        const content = code.replace(match[0], '').trim();
+      for (const fileName of fileNames) {
+        const filePath = join(dirPath, fileName);
+        const content = readFileSync(filePath, 'utf-8');
         const astData = this.tsAstParser.parse(content);
 
-        return {
-          codeElement,
-          preElement: codeElement.parentElement as HTMLPreElement,
-          ...this.createFile({
-            id,
+        files.push(
+          this.createFile({
+            id: fileName,
             fileName,
             content,
             className: astData?.className,
             decorator: astData?.decorator,
-          }),
-        };
+          })
+        );
       }
+
+      exampleComponents.push({
+        files,
+        containerElement: this.body,
+        referenceNode: commentNode,
+      });
     }
 
-    return null;
-  }
-
-  private isForbiddenFileName(fileName: string): boolean {
-    return !!/<>:"\/\\\|\?\*/.exec(fileName);
+    return exampleComponents;
   }
 }

@@ -93,7 +93,7 @@ export const getReadmeComponent = (context: Context) => {
 
   return new ReadmeComponentFactory(
     context,
-    new ReadmeDomBuilder(jsDom, new TsAstParser()),
+    new ReadmeDomBuilder(jsDom, context, new TsAstParser()),
     new TsComponentAstPrinter()
   ).create();
 };

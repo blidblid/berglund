@@ -21,11 +21,6 @@ export interface File extends TsAstData {
   extension: string;
 }
 
-export interface DomFile extends File {
-  preElement: HTMLPreElement;
-  codeElement: HTMLElement;
-}
-
 export interface Component extends DomData {
   id: string;
   name: string;
@@ -43,8 +38,8 @@ export interface ContainerComponent extends Component {
 }
 
 export interface ExampleComponent {
-  id: string;
-  files: DomFile[];
+  files: File[];
+  referenceNode: ChildNode;
   containerElement: HTMLElement;
 }
 
