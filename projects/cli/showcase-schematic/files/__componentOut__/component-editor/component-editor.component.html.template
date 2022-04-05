@@ -1,0 +1,24 @@
+<mat-card>
+  <mat-tab-group [disablePagination]="false">
+    <mat-tab label="Example">
+      <ng-container #viewContainerRef></ng-container>
+    </mat-tab>
+
+    <mat-tab *ngIf="html$ | async as html" label="HTML">
+      <pre><code [highlightCode]="html" class="language-html"></code></pre>
+    </mat-tab>
+
+    <mat-tab *ngIf="ts$ | async as ts" label="TS">
+      <pre><code [highlightCode]="ts" class="language-ts"></code></pre>
+    </mat-tab>
+
+    <mat-tab *ngIf="scss$ | async as scss" label="SCSS">
+      <pre><code [highlightCode]="scss" class="language-scss"></code></pre>
+    </mat-tab>
+  </mat-tab-group>
+
+  <ng-container *ngIf="schema$ | async as schema">
+    <mat-divider></mat-divider>
+    <at-schema-form [schema]="schema" [formControl]="formControl"> </at-schema-form>
+  </ng-container>
+</mat-card>

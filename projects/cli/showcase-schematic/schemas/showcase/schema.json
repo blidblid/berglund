@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ShowcaseOptions",
+  "type": "object",
+  "properties": {
+    "featureGlob": {
+      "description": "Glob used to find features.",
+      "type": "string",
+      "default": "./projects/**/feature.json"
+    },
+    "featureIgnoreGlob": {
+      "description": "Glob used to ignore features.",
+      "type": "string",
+      "default": "**/node_modules/**/*"
+    },
+    "init": {
+      "description": "Whether to init the workspace to run showcase components.",
+      "type": "boolean"
+    },
+    "repositoryUrl": {
+      "description": "Repository url to link to sources.",
+      "type": "string"
+    },
+    "componentOut": {
+      "description": "Where to write components.",
+      "type": "string"
+    },
+    "editorName": {
+      "description": "Name of the editor component",
+      "type": "string",
+      "default": "usage"
+    },
+    "readmeName": {
+      "description": "Name of readme component",
+      "type": "string",
+      "default": "examples"
+    }
+  },
+  "required": ["featureGlob", "componentOut", "repositoryUrl"]
+}

@@ -1,0 +1,18 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@cambio/lib-material-ui/card';
+import { MatDividerModule } from '@cambio/lib-material-ui/divider';
+import { MatTabsModule } from '@cambio/lib-material-ui/tabs';
+import { AtSchemaFormModule } from '@cambio/lib-schema-form';
+import { BergHighlightCodeModule } from '../code-highlighter';
+import { AtComponentEditorComponent } from './component-editor.component';
+
+const API = [AtComponentEditorComponent];
+
+@NgModule({
+  declarations: API,
+  exports: API,
+  imports: [AtSchemaFormModule, BergHighlightCodeModule, CommonModule, MatCardModule, MatDividerModule, MatTabsModule, ReactiveFormsModule],
+})
+export class AtComponentEditorModule {}

@@ -1,0 +1,30 @@
+import { Directive, ElementRef, Input, AfterViewInit } from '@angular/core';
+import { highlightElement } from 'prismjs';
+
+@Directive({
+  selector: '[highlightCode]',
+})
+export class BergHighlightCodeDirective implements AfterViewInit {
+  @Input('highlightCode')
+  set code(value: string) {
+    if (!value) {
+      return;
+    }
+
+    this.elementRef.nativeElement.innerHTML = '';
+    this.elementRef.nativeElement.textContent = value;
+
+    highlightElement(this.elementRef.nativeElement);
+    this.isHighlighted = true;
+  }
+
+  isHighlighted = false;
+
+  constructor(private elementRef: ElementRef<HTMLElement>) {}
+
+  ngAfterViewInit(): void {
+    if (!this.isHighlighted) {
+      highlightElement(this.elementRef.nativeElement);
+    }
+  }
+}

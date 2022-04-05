@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FeatureOptions",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "Name of the feature.",
+      "type": "string"
+    },
+    "id": {
+      "description": "Id of the feature.",
+      "type": "string"
+    },
+    "category": {
+      "description": "Category of the feature.",
+      "type": "string"
+    },
+    "readmePath": {
+      "description": "Relative file path of readme file.",
+      "default": "README.md",
+      "type": "string"
+    },
+    "entryPointPath": {
+      "description": "Relative file path of entry point used in API generation.",
+      "default": "index.ts",
+      "type": "string"
+    },
+    "tsconfig": {
+      "description": "Relative tsconfig path to use when generating the api",
+      "type": "string"
+    },
+    "editorSchema": {
+      "description": "Schema that creates an editor input form",
+      "$schema": "http://json-schema.org/draft-07/schema#"
+    },
+    "editorPath": {
+      "description": "Directory path of editor component",
+      "type": "string"
+    }
+  }
+}

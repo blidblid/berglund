@@ -1,0 +1,3 @@
+export * from './component-editor-model';
+export * from './component-editor.component';
+export * from './component-editor.module';

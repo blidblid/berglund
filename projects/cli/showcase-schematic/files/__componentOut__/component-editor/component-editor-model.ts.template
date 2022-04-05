@@ -1,0 +1,13 @@
+import { JSONSchema7 } from 'json-schema';
+
+export interface Editor<T = any> {
+  instance: T;
+  code: ComponentCode;
+  schema: JSONSchema7;
+}
+
+export interface ComponentCode {
+  ts: string;
+  html: string;
+  scss: string;
+}

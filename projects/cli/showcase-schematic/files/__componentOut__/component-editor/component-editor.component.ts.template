@@ -1,0 +1,115 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ComponentRef,
+  Input,
+  OnDestroy,
+  Type,
+  ViewChild,
+  ViewContainerRef,
+  ViewEncapsulation,
+} from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { combineLatest, ReplaySubject, Subject } from 'rxjs';
+import { map, pluck, startWith, takeUntil } from 'rxjs/operators';
+import { Editor } from './component-editor-model';
+
+@Component({
+  selector: 'at-component-editor',
+  templateUrl: './component-editor.component.html',
+  styleUrls: ['./component-editor.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'at-component-editor',
+  },
+})
+export class AtComponentEditorComponent<T extends Editor = any> implements OnDestroy {
+  @Input()
+  get editor() {
+    return this._editor;
+  }
+  set editor(value: Type<T>) {
+    this._editor = value;
+    this.createComponent();
+  }
+  private _editor: Type<T>;
+
+  @ViewChild('viewContainerRef', { read: ViewContainerRef, static: true })
+  private viewContainerRef: ViewContainerRef;
+
+  formControl = new FormControl({});
+
+  private editorSub = new ReplaySubject<T>(1);
+  private destroySub = new Subject<void>();
+  private editorRef: ComponentRef<T>;
+
+  private inputs$ = this.formControl.valueChanges.pipe(startWith(this.formControl.value));
+  private instance$ = this.editorSub.pipe(pluck('instance'));
+
+  private initialInputs$ = combineLatest([this.editorSub, this.instance$]).pipe(
+    map(([editor, instance]) => {
+      if (!editor.schema.properties) {
+        return [];
+      }
+
+      return Object.keys(editor.schema.properties).map(key => {
+        return {
+          key,
+          value: instance[key],
+        };
+      });
+    })
+  );
+
+  scss$ = this.editorSub.pipe(pluck('code', 'scss'));
+  schema$ = this.editorSub.pipe(pluck('schema'));
+
+  ts$ = this.editorSub.pipe(pluck('code', 'ts')).pipe(
+    map(ts => {
+      return ts.replace(/[\s\/\/]*start-trim.*end-trim[\s\/\/]*/gms, '');
+    })
+  );
+
+  html$ = combineLatest([this.initialInputs$, this.inputs$, this.editorSub]).pipe(
+    map(([initialInputs, inputs, editor]) => {
+      const bindings = initialInputs
+        .filter(({ key, value }) => inputs && inputs[key] !== undefined && inputs[key] !== value)
+        .map(({ key }) => `[${key}]="${inputs[key]}"`)
+        .join(' ');
+
+      return editor.code.html.replace(/#edit[^\s\\>]+/g, bindings);
+    })
+  );
+
+  constructor() {
+    this.subscribe();
+  }
+
+  private subscribe(): void {
+    combineLatest([this.instance$, this.inputs$])
+      .pipe(takeUntil(this.destroySub))
+      .subscribe(([instance, inputs]) => {
+        for (const [key, value] of Object.entries(inputs)) {
+          instance[key] = value;
+        }
+
+        this.editorRef.changeDetectorRef.markForCheck();
+      });
+  }
+
+  private createComponent(): void {
+    if (this.editorRef) {
+      this.editorRef.destroy();
+      this.viewContainerRef.clear();
+    }
+
+    this.editorRef = this.viewContainerRef.createComponent(this.editor);
+    this.editorSub.next(this.editorRef.instance);
+  }
+
+  ngOnDestroy(): void {
+    this.destroySub.next();
+    this.destroySub.complete();
+  }
+}

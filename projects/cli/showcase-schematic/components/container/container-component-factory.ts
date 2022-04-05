@@ -1,0 +1,36 @@
+import { ComponentFactory } from '../../core/component-factory';
+import { Context } from '../../core/context';
+import { Component, ContainerComponent, ShowcaseComponentType } from '../../core/dom-builder-model';
+import { TsComponentAstPrinter } from '../../core/ts-component-ast-printer';
+import { ContainerDomBuilder } from './container-dom-builder';
+
+export class ContainerComponentFactory extends ComponentFactory {
+  protected idPrefix = null;
+  protected showcaseComponentType: ShowcaseComponentType = 'container';
+
+  constructor(
+    protected context: Context,
+    protected containerDomBuilder: ContainerDomBuilder,
+    protected tsComponentAstPrinter: TsComponentAstPrinter,
+    private children: Component[]
+  ) {
+    super(context, containerDomBuilder, tsComponentAstPrinter);
+  }
+
+  create(): ContainerComponent | null {
+    if (this.children.length === 0) {
+      return null;
+    }
+
+    const component = this.createComponent();
+
+    return (
+      component && {
+        ...component,
+        name: this.context.name,
+        children: this.children,
+        type: 'container',
+      }
+    );
+  }
+}

@@ -1,0 +1,14 @@
+import { Type } from '@angular/core';
+
+export interface ShowcaseFeature<T = any> {
+  id: string;
+  name: string;
+  component: Type<T>;
+}
+
+export type ShowcaseCategory = Categorize<ShowcaseFeature>;
+
+export type Categorize<T> = {
+  name: string;
+  items: T[];
+}

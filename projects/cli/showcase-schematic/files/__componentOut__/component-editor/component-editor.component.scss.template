@@ -1,0 +1,6 @@
+.at-component-editor {
+  .at-schema-form {
+    display: block;
+    padding-top: 16px;
+  }
+}

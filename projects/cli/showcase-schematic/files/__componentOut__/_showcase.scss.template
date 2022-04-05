@@ -1,0 +1,303 @@
+@use '@cambio/lib-material-ui' as mat;
+
+@mixin berg-showcase($theme) {
+  $primary: map-get($theme, primary);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  $primary-color: mat.get-color-from-palette($primary);
+  $primary-hover-color: mat.get-color-from-palette($primary, 0.5);
+  $divider-color: mat.get-color-from-palette($foreground, dividers);
+  $hint-text-color: mat.get-color-from-palette($foreground, hint-text);
+  $light-background: mat.get-color-from-palette($background, hover);
+
+  $toc-width: 14vw;
+  $toc-padding: 8px;
+  $ink-bar-height: 3px;
+  $bottom-title-margin: 16px;
+  $top-title-margin: $bottom-title-margin * 2;
+  $nav-bar-margin: 64px;
+  $showcase-padding: 16px;
+  $content-x-offset: 124px;
+  $vertical-spacing: 1.4em;
+  $mobile-vertical-spacing: 0.9em;
+
+  .berg-showcase {
+    animation: fadeIn 200ms;
+    height: 100%;
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    overflow: auto;
+    padding: $showcase-padding * 2;
+
+    .berg-showcase-relative-container {
+      position: relative;
+    }
+
+    .berg-showcase-flex-container {
+      padding-right: $toc-width;
+      padding-bottom: $showcase-padding;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .berg-showcase-left {
+      width: calc(100% - #{$toc-width});
+      max-width: 50rem;
+      margin: 0 auto;
+
+      > :first-child {
+        margin-top: 0;
+      }
+    }
+
+    .berg-showcase-right {
+      min-width: $toc-width;
+      max-width: $toc-width;
+      right: $showcase-padding;
+      padding: 0 $showcase-padding;
+      position: fixed;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .berg-showcase-title {
+      &:hover {
+        .berg-showcase-icon-button {
+          opacity: 1;
+        }
+      }
+    }
+
+    .mat-tab-nav-bar {
+      margin-bottom: $nav-bar-margin;
+
+      .mat-tab-link {
+        text-transform: uppercase;
+      }
+
+      ~ ng-component {
+        .berg-showcase-right {
+          top: $nav-bar-margin * 4;
+        }
+      }
+    }
+
+    a.berg-showcase-icon-button {
+      margin: 0 8px;
+    }
+
+    .berg-showcase-icon-button {
+      display: inline;
+      vertical-align: middle;
+      bottom: 2px;
+      opacity: 0;
+    }
+
+    ng-component {
+      height: 100%;
+      display: block;
+    }
+
+    .mat-tab-group {
+      ng-component {
+        padding: 24px 8px 16px 8px;
+        height: auto;
+      }
+    }
+
+    .mat-ink-bar {
+      height: $ink-bar-height;
+    }
+
+    .mat-card {
+      margin-bottom: 16px !important;
+      box-shadow: none !important;
+      border: 1px solid $divider-color !important;
+    }
+
+    .berg-showcase-table-of-contents {
+      padding-top: 0;
+
+      .mat-list-item {
+        height: auto;
+        color: $hint-text-color;
+        font-size: 0.9em;
+        border-left: $ink-bar-height solid;
+        border-left-color: $divider-color;
+
+        &:hover {
+          border-left-color: $primary-hover-color;
+        }
+
+        &.berg-showcase-active-item {
+          color: $primary-color;
+          border-left-color: $primary-color;
+        }
+
+        @for $i from 1 through 4 {
+          &.berg-showcase-table-of-contents-level-#{$i} {
+            .mat-list-item-content {
+              padding-left: ($i) * $toc-padding;
+            }
+          }
+        }
+      }
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: $vertical-spacing 0;
+
+      th {
+        font-weight: 400;
+        background-color: $light-background;
+      }
+
+      td {
+        border: 1px solid $divider-color;
+      }
+
+      th,
+      td {
+        text-align: start;
+        padding: 16px;
+        font-size: 15px;
+      }
+    }
+
+    h1:not(:first-child) {
+      padding-top: $vertical-spacing;
+    }
+
+    h2 {
+      padding-top: $vertical-spacing;
+    }
+
+    h1 + h2 {
+      padding-top: 0;
+    }
+
+    .berg-showcase-mobile {
+      .berg-showcase-flex-container {
+        padding-right: 0;
+      }
+
+      h1 {
+        font-size: 1.2em;
+      }
+
+      h2 {
+        font-size: 1em;
+      }
+
+      h3 {
+        font-size: 0.8em;
+      }
+
+      h4 {
+        font-size: 0.8em;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      table {
+        margin: $mobile-vertical-spacing 0;
+      }
+
+      .mat-body,
+      p,
+      code,
+      th,
+      td,
+      li,
+      span {
+        font-size: 0.9em;
+      }
+
+      .berg-showcase-left {
+        margin: 0;
+        width: 100%;
+      }
+
+      td {
+        padding: 8px;
+      }
+
+      .berg-showcase-title {
+        .berg-showcase-icon-button {
+          opacity: 1;
+        }
+      }
+    }
+
+    // stackedit.io look-alike below
+    blockquote {
+      color: $hint-text-color;
+      padding-left: 1.5em;
+      border-left: 5px solid $divider-color;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin: $vertical-spacing 0;
+      word-break: break-all;
+    }
+
+    h1,
+    h2 {
+      &:after {
+        content: '';
+        display: block;
+        position: relative;
+        top: 0.33em;
+        border-bottom: 1px solid $divider-color;
+      }
+    }
+
+    pre code {
+      background: none;
+    }
+
+    p code {
+      word-wrap: break-word;
+      padding: 2px 4px;
+    }
+
+    pre {
+      padding: 8px 16px;
+      border-radius: 3px;
+      overflow-x: auto;
+    }
+
+    pre,
+    p code,
+    li code {
+      background-color: $light-background;
+    }
+
+    code {
+      font-size: 16px;
+    }
+  }
+}
